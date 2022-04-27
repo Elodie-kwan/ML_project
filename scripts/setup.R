@@ -6,8 +6,7 @@
 packages <- c(
 "tidyverse", "readxl", #for wrangling
 "dplyr",  "lubridate",
-"naniar", "chron",
-"ggplot2" #for plotting
+"ggplot2", "naniar", "patchwork" #for plotting
 )
 
 purrr::walk(packages, library, character.only = TRUE)

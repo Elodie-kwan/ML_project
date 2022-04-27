@@ -2,3 +2,27 @@
 ```{r, echo = FALSE, message = FALSE}
 source(here::here("scripts/setup.R"))
 ```
+
+
+## Import dataset 
+```{r}
+Mountain_data <- read_excel("1-s2.0-S2352340919311710-mmc1.xlsx", sheet = "FieldDATA")
+Mountain_data$Date <- as.Date(Mountain_data$Date, "%d/%m/%Y")
+
+head(Mountain_data)
+str(Mountain_data)
+```
+
+
+We are deleting the variables that are not useful for use. The variables such as the **UTM grid zone**, **UTM_X** and **UTM_Y** are related to the samples and we are not wanting to make predictions based on those characteristics but rather on the actual soil composition. 
+The variable **Elevation**, **slope**, **plot_ID**, **Orientation** will not help us neither because it is related to the place where the sample has been taken. It is a certain amount above the some tree limits.
+
+```{r}
+
+Mountain_data <- Mountain_data[, c(2:5, 7:11, 18:42)]
+str(Mountain_data)
+```
+
+
+
+
