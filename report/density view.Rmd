@@ -24,8 +24,8 @@ library(patchwork)
 ### soil variables
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-mountains <- read_xlsx("E:/Unil/Master 1ère année/semestre 2/ML in Business Analytics/project/data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = 2)
-mountains2 <- read_xlsx("E:/Unil/Master 1ère année/semestre 2/ML in Business Analytics/project/data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = 3)
+mountains <- read_excel("../data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = "FieldDATA")
+mountains2 <- read_excel("../data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = "TraitDATA")
 
 ```
 
