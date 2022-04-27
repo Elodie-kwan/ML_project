@@ -1,0 +1,199 @@
+---
+title: "density"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(naniar)
+library(patchwork)
+```
+
+## density of each variable by mountain range
+
+### soil variables
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+mountains <- read_xlsx("E:/Unil/Master 1ère année/semestre 2/ML in Business Analytics/project/data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = 2)
+mountains2 <- read_xlsx("E:/Unil/Master 1ère année/semestre 2/ML in Business Analytics/project/data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = 3)
+
+```
+
+#### Phosphatase enzyme
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+x1 <- mountains %>% ggplot(aes(x =Phos_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+x2 <- mountains %>% ggplot(aes(x =Phos_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+x3 <- mountains %>% ggplot(aes(x =Phos_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+x1 / x2 / x3
+
+
+```
+
+
+#### β-glucosidase enzyme
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+y1 <- mountains %>% ggplot(aes(x =Glu_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+y2 <- mountains %>% ggplot(aes(x =Glu_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+y3 <- mountains %>% ggplot(aes(x =Glu_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+y1 / y2 / y3
+
+```
+
+#### soil organic carbon
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+z1 <- mountains %>% ggplot(aes(x =SOC_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+z2 <- mountains %>% ggplot(aes(x =SOC_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+z3 <- mountains %>% ggplot(aes(x =SOC_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+z1 / z2 / z3
+
+
+```
+
+#### soil total nitrogen
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+a1 <- mountains %>% ggplot(aes(x =NT_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+a2 <- mountains %>% ggplot(aes(x =NT_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+a3 <- mountains %>% ggplot(aes(x =NT_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+a1 / a2 / a3
+
+
+```
+
+#### available phosphorus.
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+b1 <- mountains %>% ggplot(aes(x =PT_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+b2 <- mountains %>% ggplot(aes(x =PT_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+b3 <- mountains %>% ggplot(aes(x =PT_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+b1 / b2 / b3
+
+
+```
+
+#### potassium content
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+c1 <- mountains %>% ggplot(aes(x =K_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+c2 <- mountains %>% ggplot(aes(x =K_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+c3 <- mountains %>% ggplot(aes(x =K_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+c1 / c2 / c3
+
+
+```
+
+
+#### PH
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+d1 <- mountains %>% ggplot(aes(x =pH_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+d2 <- mountains %>% ggplot(aes(x =pH_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+d3 <- mountains %>% ggplot(aes(x =pH_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+d1 / d2 / d3
+
+
+```
+
+#### electrical conductivity
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+e1 <- mountains %>% ggplot(aes(x =Cond_P, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+e2 <- mountains %>% ggplot(aes(x =Cond_B, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+e3 <- mountains %>% ggplot(aes(x =Cond_T, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+e1 / e2 / e3
+
+
+```
+
+
+#### elevation from sea level, topographic slope, Potential solar radiation
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+f1 <- mountains %>% ggplot(aes(x =Elevation, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+f2 <- mountains %>% ggplot(aes(x =Slope, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+f3 <- mountains %>% ggplot(aes(x =Radiation, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+f1 / f2 / f3
+
+
+```
+
+### plant variables
+
+#### Plant vegetative height, Specific leaf area, Leaf dry-matter content
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+g1 <- mountains2 %>% ggplot(aes(x =`Vegetative Height`, fill= `Muntain Range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+g2 <- mountains2 %>% ggplot(aes(x =SLA, fill= `Muntain Range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+g3 <- mountains2 %>% ggplot(aes(x =LDMC, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+g1/ g2/ g3
+
+```
+
+#### Plant size measured as plant canopy projection
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+g1 <- mountains2%>% filter(`Muntain Range`== "Central Andes") %>% ggplot(aes(x =Size, fill= `Muntain Range`))+geom_density(alpha = 0.3) +xlim(0,5000)
+
+g2 <- mountains2 %>% filter(`Muntain Range`== "Central Pyrenees") %>% ggplot(aes(x =Size, fill= `Muntain Range`))+geom_density(alpha = 0.3) +xlim(0,250)
+
+g3 <- mountains2 %>% filter(`Muntain Range`== "Guadarrama") %>% ggplot(aes(x =Size, fill= `Muntain Range`))+geom_density(alpha = 0.3)+xlim(0,200) 
+
+
+
+g1/ g2 / g3
+
+
+```
+
+#### Leaf thickness, Seed mass
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+mountains2$Thickness <- as.double(mountains2$Thickness)
+mountains2$`Seed Mass` <- as.double(mountains2$`Seed Mass`)
+h1 <- mountains2%>% ggplot(aes(x =Thickness, fill= `Muntain Range`))+geom_density(alpha = 0.3)
+
+h2 <- mountains2%>% ggplot(aes(x =`Seed Mass`, fill= `Muntain Range`))+geom_density(alpha = 0.3) + xlim(0,15000)
+
+
+h1/h2
+
+
+
+```
