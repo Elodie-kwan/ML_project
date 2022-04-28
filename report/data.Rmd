@@ -6,7 +6,7 @@ source(here::here("scripts/setup.R"))
 
 ## Import dataset 
 ```{r}
-Mountain_data <- read_excel("1-s2.0-S2352340919311710-mmc1.xlsx", sheet = "FieldDATA")
+Mountain_data <- read_excel("../data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = "FieldDATA")
 Mountain_data$Date <- as.Date(Mountain_data$Date, "%d/%m/%Y")
 
 head(Mountain_data)
@@ -16,11 +16,30 @@ str(Mountain_data)
 
 We are deleting the variables that are not useful for use. The variables such as the **UTM grid zone**, **UTM_X** and **UTM_Y** are related to the samples and we are not wanting to make predictions based on those characteristics but rather on the actual soil composition. 
 The variable **Elevation**, **slope**, **plot_ID**, **Orientation** will not help us neither because it is related to the place where the sample has been taken. It is a certain amount above the some tree limits.
+We rename the variable **Muntain Range** as **Mountain_range** to facilitate future use. 
 
 ```{r}
 
 Mountain_data <- Mountain_data[, c(2:5, 7:11, 18:42)]
+colnames(Mountain_data)[2] <- "Mountain_range"
 str(Mountain_data)
+```
+
+Now that we have the variables we want to work with, we see that they are all considered as numeric. However, we know that some of them should be categorical as they have different levels. We are going to transform **Country**, **Mountain_Range**, **Locality**, **Plot** and **Subplot** as factors. 
+
+```{r}
+Mountain_data$Country <- as.factor(Mountain_data$Country)
+Mountain_data$Mountain_range <- as.factor(Mountain_data$Mountain_range)
+Mountain_data$Locality <- as.factor(Mountain_data$Locality)
+Mountain_data$Plot <- as.factor(Mountain_data$Plot)
+Mountain_data$Subplot <- as.factor(Mountain_data$Subplot)
+```
+
+
+We can export this cleaned datast on the _data_ folder of our project. 
+
+```{r}
+write.csv(Mountain_data,"../data/Mountain_data_cleaned.csv", row.names = FALSE)
 ```
 
 

@@ -2,3 +2,11 @@
 ```{r, echo = FALSE, message = FALSE}
 source(here::here("scripts/setup.R"))
 ```
+
+Let's import the cleaned dataset that we created. 
+
+```{r}
+Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
+str(Mountain_data)
+```
+
