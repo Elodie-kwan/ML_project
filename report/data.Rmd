@@ -36,7 +36,7 @@ Mountain_data$Subplot <- as.factor(Mountain_data$Subplot)
 ```
 
 
-We can export this cleaned datast on the _data_ folder of our project. 
+We can export this cleaned dataset on the _data_ folder of our project. 
 
 ```{r}
 write.csv(Mountain_data,"../data/Mountain_data_cleaned.csv", row.names = FALSE)
