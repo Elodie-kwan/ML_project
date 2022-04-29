@@ -5,7 +5,7 @@
 # load the required packages
 packages <- c(
 "tidyverse", "readxl", #for wrangling
-"dplyr",  "lubridate",
+"dplyr",  "lubridate","DataExplorer","summarytools","Hmisc",
 "ggplot2", "naniar", "patchwork" #for plotting
 )
 
