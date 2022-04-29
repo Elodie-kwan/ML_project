@@ -9,4 +9,44 @@ Let's import the cleaned dataset that we created.
 Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
 str(Mountain_data)
 ```
+```{r}
+dfSummary(Mountain_data, style="grid")
+```
 
+```{r}
+which(is.na(Mountain_data))
+```
+
+```{r}
+describe(Mountain_data)
+introduce(Mountain_data)
+plot_intro(Mountain_data)
+```
+
+
+```{r}
+plot_histogram(Mountain_data)
+plot_density(Mountain_data)
+```
+Many variables appear with a distribution that looks like the log-normal distribution.
+
+
+```{r}
+plot_boxplot(Mountain_data, by = 'Mountain_range',  ncol = 2,
+             title = "Side-by-side boxplots")
+```
+Can see the real differences between the mountains. (Comment more + comment outliers)
+
+
+```{r}
+ggplot(Mountain_data) + geom_bar(aes(x = Mountain_range))
+```
+Can comment on the number of different observations and the affect on accuracy. Can focus more on sensibility and sensitivy if needed because indeed there is twice more informations on Sierra de Guadarrama.
+
+Correlation plot between continuous variables : 
+```{r}
+plot_correlation(Mountain_data, type= 'c', cor_args = list( 'use' = 'complete.obs'))
+```
+Make a regression Mountain_range ~ ... to see the relevant variables 
++
+Make a PCA
