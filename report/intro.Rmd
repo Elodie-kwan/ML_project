@@ -1,1 +1,20 @@
-Again
+---
+title: "Introduction"
+output: html_document
+---
+
+# Introduction
+
+## Overview and motivation 
+
+
+## Project objectives
+Our goal is to use the relevant machine learning tools, with supervised and unsupervised learning methods to characterize our data frame. 
+
+
+
+## Related work
+
+
+## Structure of the report
+
