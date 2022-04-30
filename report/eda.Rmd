@@ -7,20 +7,35 @@ Let's import the cleaned dataset that we created.
 
 ```{r}
 Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
-str(Mountain_data)
+str(Mountain_data_cleaned)
 ```
+
+We have to transform the class of the variables **Country**, **Mountain_Range**, **Locality**, **Plot** and **Subplot** because they are categorical variables. So we will transform them as factors. 
+
 ```{r}
-dfSummary(Mountain_data, style="grid")
+Mountain_data_cleaned$Country <- as.factor(Mountain_data_cleaned$Country)
+Mountain_data_cleaned$Mountain_range <- as.factor(Mountain_data_cleaned$Mountain_range)
+Mountain_data_cleaned$Locality <- as.factor(Mountain_data_cleaned$Locality)
+Mountain_data_cleaned$Plot <- as.factor(Mountain_data_cleaned$Plot)
+Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
+
+Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date, "%d/%m/%Y")
+
+```
+
+
+```{r}
+dfSummary(Mountain_data_cleaned, style="grid")
 ```
 
 ```{r}
-which(is.na(Mountain_data))
+which(is.na(Mountain_data_cleaned))
 ```
 
 ```{r}
-describe(Mountain_data)
-introduce(Mountain_data)
-plot_intro(Mountain_data)
+describe(Mountain_data_cleaned)
+introduce(Mountain_data_cleaned)
+plot_intro(Mountain_data_cleaned)
 ```
 
 
