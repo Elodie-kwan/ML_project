@@ -3,6 +3,8 @@
 source(here::here("scripts/setup.R"))
 ```
 
+# Exploratory Data Analysis 
+
 Let's import the cleaned dataset that we created. 
 
 ```{r}
@@ -19,18 +21,23 @@ Mountain_data_cleaned$Locality <- as.factor(Mountain_data_cleaned$Locality)
 Mountain_data_cleaned$Plot <- as.factor(Mountain_data_cleaned$Plot)
 Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
 
-Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date, "%d/%m/%Y")
+Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 
+summary(Mountain_data_cleaned)
 ```
 
+There are 2 missing values in the feature **Glu_P**. One is at the instance number 377 and the other one is at the instance 378. 
+
+We have more observations about the mountain "Sierra de Guadarrama" (195) compared to "Central Andes" (100) and "Central Pyrenees" (135). As the differences between the number of observation is big enough for us to be careful on the results and consider to balance the data if it is needed. 
+
+```{r}
+which(is.na(Mountain_data_cleaned$Glu_P))
+```
 
 ```{r}
 dfSummary(Mountain_data_cleaned, style="grid")
 ```
 
-```{r}
-which(is.na(Mountain_data_cleaned))
-```
 
 ```{r}
 describe(Mountain_data_cleaned)
@@ -38,41 +45,79 @@ introduce(Mountain_data_cleaned)
 plot_intro(Mountain_data_cleaned)
 ```
 
+## Data visualization : Plotting the data
+
+We plot the numerical variables. 
 
 ```{r}
-plot_histogram(Mountain_data)
-plot_density(Mountain_data)
+plot_histogram(Mountain_data_cleaned)
+plot_density(Mountain_data_cleaned)
 ```
 Many variables appear with a distribution that looks like the log-normal distribution.
 
++ The variables **pH_B** and **pH_T** are not normally distributed. 
++ Most of the variables are right-tailed. 
+
 
 ```{r}
-plot_boxplot(Mountain_data, by = 'Mountain_range',  ncol = 2,
+plot_boxplot(Mountain_data_cleaned, by = 'Mountain_range',  ncol = 2,
              title = "Side-by-side boxplots")
 ```
-Can see the real differences between the mountains. (Comment more + comment outliers)
+
+We can see the real differences between the mountains. 
+
++ Generally speaking, it seems that the mountain "Sierra de Guadarrama" has a higher value of **Glu_P**, **Phos_P**, **SOC_P**, **Glu_B**, **Phos_B**, **SOC_B**, **Glu_T**, **Phos_T** and **SOC_T**.
++ There are a lot of outliers in almost all the features. 
+
+We plot the categorical variables. 
+
+```{r}
+Mountain_data_cleaned %>%
+  keep(is.factor) %>%
+  gather() %>%
+  ggplot(aes(value)) +
+  facet_wrap(~ key, scales = "free") +
+  geom_bar(stat="count") +
+  coord_flip()
+```
 
 
 ```{r}
-ggplot(Mountain_data) + geom_bar(aes(x = Mountain_range))
+ggplot(Mountain_data_cleaned) +
+  geom_bar(aes(x = Mountain_range))
 ```
-Can comment on the number of different observations and the affect on accuracy. Can focus more on sensibility and sensitivy if needed because indeed there is twice more informations on Sierra de Guadarrama.
+Can comment on the number of different observations and the effect on accuracy. **Can focus more on sensibility and sensitivy** if needed because indeed there is twice more informations on Sierra de Guadarrama.
+
+As described above with the summary output of the data, we see that we have more information on the mountain "Sierra de Guadarrama". There is twice more information compared to the mountain "Central Andes". Our final result might be affected on a bad way because the model will tend to produce a good accuracy (so having a tendency to predict "Sierra de Guadarrama" more often) but it will not be good enough to predict a new instance. 
+
+We will have to see if we will need to balance our data to get a better model. 
+
 
 Correlation plot between continuous variables : 
 ```{r}
-plot_correlation(Mountain_data, type= 'c', cor_args = list( 'use' = 'complete.obs'))
+plot_correlation(Mountain_data_cleaned, type= 'c', cor_args = list( 'use' = 'complete.obs'))
 ```
+
+From the correlation plot it seems that some pattern can be observed. The variables concerning the **Phosphatase enzyme** seems to be positively correlated with the variable about **Soil organic carbon**. 
+
+```{r}
+Mountain_data_cleaned %>%
+  select(Phos_P, Phos_B, Phos_T, SOC_P, SOC_B, SOC_T) %>%
+  ggpairs()
+```
+
+
 Make a regression Mountain_range ~ ... to see the relevant variables 
 +
 Make a PCA
 
 
-PCA exploration
+## Principal Component Analysis (PCA) exploration
 
-- Selecct only the numerical values:
+- Select only the numerical values:
 
 ```{r}
-Mountain_data.num <- select_if(Mountain_data, is.numeric)
+Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
 to.delet <- c('Day', 'Month', 'Year')
 Mountain_data.num <- select(Mountain_data.num, -to.delet)
 
@@ -80,18 +125,17 @@ Mountain_data.num <- select(Mountain_data.num, -to.delet)
 
 
 ```{r}
-library(FactoMineR)
-library(factoextra)
-```
-
-```{r}
-Mountain_data.pca <- prcomp(Mountain_data.num, center = TRUE)
+Mountain_data.pca <- prcomp(na.omit(Mountain_data.num), center = TRUE)
 summary(Mountain_data.pca)
 ```
-Je comprend pas pourquoi il y a une erreur ici...
+
+
+Here, as the command _prcomp_ do not allow NAs in the data. We use the command _na.omit_ on our reduced data containing the numerical values to omit all NAs cases from the data frame.
+
 
 ```{r}
 resultats_pca <- PCA(Mountain_data.num, scale.unit = TRUE, ncp = 5, graph = FALSE)
+resultats_pca
 ```
 
 ```{r}
@@ -113,7 +157,6 @@ var
 ```
 
 ```{r}
-library(corrplot)
 corrplot(var$cos2, is.corr = FALSE)
 ```
 
