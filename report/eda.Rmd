@@ -65,3 +65,68 @@ plot_correlation(Mountain_data, type= 'c', cor_args = list( 'use' = 'complete.ob
 Make a regression Mountain_range ~ ... to see the relevant variables 
 +
 Make a PCA
+
+
+PCA exploration
+
+- Selecct only the numerical values:
+
+```{r}
+Mountain_data.num <- select_if(Mountain_data, is.numeric)
+to.delet <- c('Day', 'Month', 'Year')
+Mountain_data.num <- select(Mountain_data.num, -to.delet)
+
+```
+
+
+```{r}
+library(FactoMineR)
+library(factoextra)
+```
+
+```{r}
+Mountain_data.pca <- prcomp(Mountain_data.num, center = TRUE)
+summary(Mountain_data.pca)
+```
+Je comprend pas pourquoi il y a une erreur ici...
+
+```{r}
+resultats_pca <- PCA(Mountain_data.num, scale.unit = TRUE, ncp = 5, graph = FALSE)
+```
+
+```{r}
+eig.val <- get_eigenvalue(resultats_pca)
+eig.val
+```
+
+```{r}
+fviz_eig(resultats_pca, addlabels = TRUE)
+```
+
+```{r}
+fviz_pca_var(resultats_pca)
+```
+
+```{r}
+var <- get_pca_var(resultats_pca)
+var
+```
+
+```{r}
+library(corrplot)
+corrplot(var$cos2, is.corr = FALSE)
+```
+
+```{r}
+fviz_pca_ind(resultats_pca)
+```
+
+
+```{r}
+fviz_pca_biplot(resultats_pca, repel = TRUE,
+                col.var = "blue", # Couleur des variables
+                col.ind = "red"  # Couleur des individues
+                )
+```
+
+
