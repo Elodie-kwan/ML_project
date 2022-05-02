@@ -26,6 +26,9 @@ Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ```{r}
 set.seed(123) ## for replication purpose
 
+## remove row containing NAs
+Mountain_data_cleaned <- na.omit(Mountain_data_cleaned)
+
 ## the index of the rows that will be in the training set
 index.tr <- sample(1:nrow(Mountain_data_cleaned), replace=FALSE,
                    size=0.75*nrow(Mountain_data_cleaned))
@@ -46,6 +49,8 @@ tab1 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred1) # confusion matri
 ```
 
 Simple hyperparameter tuning
+This code takes time to run.
+
 ```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
 set.seed(1)
 fitControl <- trainControl(method = "cv", 
@@ -68,17 +73,21 @@ nnetFit <- train(Mountain_range ~ .,
 plot(nnetFit)
 ```
 
-The best Neural Networks parameters would be to choose 5 hidden layers, with a decay of 0.5. 
+The best Neural Networks parameters would be to choose 5 hidden layers, with a decay of 0.3. 
+(The deletion of rows with NAs affected the result of the decay from 0.5 to this one of 0.3)
 
 The manually written Neural Network model 
 ```{r}
-nn5 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=5)
+nn5 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=5, decay = 0.3)
 
 pred5 <- predict(nn5, type="class")
-# tab5 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred5) # confusion matrix 
-# (acc5 <- sum(diag(tab5))/sum(tab5)) # accuracy
+tab5 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred5) # confusion matrix
+tab5
+(acc5 <- sum(diag(tab5))/sum(tab5)) # accuracy
 
 ```
+
+Here it says that it has perfect accuracy.
 
 Some transformations in order to use the function **neuralnet** in R. 
 
@@ -106,7 +115,7 @@ f
 ```
 
 ```{r}
-neuralnet5 <- neuralnet(f, data=na.omit(Mountain_data.class.tr), hidden=c(5,5))
+neuralnet5 <- neuralnet(f, data=na.omit(Mountain_data.class.tr), hidden=c(5,3))
 
 plot(neuralnet5, rep="best")
 ```
