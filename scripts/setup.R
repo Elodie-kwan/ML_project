@@ -7,7 +7,8 @@ packages <- c(
 "tidyverse", "readxl", #for wrangling
 "dplyr",  "lubridate","DataExplorer","summarytools","Hmisc",
 "ggplot2", "naniar", "patchwork", "FactoMineR",
-"factoextra", "corrplot", "GGally" #for plotting
+"factoextra", "corrplot", "GGally", #for plotting
+"nnet", "caret", "neuralnet" # for Neural Network 
 )
 
 purrr::walk(packages, library, character.only = TRUE)

@@ -2,3 +2,115 @@
 ```{r, echo = FALSE, message = FALSE}
 source(here::here("scripts/setup.R"))
 ```
+
+# Analysis part of the project 
+
+## Import dataset
+Let's import the cleaned dataset that we created. 
+
+```{r}
+Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
+
+Mountain_data_cleaned$Country <- as.factor(Mountain_data_cleaned$Country)
+Mountain_data_cleaned$Mountain_range <- as.factor(Mountain_data_cleaned$Mountain_range)
+Mountain_data_cleaned$Locality <- as.factor(Mountain_data_cleaned$Locality)
+Mountain_data_cleaned$Plot <- as.factor(Mountain_data_cleaned$Plot)
+Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
+
+Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
+```
+
+
+## Splitting the data into Traning set and Test set 
+
+```{r}
+set.seed(123) ## for replication purpose
+
+## the index of the rows that will be in the training set
+index.tr <- sample(1:nrow(Mountain_data_cleaned), replace=FALSE,
+                   size=0.75*nrow(Mountain_data_cleaned))
+
+Mountain_data.tr <- Mountain_data_cleaned[index.tr,] ## the training set
+Mountain_data.te <- Mountain_data_cleaned[-index.tr,] ## the test set
+```
+
+## Neural Network Model 
+
+```{r}
+# two nodes in the middle layer 
+nn1 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=2)
+
+pred1 <- predict(nn1, type="class")
+tab1 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred1) # confusion matrix 
+(acc1 <- sum(diag(tab1))/sum(tab1)) # accuracy 
+```
+
+Simple hyperparameter tuning
+```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+set.seed(1)
+fitControl <- trainControl(method = "cv", 
+                           number = 10)
+
+nnetGrid <-  expand.grid(size = seq(from = 1, to = 6, by = 1),
+                        decay = seq(from = 0.1, to = 0.5, by = 0.1))
+
+nnetFit <- train(Mountain_range ~ ., 
+                 data = Mountain_data.tr,
+                 method = "nnet",
+                 metric = "Accuracy",
+                 tuneGrid = nnetGrid,
+                 trControl = fitControl, 
+                 na.action = na.pass)
+
+```
+
+```{r}
+plot(nnetFit)
+```
+
+The best Neural Networks parameters would be to choose 5 hidden layers, with a decay of 0.5. 
+
+The manually written Neural Network model 
+```{r}
+nn5 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=5)
+
+pred5 <- predict(nn5, type="class")
+# tab5 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred5) # confusion matrix 
+# (acc5 <- sum(diag(tab5))/sum(tab5)) # accuracy
+
+```
+
+Some transformations in order to use the function **neuralnet** in R. 
+
+```{r}
+Mountain_data.class <- class.ind(Mountain_data_cleaned$Mountain_range)
+colnames(Mountain_data.class) <- c("Central_Andes", "Central_Pyrenees", "Sierra_de_Guadarrama")
+Mountain_data.class <- cbind(Mountain_data_cleaned[,10:34], Mountain_data.class)
+head(Mountain_data.class)
+
+
+
+Mountain_data.class.tr <- Mountain_data.class[index.tr,] ## the training set
+Mountain_data.class.te <- Mountain_data.class[-index.tr,] ## the test set
+```
+
+
+```{r}
+f <- as.formula(paste(
+  "Central_Andes+Central_Pyrenees+Sierra_de_Guadarrama~", 
+  paste(names(Mountain_data.class.tr[ ,1:25]),
+              collapse = " + ")
+  ))
+f
+
+```
+
+```{r}
+neuralnet5 <- neuralnet(f, data=na.omit(Mountain_data.class.tr), hidden=c(5,5))
+
+plot(neuralnet5, rep="best")
+```
+
+
+
+
