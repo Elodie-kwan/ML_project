@@ -130,5 +130,26 @@ plot(neuralnet5, rep="best")
 ```
 
 
+## Random Forest 
+```{r}
+train_set_for_RF <- Mountain_data.tr %>%
+  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
+test_set_for_RF <- Mountain_data.te%>%
+  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
+
+rf <- randomForest( Mountain_range ~ .,data=train_set_for_RF)
+
+pred = predict(rf, newdata=test_set_for_RF[-1])
+               
+cm = table(test_set_for_RF[,1], pred)
+
+varImpPlot(rf)
+importance(rf)
 
 
+```
+
+```{r,  results='asis'}
+cm
+
+```

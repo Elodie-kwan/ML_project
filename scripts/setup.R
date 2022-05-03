@@ -8,7 +8,7 @@ packages <- c(
 "dplyr",  "lubridate","DataExplorer","summarytools","Hmisc",
 "ggplot2", "naniar", "patchwork", "FactoMineR",
 "factoextra", "corrplot", "GGally", #for plotting
-"nnet", "caret", "neuralnet" # for Neural Network 
-)
+"nnet", "caret", "neuralnet", # for Neural Network 
+"randomForest" )
 
 purrr::walk(packages, library, character.only = TRUE)
