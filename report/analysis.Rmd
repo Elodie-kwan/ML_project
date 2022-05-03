@@ -23,8 +23,8 @@ Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ## Replace the NAs by the mean of the closest observations
 ```{r}
 mean_for_fill <-colMeans( Mountain_data_cleaned %>%
-  select(Locality,Glu_P)%>%
-  filter(Locality == "BaÃ±os de Colinas")%>%na.omit()%>% select(Glu_P))
+  select(Plot,Glu_P)%>%
+  filter(Plot == c("76", "77"))%>%na.omit()%>% select(Glu_P))
   
 Mountain_data_cleaned[is.na(Mountain_data_cleaned)] <- mean_for_fill
 rm(mean_for_fill)
