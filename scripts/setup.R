@@ -9,6 +9,6 @@ packages <- c(
 "ggplot2", "naniar", "patchwork", "FactoMineR",
 "factoextra", "corrplot", "GGally", #for plotting
 "nnet", "caret", "neuralnet", # for Neural Network 
-"randomForest" )
+"randomForest","naivebayes")
 
 purrr::walk(packages, library, character.only = TRUE)
