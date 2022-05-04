@@ -45,14 +45,6 @@ Mountain_data.te <- Mountain_data_cleaned[-index.tr,] ## the test set
 
 ## Neural Network Model 
 
-```{r}
-# two nodes in the middle layer 
-nn1 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=2)
-
-pred1 <- predict(nn1, type="class")
-tab1 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred1) # confusion matrix 
-(acc1 <- sum(diag(tab1))/sum(tab1)) # accuracy 
-```
 
 Simple hyperparameter tuning, this code takes time to run.
 
@@ -81,6 +73,7 @@ The best Neural Networks parameters would be to choose 5 hidden layers, with a d
 
 The manually written Neural Network model 
 ```{r}
+set.seed(345)
 nn5 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=5, decay = 0.5)
 
 pred5 <- predict(nn5, type="class")
@@ -118,7 +111,7 @@ f
 ```
 
 ```{r}
-neuralnet5 <- neuralnet(f, data=Mountain_data.class.tr, hidden=c(5,3))
+neuralnet5 <- neuralnet(f, data=Mountain_data.class.tr, hidden=5)
 
 plot(neuralnet5, rep="best")
 ```
