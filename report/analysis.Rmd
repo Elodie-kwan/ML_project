@@ -151,10 +151,8 @@ cm
 
 ## Naive Bayes 
 
-Conditional density Plots 
+Conditional density Plots with 'usekernel=TRUE' 
 ```{r}
-library(naivebayes)
-
 mountain.nb <- naive_bayes(Mountain_range ~ .,
                        data = Mountain_data.tr, usekernel=TRUE, laplace=1)
 par(mfrow=c(2,2))
@@ -163,9 +161,10 @@ plot(mountain.nb, arg.num = list(col = 1:3,
                              legend.cex = 0.8),
      prob="conditional")
 par(mfrow=c(1,1))
-
 mountain.nb
-
+```
+Conditional density plots with 'uskernel=FALSE'. It means that Gaussian distribution is applied to 'numeric' vairable. 
+```{r}
 mountain.nb <- naive_bayes(Mountain_range ~ .,
                        data = Mountain_data.tr, usekernel=FALSE, laplace=1) 
 par(mfrow=c(2,2))
@@ -173,22 +172,26 @@ plot(mountain.nb, arg.num = list(col = 1:3,
                              legend.position = "topright",
                              legend.cex = 0.8), prob="conditional")
 par(mfrow=c(1,1))
-
 mountain.nb
 ```
+
 pH_T is medium in Central Andes, lower in Sierra de Guadarrama and higher in Central Pyrenees. 
 
 
 Predictions 
 ```{r}
-
-predict(mountain.nb, newdata = Mountain_data.tr[-c(1:9)])
-predict(mountain.nb, newdata = Mountain_data.tr[-c(1:9)], type="prob")
-
+head(predict(mountain.nb, newdata = Mountain_data.tr[-c(1:9)]),20)
+     
+head(predict(mountain.nb, newdata = Mountain_data.tr[-c(1:9)], type="prob"),10)
+```
+Confusion matrix train data set 
+```{r}
 p1 <- predict(mountain.nb, Mountain_data.tr[-c(1:9)])
 (tab1 <- table(p1, Mountain_data.tr$Mountain_range))
 sum(diag(tab1)) / sum(tab1)
-
+```
+Confusion Matrix test data set 
+```{r}
 p2 <- predict(mountain.nb, Mountain_data.te[-c(1:9)])
 (tab2 <- table(p2, Mountain_data.te$Mountain_range))
 sum(diag(tab2)) / sum(tab2)
