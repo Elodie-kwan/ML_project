@@ -147,8 +147,9 @@ Acc
 Conditional density Plots with 'usekernel=TRUE' 
 ```{r}
 mountain.nb <- naive_bayes(Mountain_range ~ .,
-                       data = Mountain_data.tr, usekernel=TRUE, laplace=1)
-par(mfrow=c(2,2))
+                       data = Mountain_data.tr%>%
+  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country)), usekernel=TRUE, laplace=1)
+#par(mfrow=c(2,2))
 plot(mountain.nb, arg.num = list(col = 1:3,
                              legend.position = "topright",
                              legend.cex = 0.8),
@@ -156,18 +157,19 @@ plot(mountain.nb, arg.num = list(col = 1:3,
 par(mfrow=c(1,1))
 mountain.nb
 ```
+
 Conditional density plots with 'uskernel=FALSE'. It means that Gaussian distribution is applied to 'numeric' vairable. 
 ```{r}
 mountain.nb <- naive_bayes(Mountain_range ~ .,
-                       data = Mountain_data.tr, usekernel=FALSE, laplace=1) 
-par(mfrow=c(2,2))
+                       data = Mountain_data.tr%>%
+  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country)), usekernel=FALSE, laplace=1) 
+#par(mfrow=c(2,2))
 plot(mountain.nb, arg.num = list(col = 1:3,
                              legend.position = "topright",
                              legend.cex = 0.8), prob="conditional")
 par(mfrow=c(1,1))
 mountain.nb
 ```
-
 pH_T is medium in Central Andes, lower in Sierra de Guadarrama and higher in Central Pyrenees. 
 
 
