@@ -132,13 +132,13 @@ cm = table(test_set_for_RF[,1], pred)
 
 varImpPlot(rf)
 importance(rf)
-
+Acc <- sum(diag(cm))/sum(cm)
 
 ```
 
 ```{r,  results='asis'}
 cm
-
+Acc
 ```
 
 
