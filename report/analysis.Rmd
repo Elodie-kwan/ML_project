@@ -203,7 +203,7 @@ We use a 2-NN to predict the test set using the training set
 
 ```{R}
 library(caret)
-
+set(123)
 KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
 MR.te.pred <- predict(KNN, newdata = Mountain_data.tr,type ="class") 
 
