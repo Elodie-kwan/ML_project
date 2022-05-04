@@ -193,3 +193,21 @@ p2 <- predict(mountain.nb, Mountain_data.te[-c(1:9)])
 (tab2 <- table(p2, Mountain_data.te$Mountain_range))
 sum(diag(tab2)) / sum(tab2)
 ```
+
+
+## K-NN Model
+
+We use a 2-NN to predict the test set using the training set
+
+```{R}
+library(caret)
+library(carTools)
+unique.mountain <- unique(Mountain_data_cleaned)
+sample = sample.split(unique.mountain$Mountain_range, SplitRatio = .75)
+KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., K=3)
+
+MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class") 
+
+TAB <- table(Obs=Mountain_data.tr$Mountain_range, Pred=MR.te.pred) # confusion matrix 
+(ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
+```
