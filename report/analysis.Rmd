@@ -204,22 +204,10 @@ We use a 2-NN to predict the test set using the training set
 ```{R}
 library(caret)
 
-unique.mountain <- unique(Mountain_data_cleaned)
-set.seed(123) ## for replication purpose
-## the index of the rows that will be in the training set
-index.tr <- sample(1:nrow(unique.mountain), replace=FALSE,
-                   size=0.75*nrow(unique.mountain))
-
-Mountain_data.tr <- unique.mountain[index.tr,] ## the training set
-Mountain_data.te <- unique.mountain[-index.tr,] ## the test set
-unique.mountain <- unique(Mountain_data_cleaned)
-
-KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., K=3)
-
-
-predict(KNN, newdata = Mountain_data.te, type = "class")
-MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class") 
+KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
+MR.te.pred <- predict(KNN, newdata = Mountain_data.tr,type ="class") 
 
 TAB <- table(Obs=Mountain_data.tr$Mountain_range, Pred=MR.te.pred) # confusion matrix 
+TAB
 (ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
 ```
