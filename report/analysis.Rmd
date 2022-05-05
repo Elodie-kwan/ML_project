@@ -39,13 +39,46 @@ set.seed(123) ## for replication purpose
 index.tr <- sample(1:nrow(Mountain_data_cleaned), replace=FALSE,
                    size=0.75*nrow(Mountain_data_cleaned))
 
-Mountain_data.tr <- Mountain_data_cleaned[index.tr,] ## the training set
+Mountain_data.tr_notsubs <- Mountain_data_cleaned[index.tr,] ## the training set
 Mountain_data.te <- Mountain_data_cleaned[-index.tr,] ## the test set
 ```
 
+## Balancing the Training set 
+As discussed in the EDA part, we should balance our data because we do not have the same amount of information on each mountains. We have more observations on **Sierra de Guadarrama** and half less on **Central Andes**. 
+
+```{r}
+no.mountain_1 <- min(table(Mountain_data.tr_notsubs$Mountain_range)) ## 79
+
+## the "Central Andes" cases
+data.tr.mountain_1 <- filter(Mountain_data.tr, Mountain_range=="Central Andes")
+
+## the "Central Pyrenees" cases
+data.tr.mountain_2 <- filter(Mountain_data.tr, Mountain_range=="Central Pyrenees")
+
+## The "Sierra de Guadarrama" cases 
+data.tr.mountain_3 <- filter(Mountain_data.tr, Mountain_range=="Sierra de Guadarrama") 
+## sub-sample 79 instances from the number of "Central Pyrenees" cases
+index.mountain_2 <- sample(size=no.mountain_1, 
+                           x=1:nrow(data.tr.mountain_2), 
+                           replace=FALSE)
+
+## sub-sample 79 instances from the number of "Sierra de Guadarrama" cases
+index.mountain_3 <- sample(size=no.mountain_1, 
+                           x=1:nrow(data.tr.mountain_3), 
+                           replace=FALSE)
+  
+## Bind all the "Central Andes" and the sub-sampled "Central Pyrenees" 
+## and the sub-sampled "Sierra de Guadarrama"
+Mountain_data.tr <- data.frame(rbind(data.tr.mountain_1,
+                                     data.tr.mountain_2[index.mountain_2,],
+                                     data.tr.mountain_3[index.mountain_3,])) 
+
+## The cases are now balanced
+table(Mountain_data.tr$Mountain_range)
+```
+
+
 ## Neural Network Model 
-
-
 Simple hyperparameter tuning, this code takes time to run.
 
 ```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
@@ -69,22 +102,23 @@ nnetFit <- train(Mountain_range ~ .,
 plot(nnetFit)
 ```
 
-The best Neural Networks parameters would be to choose 5 hidden layers, with a decay of 0.5. 
+The best Neural Networks parameters would be to choose 4 hidden layers, with a decay of 0.3. 
 
 The manually written Neural Network model 
 ```{r}
 set.seed(345)
-nn5 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=5, decay = 0.5)
+nn4 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=4, decay = 0.3)
 
-pred5 <- predict(nn5, type="class")
-tab5 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred5) # confusion matrix
-tab5
-(acc5 <- sum(diag(tab5))/sum(tab5)) # accuracy
+pred4 <- predict(nn4, type="class")
+tab4 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred4) # confusion matrix
+tab4
+(acc4 <- sum(diag(tab4))/sum(tab4)) # accuracy
 
 ```
 
-Here it says that it has perfect accuracy.
+Here it says that it has almost perfect accuracy (96%).
 
+### Visualization of the neural network using **neuralnet**
 Some transformations in order to use the function **neuralnet** in R. 
 
 ```{r}
@@ -111,9 +145,9 @@ f
 ```
 
 ```{r}
-neuralnet5 <- neuralnet(f, data=Mountain_data.class.tr, hidden=5)
+neuralnet4 <- neuralnet(f, data=Mountain_data.class.tr, hidden=4)
 
-plot(neuralnet5, rep="best")
+plot(neuralnet4, rep="best")
 ```
 
 
@@ -198,7 +232,7 @@ We use a 2-NN to predict the test set using the training set
 
 ```{R}
 library(caret)
-set(123)
+set.seed(123)
 KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
 MR.te.pred <- predict(KNN, newdata = Mountain_data.tr,type ="class") 
 
