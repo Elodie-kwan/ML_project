@@ -158,13 +158,13 @@ train_set_for_RF <- Mountain_data.tr %>%
 test_set_for_RF <- Mountain_data.te%>%
   select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
 
-rf <- randomForest( Mountain_range ~ .,data=train_set_for_RF)
+rf <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
 
 pred = predict(rf, newdata=test_set_for_RF[-1])
                
 cm = table(test_set_for_RF[,1], pred)
 
-varImpPlot(rf)
+varImpPlot(rf, cex = 0.65)
 importance(rf)
 Acc <- sum(diag(cm))/sum(cm)
 
