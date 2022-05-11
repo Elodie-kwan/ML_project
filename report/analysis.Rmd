@@ -172,22 +172,26 @@ test_set_for_RF <- Mountain_data.te%>%
   select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
 
 rf <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
-
-pred = predict(rf, newdata=test_set_for_RF[-1])
-               
-cm = table(test_set_for_RF[,1], pred)
+predtr <- predict(rf, newdata = train_set_for_RF[-1])
+predte <-  predict(rf, newdata=test_set_for_RF[-1])
+cmtr <-   table(train_set_for_RF[,1], predtr)      
+cmte <-  table(test_set_for_RF[,1], predte)
 
 varImpPlot(rf, cex = 0.65)
 importance(rf)
-Acc <- sum(diag(cm))/sum(cm)
+Acc_tr <- sum(diag(cmtr))/sum(cmtr)
+Acc_te <- sum(diag(cmte))/sum(cmte)
 
 ```
 
 From the variable importance we see that the variable **pH_P**, **pH_T** and **pH_B** are very important. We can then say that the *pH* in general is important. 
 
 ```{r,  results='asis'}
-cm
-Acc
+cmtr
+Acc_tr
+
+cmte
+Acc_te
 ```
 
 
