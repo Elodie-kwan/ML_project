@@ -29,7 +29,7 @@ Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ```{r}
 mean_for_fill <-colMeans( Mountain_data_cleaned %>%
   select(Plot,Glu_P)%>%
-  filter(Plot == c("76", "77"))%>%na.omit()%>% select(Glu_P))
+  filter(Plot %in% c(76, 77))%>%na.omit()%>% select(Glu_P))
   
 Mountain_data_cleaned[is.na(Mountain_data_cleaned)] <- mean_for_fill
 rm(mean_for_fill)
