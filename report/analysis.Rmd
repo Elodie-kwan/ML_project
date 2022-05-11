@@ -258,3 +258,55 @@ TAB <- table(Obs=Mountain_data.tr$Mountain_range, Pred=MR.te.pred) # confusion m
 TAB
 (ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
 ```
+
+
+### Unsupervised learning method, PCA
+
+
+```{R}
+library(plotly)
+
+total <- cbind(Mountain_data_cleaned$Mountain_range, Mountain_data.num)
+
+total <- total%>% na.omit()
+pc <- princomp(total[,2:26], cor=TRUE, scores=TRUE)
+
+summary(pc)
+```
+The first 2 components cover 63% of the total variance, with 3 dimensions 74%
+
+```{R}
+plot(pc, type="lines")
+```
+3 dimensions looks the best, the total within variance slightly decrease from there. 
+
+```{R}
+
+X <- Mountain_data.num%>% na.omit()
+
+prin_comp <- prcomp(X, rank. = 3)
+
+components <- prin_comp[["x"]]
+components <- data.frame(components)
+components$PC2 <- -components$PC2
+components$PC3 <- -components$PC3
+components = cbind(components, total$`Mountain_data_cleaned$Mountain_range`)
+
+tot_explained_variance_ratio <- summary(prin_comp)[["importance"]]['Proportion of Variance',]
+tot_explained_variance_ratio <- 100 * sum(tot_explained_variance_ratio)
+
+tit = 'Total Explained Variance = 74,03%'
+
+fig <- plot_ly(components, x = ~PC1, y = ~PC2, z = ~PC3, color = ~total$`Mountain_data_cleaned$Mountain_range`, colors = c('#636EFA','#EF553B','#00CC96') ) %>%
+  add_markers(size = 12)
+
+
+fig <- fig %>%
+  layout(
+    title = tit,
+    scene = list(bgcolor = "#e5ecf6")
+)
+
+fig
+```
+
