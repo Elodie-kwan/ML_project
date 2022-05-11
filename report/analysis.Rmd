@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 
 ```{r, echo = FALSE, message = FALSE}
 source(here::here("scripts/setup.R"))
@@ -50,13 +55,13 @@ As discussed in the EDA part, we should balance our data because we do not have 
 no.mountain_1 <- min(table(Mountain_data.tr_notsubs$Mountain_range)) ## 79
 
 ## the "Central Andes" cases
-data.tr.mountain_1 <- filter(Mountain_data.tr, Mountain_range=="Central Andes")
+data.tr.mountain_1 <- filter(Mountain_data.tr_notsubs, Mountain_range=="Central Andes")
 
 ## the "Central Pyrenees" cases
-data.tr.mountain_2 <- filter(Mountain_data.tr, Mountain_range=="Central Pyrenees")
+data.tr.mountain_2 <- filter(Mountain_data.tr_notsubs, Mountain_range=="Central Pyrenees")
 
 ## The "Sierra de Guadarrama" cases 
-data.tr.mountain_3 <- filter(Mountain_data.tr, Mountain_range=="Sierra de Guadarrama") 
+data.tr.mountain_3 <- filter(Mountain_data.tr_notsubs, Mountain_range=="Sierra de Guadarrama") 
 ## sub-sample 79 instances from the number of "Central Pyrenees" cases
 index.mountain_2 <- sample(size=no.mountain_1, 
                            x=1:nrow(data.tr.mountain_2), 
@@ -109,14 +114,22 @@ The manually written Neural Network model
 set.seed(345)
 nn4 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=4, decay = 0.3)
 
-pred4 <- predict(nn4, type="class")
-tab4 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=pred4) # confusion matrix
+nn4_pred <- predict(nn4, type="class")
+tab4 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=nn4_pred) # confusion matrix
 tab4
 (acc4 <- sum(diag(tab4))/sum(tab4)) # accuracy
 
 ```
 
 Here it says that it has almost perfect accuracy (96%).
+
+```{r}
+# Confusion Matrix
+confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.tr$Mountain_range)
+```
+
+With this confusion matrix command we have more information on the model. As said before, we see that the accuracy is very high (96%) and we also see that we have a balanced accuracy of 1 which is the maximum we can get and which mean that our model do not suffer from unbalanced data. 
+
 
 ### Visualization of the neural network using **neuralnet**
 Some transformations in order to use the function **neuralnet** in R. 
@@ -170,6 +183,8 @@ Acc <- sum(diag(cm))/sum(cm)
 
 ```
 
+From the variable importance we see that the variable **pH_P**, **pH_T** and **pH_B** are very important. We can then say that the *pH* in general is important. 
+
 ```{r,  results='asis'}
 cm
 Acc
@@ -191,6 +206,9 @@ plot(mountain.nb, arg.num = list(col = 1:3,
 par(mfrow=c(1,1))
 mountain.nb
 ```
+
+From these density graphs we agree on what has been seen before, that the *pH* is important. We can see that they have very different density for the three mountains so it can be a good feature to classify the mountains. 
+
 
 Conditional density plots with 'uskernel=FALSE'. It means that Gaussian distribution is applied to 'numeric' vairable. 
 ```{r}
