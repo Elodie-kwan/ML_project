@@ -263,9 +263,6 @@ components$PC2 <- -components$PC2
 components$PC3 <- -components$PC3
 components = cbind(components, total$`Mountain_data_cleaned$Mountain_range`)
 
-tot_explained_variance_ratio <- summary(prin_comp)[["importance"]]['Proportion of Variance',]
-tot_explained_variance_ratio <- 100 * sum(tot_explained_variance_ratio)
-
 tit = 'Total Explained Variance = 74,03%'
 
 fig <- plot_ly(components, x = ~PC1, y = ~PC2, z = ~PC3, color = ~total$`Mountain_data_cleaned$Mountain_range`, colors = c('#636EFA','#EF553B','#00CC96') ) %>%
@@ -280,4 +277,48 @@ fig <- fig %>%
 
 fig
 ```
+
+------------------------------------------
+
+### CLuster analysis 
+
+## Bootstrap 
+
+## repliquer les modèles 
+
+------------------------------------------
+
+## Unique
+
+First we remove every replicated data, a Unique dataset
+
+```{r}
+Mountain_df <- Mountain_data_cleaned[-c(4:9)]
+Mountain_df <- unique(Mountain_df)
+```
+
+## Bootstrap
+After we replicate with 100 replicates
+
+```{r}
+set.seed(897)
+index.boot <- createResample(y=Mountain_df$Mountain_range, times=100)
+head(index.boot[[1]])
+tail(index.boot[[1]])
+```
+## Count
+
+```{r}
+ggplot(Mountain_df) +
+  geom_bar(aes(x = Mountain_range))
+```
+No balancing of the data..
+
+## Split in a new training set and test set
+
+
+
+
+
+
 
