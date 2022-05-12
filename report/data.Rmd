@@ -21,40 +21,40 @@ We rename the variable **Muntain Range** as **Mountain_range** to facilitate fut
 
 After these changes, he database *Mountain_data* is composed of 430 observation and 34 variables.
 
-- **Country** : 
-- **Mountain_range** : 
-- **Locality** : 
-- **Plot** : 
-- **Subplot** : 
-- **Date** : 
-- **Day** :
-- **Month** :
-- **Year** :
-- **Radiation** :
-- **Phos_P** :
-- **Glu_P** :
-- **SOC_P** :
-- **NT_P** :
-- **PT_P** :
-- **K_P** : 
-- **pH_P** :
-- **Cond_P** :
-- **Phos_B** : 
-- **Glu_B** :
-- **SOC_B** :
-- **NT_B** : 
-- **PT_B** : 
-- **K_B** :
-- **pH_B** : 
-- **Cond_B** :
-- **Phos_T** :
-- **Glu_T** :
-- **SOC_T** :
-- **NT_T** :
-- **PT_T** : 
-- **K_T** : 
-- **pH_T** :
-- **Cond_T** : 
+- **Country** : Spain, Chile
+- **Mountain_range** : Sierra de Guadarrama, Central Pyrenees
+- **Locality** : ?
+- **Plot** : ?
+- **Subplot** : ?
+- **Date** : Date of the sample
+- **Day** : Day of the sample
+- **Month** : Month of the sample
+- **Year** : Year of the sample
+- **Radiation** : Potential solar radiation (0-1)
+- **Phos_P** : Phosphatase enzyme.  Measured on dry soil sampled under plant (µmol/gr dry soil/h)
+- **Glu_P** : β-glucosidase enzyme.  Measured on dry soil sampled under plant canopy (µmol/gr dry soil/h)
+- **SOC_P** : soil organic carbon. Measured on dry soil sampled under plant canopy (%)
+- **NT_P** : soil total nitrogen. Measured on dry soil sampled under plant canopy (mg/g soil)
+- **PT_P** : available phosphorus. Measured on dry soil sampled under plant canopy (mg/g soil)
+- **K_P** : potassium content. Measured on dry soil sampled under plant canopy (mg/g soil)
+- **pH_P** : pH. Measured on dry soil sampled under plant canopy 
+- **Cond_P** : electrical conductivity. Measured on dry soil sampled under plant canopy (µS/cm)
+- **Phos_B** : Phosphatase enzyme.  Measured on dry soil sampled from bare soil areas (µmol/gr dry soil/h)
+- **Glu_B** : β-glucosidase enzyme.  Measured on dry soil sampled from bare soil areas (µmol/gr dry soil/h)
+- **SOC_B** : soil organic carbon. Measured on dry soil sampled from bare soil areas (%)
+- **NT_B** : soil total nitrogen. Measured on dry soil sampled from bare soil areas (mg/g soil)
+- **PT_B** : available phosphorus. Measured on dry soil sampled from bare soil areas (mg/g soil)
+- **K_B** : potassium content. Measured on dry soil sampled from bare soil areas (mg/g soil)
+- **pH_B** : pH. Measured on dry soil sampled from bare soil areas
+- **Cond_B** : electrical conductivity. Measured on dry soil sampled from bare soil areas (µS/cm)
+- **Phos_T** : Phosphatase enzyme. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (µmol/gr dry soil/h)
+- **Glu_T** : β-glucosidase enzyme.  Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (µmol/gr dry soil/h)
+- **SOC_T** : soil organic carbon. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (%)
+- **NT_T** : soil total nitrogen. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (mg/g soil)
+- **PT_T** : available phosphorus. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (mg/g soil)
+- **K_T** : potassium content. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (mg/g soil)
+- **pH_T** : pH. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site
+- **Cond_T** : electrical conductivity. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (µS/cm)
 
 ```{r}
 
