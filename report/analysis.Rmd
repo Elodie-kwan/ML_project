@@ -297,15 +297,6 @@ Mountain_df <- Mountain_data_cleaned[-c(4:9)]
 Mountain_df <- unique(Mountain_df)
 ```
 
-## Bootstrap
-After we replicate with 100 replicates
-
-```{r}
-set.seed(897)
-index.boot <- createResample(y=Mountain_df$Mountain_range, times=100)
-head(index.boot[[1]])
-tail(index.boot[[1]])
-```
 ## Count
 
 ```{r}
@@ -325,6 +316,16 @@ index.tr <- sample(1:nrow(Mountain_df), replace=FALSE,
 
 Mountain_df.tr_notsubs <- Mountain_df[index.tr,] ## the training set
 Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
+```
+
+## Bootstrap
+After we replicate with 100 replicates
+
+```{r}
+set.seed(897)
+index.boot <- createResample(y=Mountain_df.tr_notsubs$Mountain_range, times=100)
+head(index.boot[[1]])
+tail(index.boot[[1]])
 ```
 
 ```{r}
