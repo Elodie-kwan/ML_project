@@ -127,7 +127,7 @@ Mountain_data.num <- select(Mountain_data.num, -to.delet)
 
 
 ```{r}
-Mountain_data.pca <- prcomp(na.omit(Mountain_data.num), center = TRUE)
+Mountain_data.pca <- prcomp(na.omit(Mountain_data.num), center = TRUE, scale = TRUE)
 summary(Mountain_data.pca)
 ```
 
