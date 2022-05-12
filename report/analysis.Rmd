@@ -336,6 +336,11 @@ df.boot.val <- Mountain_df.tr_notsubs[-index.boot[[1]],]
 dim(df.boot.val)
 ```
 
+```{r}
+# The count of the bootstraped df
+ggplot(df.boot.tr) +
++     geom_bar(aes(x = Mountain_range))
+```
 
 
 
