@@ -131,39 +131,6 @@ confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.tr$Mountain_
 With this confusion matrix command we have more information on the model. As said before, we see that the accuracy is very high (96%) and we also see that we have a balanced accuracy of 1 which is the maximum we can get and which mean that our model do not suffer from unbalanced data. 
 
 
-### Visualization of the neural network using **neuralnet**
-Some transformations in order to use the function **neuralnet** in R. 
-
-```{r}
-Mountain_data.class <- class.ind(Mountain_data_cleaned$Mountain_range)
-colnames(Mountain_data.class) <- c("Central_Andes", "Central_Pyrenees", "Sierra_de_Guadarrama")
-Mountain_data.class <- cbind(Mountain_data_cleaned[,10:34], Mountain_data.class)
-head(Mountain_data.class)
-
-
-
-Mountain_data.class.tr <- Mountain_data.class[index.tr,] ## the training set
-Mountain_data.class.te <- Mountain_data.class[-index.tr,] ## the test set
-```
-
-
-```{r}
-f <- as.formula(paste(
-  "Central_Andes+Central_Pyrenees+Sierra_de_Guadarrama~", 
-  paste(names(Mountain_data.class.tr[ ,1:25]),
-              collapse = " + ")
-  ))
-f
-
-```
-
-```{r}
-neuralnet4 <- neuralnet(f, data=Mountain_data.class.tr, hidden=4)
-
-plot(neuralnet4, rep="best")
-```
-
-
 ## Random Forest 
 ```{r}
 train_set_for_RF <- Mountain_data.tr %>%
