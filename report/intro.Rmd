@@ -2,19 +2,41 @@
 title: "Introduction"
 output: html_document
 ---
+#### Machine Learning
+#### Project : "Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity"
 
-# Introduction
+Armance Larfeuille, Katia Voltz, Manoël Pidoux, Elodie Shoeiline Kwan and Nina Bidet
+
+Teacher : O. Boldi
+Spring Semester 20222
+
+### Introduction
+
+We are doing this report as part of our "Machine Learning" course in which we have to produce a detailed report based on an original database. To do this, we will re-analyze an existing data set by adding new elements (new models, features, outcome labels, approaches, interpretations, etc.).
 
 ## Overview and motivation 
+After several searches, we found a very interesting article explaining the interactions between the impacts of climate, soil and biotic on the interplay of the different facets of Alpine plant diversity. The scientists collected these data on three mountains in different locations and with opposite characteristics.
+1. 'Guadarrama' in Spain with a Mediterranean climate
+2. 'Ordesa - Monte Perdido' in Spain with a Temperate climate
+3. 'Central Chilean Andes' in Chile with a Mediterranean climate
+The database provided with the article was detailed and interesting and included enough observations to conduct our project. An analysis has already been carried out on this data set and we will complete it by using the skills acquired during our semester of course. Indeed, we will add ???
 
+- Article:  https://www.sciencedirect.com/science/article/pii/S2352340919311710
+- Data : *1-s2.0-S2352340919311710-mmc1.xlsx*
 
 ## Project objectives
 Our goal is to use the relevant machine learning tools, with supervised and unsupervised learning methods to characterize our data frame. 
-
-
-
-## Related work
-
+In our case, it would be a question of being able to determine which mountain it is according to the given soil characteristics. 
 
 ## Structure of the report
 
+Introduction
+Part 1 : Data preparation
+Part 2 : Exploratory Data Analysis (EDA)
+Part 3 : Analysis
+- Supervised learning analysis
+- Unsupervised learning analysis
+Conclusion 
+
+## Related work
+- Machine Learning course and exercices 
