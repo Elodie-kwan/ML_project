@@ -316,7 +316,24 @@ No balancing of the data..
 
 ## Split in a new training set and test set
 
+```{r}
+set.seed(123) ## for replication purpose
 
+# the index of the rows that will be in the training set
+index.tr <- sample(1:nrow(Mountain_df), replace=FALSE,
+                   size=0.75*nrow(Mountain_df))
+
+Mountain_df.tr_notsubs <- Mountain_df[index.tr,] ## the training set
+Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
+```
+
+```{r}
+df.boot.tr <- Mountain_df.tr_notsubs[index.boot[[1]],]
+dim(df.boot.tr)
+
+df.boot.val <- Mountain_df.tr_notsubs[-index.boot[[1]],]
+dim(df.boot.val)
+```
 
 
 
