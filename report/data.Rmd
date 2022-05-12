@@ -1,8 +1,10 @@
-
 ```{r, echo = FALSE, message = FALSE}
 source(here::here("scripts/setup.R"))
 ```
 
+### Part 1 : Data Preparation
+
+In this first part, we will first download the data into R. Then, we will apply the necessary transformations on these data so that they can be correctly exploited for the following analysis. 
 
 ## Import dataset 
 ```{r}
@@ -13,10 +15,46 @@ head(Mountain_data)
 str(Mountain_data)
 ```
 
-
 We are deleting the variables that are not useful for use. The variables such as the **UTM grid zone**, **UTM_X** and **UTM_Y** are related to the samples and we are not wanting to make predictions based on those characteristics but rather on the actual soil composition. 
 The variable **Elevation**, **slope**, **plot_ID**, **Orientation** will not help us neither because it is related to the place where the sample has been taken. It is a certain amount above the some tree limits.
 We rename the variable **Muntain Range** as **Mountain_range** to facilitate future use. 
+
+After these changes, he database *Mountain_data* is composed of 430 observation and 34 variables.
+
+- **Country** : 
+- **Mountain_range** : 
+- **Locality** : 
+- **Plot** : 
+- **Subplot** : 
+- **Date** : 
+- **Day** :
+- **Month** :
+- **Year** :
+- **Radiation** :
+- **Phos_P** :
+- **Glu_P** :
+- **SOC_P** :
+- **NT_P** :
+- **PT_P** :
+- **K_P** : 
+- **pH_P** :
+- **Cond_P** :
+- **Phos_B** : 
+- **Glu_B** :
+- **SOC_B** :
+- **NT_B** : 
+- **PT_B** : 
+- **K_B** :
+- **pH_B** : 
+- **Cond_B** :
+- **Phos_T** :
+- **Glu_T** :
+- **SOC_T** :
+- **NT_T** :
+- **PT_T** : 
+- **K_T** : 
+- **pH_T** :
+- **Cond_T** : 
 
 ```{r}
 
@@ -35,12 +73,12 @@ Mountain_data$Plot <- as.factor(Mountain_data$Plot)
 Mountain_data$Subplot <- as.factor(Mountain_data$Subplot)
 ```
 
-
 We can export this cleaned dataset on the _data_ folder of our project. 
 
 ```{r}
 write.csv(Mountain_data,"../data/Mountain_data_cleaned.csv", row.names = FALSE)
 ```
+
 
 
 
