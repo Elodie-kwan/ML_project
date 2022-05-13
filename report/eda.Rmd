@@ -1,99 +1,154 @@
-
-```{r, echo = FALSE, message = FALSE}
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 source(here::here("scripts/setup.R"))
 ```
 
 ### part 2 : Exploratory Data Analysis 
-
-This section is dedicated to understanding the data. We will provide an analysis of the data set using a visual approach in order to summarize their main characteristics. 
-
+<br />
+<br />
+This section is dedicated to understanding the data. We will provide an analysis of the data set using a visual approach in order to summarize their main characteristics.
+<br />
+<br />
 Let's import the cleaned dataset that we created. 
 
 ```{r}
 Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
-str(Mountain_data_cleaned)
 ```
+<br />
 
-We have to transform the class of the variables **Country**, **Mountain_Range**, **Locality**, **Plot** and **Subplot** because they are categorical variables. So we will transform them as factors. 
-
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_data_cleaned$Country <- as.factor(Mountain_data_cleaned$Country)
 Mountain_data_cleaned$Mountain_range <- as.factor(Mountain_data_cleaned$Mountain_range)
 Mountain_data_cleaned$Locality <- as.factor(Mountain_data_cleaned$Locality)
 Mountain_data_cleaned$Plot <- as.factor(Mountain_data_cleaned$Plot)
 Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
-
+```
+We will analyze some basic statistical elements for each variable. To do this we need to transform the variable **Date** to date format.  
+```{r}
 Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
-
-summary(Mountain_data_cleaned)
 ```
+<br />
+We first look at the general aspect of the data set and try to discover if there are any missing values. 
+<br />
+```{r echo=F,results='asis',error=F,warning=F}
 
+library('knitr')######3
+
+kable(introduce(Mountain_data_cleaned)[,-c(3:4,9 )], format = "markdown")
+```
+<br />
 There are 2 missing values in the feature **Glu_P**. One is at the instance number 377 and the other one is at the instance 378. 
+<br />
+```{r echo=F,results='asis',error=F,warning=F}
 
-We have more observations about the mountain "Sierra de Guadarrama" (195) compared to "Central Andes" (100) and "Central Pyrenees" (135). As the differences between the number of observation is big enough for us to be careful on the results and consider to balance the data if it is needed. 
-
-```{r}
-which(is.na(Mountain_data_cleaned$Glu_P))
+kable(head(Mountain_data_cleaned[c(which(is.na(Mountain_data_cleaned$Glu_P))),c(1:6, 12)]), format = "markdown")
 ```
 
-```{r}
-dfSummary(Mountain_data_cleaned, style="grid")
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+#dfSummary(Mountain_data_cleaned, style="grid")
 ```
-
-
-```{r}
-describe(Mountain_data_cleaned)
-introduce(Mountain_data_cleaned)
+<br />
+To understand the distribution of our data in the data set we use the following graph: 
+<br />
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=3, out.width = "100%"}
 plot_intro(Mountain_data_cleaned)
 ```
+<br />
+All the variables that we will train for our models come from columns composed of continuous values, which explains their predominance. We can also notice that the share of missing observations represents only 0.014% of the total number of observations. Which at first sight makes it a good data set.
+<br />
+<br />
+We take our search for anomalies further by exploring the characteristics of each variable.For the readability of the report, we show only a few variables.
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%"}
+x<- describe(Mountain_data_cleaned)
+x$Country
+x$Mountain_range
+x$Phos_P
+x$Glu_P
+x$NT_P
+```
+We can observe that there is a big difference between the total number of observations and the number of distinct observations for the variables related to the chemical elements. We will try to understand where this difference comes from in the visual analysis part. 
+<br />
+<br />
+<br />
 
 ## Data visualization : Plotting the data
 
+<br />
+<br />
 We plot the numerical variables. 
 
-```{r}
-plot_histogram(Mountain_data_cleaned)
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
+# plot_histogram(Mountain_data_cleaned)
 plot_density(Mountain_data_cleaned)
 ```
+<br />
 Many variables appear with a distribution that looks like the log-normal distribution.
 
 + The variables **pH_B** and **pH_T** are not normally distributed. 
 + Most of the variables are right-tailed. 
+<br />
+<br />
+We will then use box-plots to detect outliers on numerical variable and compare the distributions to each mountain class.
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
+plot_boxplot(Mountain_data_cleaned, by = 'Mountain_range',  ncol = 2, title = "Side-by-side boxplots", geom_boxplot_args = list("outlier.color" = "red"))
 
 
-```{r}
-plot_boxplot(Mountain_data_cleaned, by = 'Mountain_range',  ncol = 2,
-             title = "Side-by-side boxplots")
 ```
-
+<br />
 We can see the real differences between the mountains. 
 
 + Generally speaking, it seems that the mountain "Sierra de Guadarrama" has a higher value of **Glu_P**, **Phos_P**, **SOC_P**, **Glu_B**, **Phos_B**, **SOC_B**, **Glu_T**, **Phos_T** and **SOC_T**.
 + There are a lot of outliers in almost all the features. 
+<br />
+<br />
+We plot the categorical variables: 
+<br />
 
-We plot the categorical variables. 
-
-```{r}
-Mountain_data_cleaned %>%
-  keep(is.factor) %>%
-  gather() %>%
-  ggplot(aes(value)) +
-  facet_wrap(~ key, scales = "free") +
-  geom_bar(stat="count") +
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=10, out.width = "70%"}
+a <- ggplot(Mountain_data_cleaned) +
+  geom_bar(mapping = aes(x = Country, fill= Mountain_range)) +
+  coord_flip() + theme(legend.position = "none")
+b <- ggplot(Mountain_data_cleaned) +
+  geom_bar(aes(x = Locality, fill= Mountain_range)) +
   coord_flip()
+
+a+b
 ```
 
-
-```{r}
+<br />
+We see that more observations come from Spain, which is normal since two out of three mountains are located in Spain. The localities where the samples were taken are almost all composed of a sample of 5 subsamples. Some localities, perhaps more interesting for the study, were sampled several times, but always by a multiple of 5 subsamples. 
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
 ggplot(Mountain_data_cleaned) +
-  geom_bar(aes(x = Mountain_range))
+  geom_bar(aes(x = Mountain_range, fill= Mountain_range))
 ```
+<br />
+We have more observations about the mountain "Sierra de Guadarrama" (195) compared to "Central Andes" (100) and "Central Pyrenees" (135). As the differences between the number of observation is big enough for us to be careful on the results and consider to balance the data if it is needed. 
+<br />
 Can comment on the number of different observations and the effect on accuracy. **Can focus more on sensibility and sensitivy** if needed because indeed there is twice more informations on Sierra de Guadarrama.
-
+<br />
 As described above with the summary output of the data, we see that we have more information on the mountain "Sierra de Guadarrama". There is twice more information compared to the mountain "Central Andes". Our final result might be affected on a bad way because the model will tend to produce a good accuracy (so having a tendency to predict "Sierra de Guadarrama" more often) but it will not be good enough to predict a new instance. 
-
+<br />
 We will have to see if we will need to balance our data to get a better model. 
+<br />
+We will also inspect the possible duplicate observations, indeed as previously found, some variables do not have the whole of their observations which are distinct.
+<br />
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
+Mountain_data_cleaned_uni <- Mountain_data_cleaned[, -5] %>% unique()
+ggplot(Mountain_data_cleaned_uni) +
+  geom_bar(aes(x = Mountain_range, fill= Mountain_range))
+
+```
+<br />
+We notice immediately the poverty of the data concerning the samples of **Sierra de Guadarrama**, this function leaves us with a data set of only 274 observations. We will therefore try a first time to implement our models by keeping the duplicates, knowing that identical values in the train set and the test set will influence the measured accuracy of the model. Then we will test again our models with the reduced data set to observe if there is a loss of accuracy. 
+<br />
 
 Correlation plot between continuous variables : 
 ```{r}
