@@ -164,56 +164,17 @@ Acc_te
 
 ## Naive Bayes 
 
-Conditional density Plots with 'usekernel=TRUE' 
-```{r}
-mountain.nb <- naive_bayes(Mountain_range ~ .,
-                       data = Mountain_data.tr%>%
-  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country)), usekernel=TRUE, laplace=1)
-#par(mfrow=c(2,2))
-plot(mountain.nb, arg.num = list(col = 1:3,
-                             legend.position = "topright",
-                             legend.cex = 0.8),
-     prob="conditional")
-par(mfrow=c(1,1))
-mountain.nb
-```
+The analysis of the "Naive Bayes" model comes back to the analysis of the density graphs of each variable by mountain range.
+From these density graphs we agree on what has been seen before, that the *pH* is a very good feature to classify the mountains. Indeed, *pH_T* *ph_B* and *ph_P* is medium in Central Andes, lower in Sierra de Guadarrama and higher in Central Pyrenees. 
 
-From these density graphs we agree on what has been seen before, that the *pH* is important. *pH_T* is medium in Central Andes, lower in Sierra de Guadarrama and higher in Central Pyrenees. We can see that they have very different density for the three mountains so it can be a good feature to classify the mountains. 
+In addition to that, the observation of other variables such as phosphatase enzyme, (*Phos_P, Phos_B, Phos_T*), β-glucosidase enzyme (*Glu_B*, *Glu_P*, *Glu_T*) , soil organic carbon (*SOC_T*, *SOC_B*, *SOC_P*), soil total nitrogen (*NT_P*,*NT_B*,*NT_T*), electrical conductivity (*Cond_P*,*Cond_B*, *Cond_T*), and the *radiation* could allow us to get an idea of the mountain we are on.
+Indeed, a radiation lower than 0,6 indicates rather the Central Pyrenees. The electrical conductivity allows us to distinguish the Central Andes from the Central Pyrenees, since it is higher for the latter. 
+If we look at the soil total nitrogen, we see that it is lower for the Central Andes than for the two others. 
+The soil organic carbon allows us to distinguish the Central Andes from the Sierra de Guadarrama, since it is higher for this last one.
+The β-glucosidase enzyme is present at approximately the same level in Central Andes and Central Pyrenees but has a higher value in Sierra de Guadarrama. It is about the same for the phosphatase enzyme 
 
+However, some variables do not allow us to determine the mountain at all. It is the case by observing the phosphorus (*PT_P, PT_B, PT_T*) or the potassium content (*K_P, K_B, K_T*).
 
-Conditional density plots with 'uskernel=FALSE'. It means that Gaussian distribution is applied to 'numeric' vairable. 
-```{r}
-mountain.nb <- naive_bayes(Mountain_range ~ .,
-                       data = Mountain_data.tr%>%
-  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country)), usekernel=FALSE, laplace=1) 
-#par(mfrow=c(2,2))
-plot(mountain.nb, arg.num = list(col = 1:3,
-                             legend.position = "topright",
-                             legend.cex = 0.8), prob="conditional")
-par(mfrow=c(1,1))
-mountain.nb
-```
-
-
-Predictions 
-```{r}
-head(predict(mountain.nb, newdata = Mountain_data.tr[-c(1:9)]),20)
-     
-head(predict(mountain.nb, newdata = Mountain_data.tr[-c(1:9)], type="prob"),10)
-```
-Confusion matrix train data set 
-```{r}
-p1 <- predict(mountain.nb, Mountain_data.tr[-c(1:9)])
-(tab1 <- table(p1, Mountain_data.tr$Mountain_range))
-sum(diag(tab1)) / sum(tab1)
-```
-Confusion Matrix test data set 
-```{r}
-p2 <- predict(mountain.nb, Mountain_data.te[-c(1:9)])
-(tab2 <- table(p2, Mountain_data.te$Mountain_range))
-sum(diag(tab2)) / sum(tab2)
-```
-We can see from the confusion matrix that the accuracy is very high for the train data set, as well as for the test data set (99%). 
 
 ## K-NN Model
 
