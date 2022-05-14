@@ -316,8 +316,7 @@ Mountain_data_cleaned[,-c(1:9)] <- scale(Mountain_data_cleaned[,-c(1:9)])
 
 
 #agglomerative hierarchical clustering (AGNES)with Manhattan distance
-library(reshape2) # contains the melt function
-library(ggplot2)
+
 mountain.d <- dist(Mountain_data_cleaned[,-c(1:9)], method = "manhattan") # matrix of Manhattan distances 
 
 mountain.melt <- melt(as.matrix(mountain.d)) # create a data frame of the distances in long format
@@ -345,8 +344,6 @@ ggplot(mountain.df, aes(y=value, group=Clust, fill=Clust)) +
   facet_wrap(~variable, ncol=4, nrow=3)
 
 #number of clusters
-  
-library(factoextra)
 
 fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
              hcut, hc_method="complete",
