@@ -174,7 +174,7 @@ The second step is to group the data into Principal Components.
 The third step is to produce a variable factor map to better understand the role of each factor.
 
 ```{r}
-#- New Dataframe: Select only the numerical values:
+# New Dataframe: Select only the numerical values:
 Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
 to.delet <- c('Day', 'Month', 'Year')
 Mountain_data.num <- select(Mountain_data.num, -to.delet)

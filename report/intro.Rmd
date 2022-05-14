@@ -21,7 +21,7 @@ After several searches, we found a very interesting article explaining the inter
 2. 'Ordesa ~ Monte Perdido - Central Pyrenees' in Spain with a Temperate climate
 3. 'Central Andes' in Chile with a Mediterranean climate
 
-The database provided with the article was detailed and interesting and included enough observations to conduct our project. An analysis has already been carried out on this data set and we will complete it by using the skills acquired during our semester of course. Indeed, we will add ???
+The database provided with the article was detailed, interesting and included enough observations to conduct our project. An analysis has already been carried out on this data set and we will complete it by using the skills acquired during our semester of course. Indeed, we will add ???
 
 - Article:  https://www.sciencedirect.com/science/article/pii/S2352340919311710
 - Data : *1-s2.0-S2352340919311710-mmc1.xlsx*
@@ -41,4 +41,4 @@ Part 3 : Analysis
 Conclusion 
 
 ## Related work
-- Machine Learning course and exercices 
+- Machine Learning course and exercises 

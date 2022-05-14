@@ -1,11 +1,11 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-source(here::here("scripts/setup.R"))
+source("../scripts/setup.R")
 ```
 
 # Analysis part of the project 
@@ -15,7 +15,9 @@ Let's import the cleaned dataset that we created.
 
 ```{r}
 Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
+```
 
+```{r echo=FALSE}
 Mountain_data_cleaned$Country <- as.factor(Mountain_data_cleaned$Country)
 Mountain_data_cleaned$Mountain_range <- as.factor(Mountain_data_cleaned$Mountain_range)
 Mountain_data_cleaned$Locality <- as.factor(Mountain_data_cleaned$Locality)
@@ -26,6 +28,8 @@ Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ```
 
 ## Replace the NAs by the mean of the closest observations
+Some of the models we use do not work with NAs. To deal with them, we decided to replace the 2 NAs we have by the mean of their closest observations. 
+
 ```{r}
 mean_for_fill <-colMeans( Mountain_data_cleaned %>%
   select(Plot,Glu_P)%>%
@@ -107,28 +111,28 @@ nnetFit <- train(Mountain_range ~ .,
 plot(nnetFit)
 ```
 
-The best Neural Networks parameters would be to choose 4 hidden layers, with a decay of 0.3. 
+The best Neural Networks parameters would be to choose 4 hidden layers, with a decay of 0.1. 
 
 The manually written Neural Network model 
 ```{r}
 set.seed(345)
-nn4 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=4, decay = 0.3)
+nn4 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=4, decay = 0.1)
 
-nn4_pred <- predict(nn4, type="class")
-tab4 <- table(Obs=Mountain_data.tr$Mountain_range, Pred=nn4_pred) # confusion matrix
+nn4_pred <- predict(nn4, Mountain_data.te, type="class")
+tab4 <- table(Obs=Mountain_data.te$Mountain_range, Pred=nn4_pred) # confusion matrix
 tab4
 (acc4 <- sum(diag(tab4))/sum(tab4)) # accuracy
 
 ```
 
-Here it says that it has almost perfect accuracy (96%).
+Here it says that it has almost perfect accuracy (99%).
 
 ```{r}
 # Confusion Matrix
-confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.tr$Mountain_range)
+confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.te$Mountain_range)
 ```
 
-With this confusion matrix command we have more information on the model. As said before, we see that the accuracy is very high (96%) and we also see that we have a balanced accuracy of 1 which is the maximum we can get and which mean that our model do not suffer from unbalanced data. 
+With this confusion matrix command we have more information on the model. As said before, we see that the accuracy is very high (99%) and we also see that we have a balanced accuracy of 1 which is the maximum we can get and which mean that our model do not suffer from unbalanced data. 
 
 
 ## Random Forest 
@@ -153,14 +157,17 @@ Acc_te <- sum(diag(cmte))/sum(cmte)
 
 From the variable importance we see that the variable **pH_P**, **pH_T** and **pH_B** are very important. We can then say that the *pH* in general is important. 
 
-```{r,  results='asis'}
+```{r}
+# Confusion Matrix of the Random Forest model on training set 
 cmtr
 Acc_tr
 
+# Confusion Matrix of the Random Forest model on training set 
 cmte
 Acc_te
 ```
 
+We see that the model has a accuracy of 99% when it comes to predict new observations. 
 
 ## Naive Bayes 
 
@@ -180,8 +187,7 @@ However, some variables do not allow us to determine the mountain at all. It is 
 
 We use a 2-NN to predict the test set using the training set
 
-```{R}
-library(caret)
+```{r}
 set.seed(123)
 KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
 MR.te.pred <- predict(KNN, newdata = Mountain_data.tr,type ="class") 
@@ -192,12 +198,17 @@ TAB
 ```
 
 
-### Unsupervised learning method, PCA
+## Unsupervised learning method
+### Principal Component Analysis - PCA
+
+```{r echo=FALSE, message=FALSE}
+Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
+to.delet <- c('Day', 'Month', 'Year')
+Mountain_data.num <- select(Mountain_data.num, -to.delet)
+```
 
 
-```{R}
-library(plotly)
-
+```{r}
 total <- cbind(Mountain_data_cleaned$Mountain_range, Mountain_data.num)
 
 total <- total%>% na.omit()
@@ -205,15 +216,16 @@ pc <- princomp(total[,2:26], cor=TRUE, scores=TRUE)
 
 summary(pc)
 ```
+
 The first 2 components cover 63% of the total variance, with 5 dimensions 84.6%
 
-```{R}
+```{r}
 plot(pc, type="lines")
 ```
+
 As seen in the EDA, we can consider 5 dimensions. In the following graph we reduce in 3 dimensions the 3 mountains. Clusters may be apparent.
 
-```{R}
-
+```{r}
 X <- Mountain_data.num%>% na.omit()
 
 prin_comp <- prcomp(X, rank. = 3)
@@ -243,46 +255,44 @@ fig
 ### CLuster analysis 
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 mountain.hc <- hclust(dist(total, method = "manhattan"))
 mountain.hc
 
 mountain.clust <- cutree(mountain.hc, k = 4)
 mountain.clust
 
+Mountain_data.pca <- prcomp(na.omit(Mountain_data.num), center = TRUE, scale = TRUE)
+
 fviz_pca_biplot(Mountain_data.pca,
              col.ind = factor(mountain.clust))
 ```
 
 
-
-
-
-
-## Bootstrap 
-
-## repliquer les modèles 
-
 ------------------------------------------
 
-## Unique
+## Analysis with unique dataset 
 
-First we remove every replicated data, a Unique dataset
+We now want to replicate the above models with a another training set and test set that has been through a boostraping method. To do so, we first want to delete all the repeated observations from the original cleaned dataset. 
+
+#### Unique
+
+We remove every replicated data with the "unique" function. 
 
 ```{r}
 Mountain_df <- Mountain_data_cleaned[-c(4:9)]
 Mountain_df <- unique(Mountain_df)
 ```
 
-## Count
+#### Count
 
 ```{r}
 ggplot(Mountain_df) +
   geom_bar(aes(x = Mountain_range))
 ```
-No balancing of the data..
+Here we see the new Unique dataset and notice that it is largely unbalanced. The mountain that has the most information is now the one with the less observations, so information.
 
-## Split in a new training set and test set
+#### Split in a new training set and test set
 
 ```{r}
 set.seed(123) ## for replication purpose
@@ -296,7 +306,7 @@ Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
 ```
 
 ## Bootstrap
-After we replicate with 100 replicates
+We can now proceed to the bootstraping with 100 replicates
 
 ```{r}
 set.seed(897)
@@ -316,26 +326,66 @@ dim(df.boot.val)
 ```{r}
 # The count of the bootstraped df
 ggplot(df.boot.tr) +
-+     geom_bar(aes(x = Mountain_range))
+  geom_bar(aes(x = Mountain_range))
+```
+
+We can now replicate the models. 
+
+## Neural Network Model (with Unique bootstraped data)
+Simple hyperparameter tuning, this code takes time to run.
+
+```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+set.seed(1)
+
+nnetFit_boot <- train(Mountain_range ~ ., 
+                 data = df.boot.tr,
+                 method = "nnet",
+                 metric = "Accuracy",
+                 tuneGrid = nnetGrid,
+                 trControl = fitControl)
+
+```
+
+```{r}
+plot(nnetFit_boot)
+```
+
+The best neural network should have 4 hidden units and a decay of 0.1. It is the same as before.
+
+```{r}
+set.seed(345)
+nn4_boot <- nnet(Mountain_range ~ ., data=df.boot.tr, size=4, decay = 0.3)
+```
+
+```{r}
+nn4_pred_boot <- predict(nn4_boot, df.boot.val, type="class")
+```
+
+```{r}
+confusionMatrix(data=as.factor(nn4_pred_boot), 
+                reference = df.boot.val$Mountain_range)
 ```
 
 
-## Cluster Analysis
-
+## Unsupervised learning method
+### Cluster Analysis 
 
 ```{r}
-
 row.names(Mountain_data_cleaned) <- paste("M", c(1:nrow(Mountain_data_cleaned)), sep="") # row names are used after
-head(Mountain_data_cleaned)
-summary(Mountain_data_cleaned)
+
+# scaling the data 
 Mountain_data_cleaned[,-c(1:9)] <- scale(Mountain_data_cleaned[,-c(1:9)])
+```
 
 
-#agglomerative hierarchical clustering (AGNES)with Manhattan distance
+#### agglomerative hierarchical clustering (AGNES)with Manhattan distance
 
-mountain.d <- dist(Mountain_data_cleaned[,-c(1:9)], method = "manhattan") # matrix of Manhattan distances 
+```{r message = FALSE}
+# matrix of Manhattan distances 
+mountain.d <- dist(Mountain_data_cleaned[,-c(1:9)], method = "manhattan") 
 
-mountain.melt <- melt(as.matrix(mountain.d)) # create a data frame of the distances in long format
+# create a data frame of the distances in long format
+mountain.melt <- melt(as.matrix(mountain.d))
 head(mountain.melt)
 
 ggplot(data = mountain.melt, aes(x=Var1, y=Var2, fill=value)) + 
@@ -344,6 +394,7 @@ ggplot(data = mountain.melt, aes(x=Var1, y=Var2, fill=value)) +
 #dendrogram using a complete linkage.
 mountain.hc <- hclust(mountain.d, method = "complete")
 plot(mountain.hc, hang=-1)
+
 #cut the tree to 4 clusters
 plot(mountain.hc, hang=-1)
 rect.hclust(mountain.hc, k=4)
@@ -351,7 +402,10 @@ mountain.clust <- cutree(mountain.hc, k=5)
 mountain.clust
 
 #Interpretation of the clusters
-mountain.comp <- data.frame(Mountain_data.num, Clust=factor(mountain.clust) ,Id=row.names(Mountain_data_cleaned))
+mountain.comp <- data.frame(Mountain_data.num, 
+                            Clust=factor(mountain.clust)
+                            ,Id=row.names(Mountain_data_cleaned))
+
 mountain.df <- melt(mountain.comp, id=c("Id", "Clust"))
 head(mountain.df)
 
@@ -360,13 +414,11 @@ ggplot(mountain.df, aes(y=value, group=Clust, fill=Clust)) +
   facet_wrap(~variable, ncol=4, nrow=3)
 
 #number of clusters
-
 fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
              hcut, hc_method="complete",
              hc_metric="manhattan",
              method = "silhouette", 
              k.max = 25, verbose = FALSE)
-library(cluster)
 
 mountain.pam <- pam(Mountain_data_cleaned[,-c(1:9)], k=5)
 mountain.pam
