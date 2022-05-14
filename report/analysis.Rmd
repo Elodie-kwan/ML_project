@@ -205,12 +205,12 @@ pc <- princomp(total[,2:26], cor=TRUE, scores=TRUE)
 
 summary(pc)
 ```
-The first 2 components cover 63% of the total variance, with 3 dimensions 74%
+The first 2 components cover 63% of the total variance, with 5 dimensions 84.6%
 
 ```{R}
 plot(pc, type="lines")
 ```
-3 dimensions looks the best, the total within variance slightly decrease from there. 
+As seen in the EDA, we can consider 5 dimensions. In the following graph we reduce in 3 dimensions the 3 mountains. Clusters may be apparent.
 
 ```{R}
 
