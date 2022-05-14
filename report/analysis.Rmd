@@ -238,10 +238,26 @@ fig <- fig %>%
 
 fig
 ```
-
 ------------------------------------------
 
 ### CLuster analysis 
+
+
+```{r}
+mountain.hc <- hclust(dist(total, method = "manhattan"))
+mountain.hc
+
+mountain.clust <- cutree(mountain.hc, k = 4)
+mountain.clust
+
+fviz_pca_biplot(Mountain_data.pca,
+             col.ind = factor(mountain.clust))
+```
+
+
+
+
+
 
 ## Bootstrap 
 
