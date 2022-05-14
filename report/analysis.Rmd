@@ -304,5 +304,60 @@ ggplot(df.boot.tr) +
 ```
 
 
+## Cluster Analysis
+
+
+```{r}
+
+row.names(Mountain_data_cleaned) <- paste("M", c(1:nrow(Mountain_data_cleaned)), sep="") # row names are used after
+head(Mountain_data_cleaned)
+summary(Mountain_data_cleaned)
+Mountain_data_cleaned[,-c(1:9)] <- scale(Mountain_data_cleaned[,-c(1:9)])
+
+
+#agglomerative hierarchical clustering (AGNES)with Manhattan distance
+library(reshape2) # contains the melt function
+library(ggplot2)
+mountain.d <- dist(Mountain_data_cleaned[,-c(1:9)], method = "manhattan") # matrix of Manhattan distances 
+
+mountain.melt <- melt(as.matrix(mountain.d)) # create a data frame of the distances in long format
+head(mountain.melt)
+
+ggplot(data = mountain.melt, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile() 
+
+#dendrogram using a complete linkage.
+mountain.hc <- hclust(mountain.d, method = "complete")
+plot(mountain.hc, hang=-1)
+#cut the tree to 4 clusters
+plot(mountain.hc, hang=-1)
+rect.hclust(mountain.hc, k=4)
+mountain.clust <- cutree(mountain.hc, k=5)
+mountain.clust
+
+#Interpretation of the clusters
+mountain.comp <- data.frame(Mountain_data.num, Clust=factor(mountain.clust) ,Id=row.names(Mountain_data_cleaned))
+mountain.df <- melt(mountain.comp, id=c("Id", "Clust"))
+head(mountain.df)
+
+ggplot(mountain.df, aes(y=value, group=Clust, fill=Clust)) +
+  geom_boxplot()
+  facet_wrap(~variable, ncol=4, nrow=3)
+
+#number of clusters
+  
+library(factoextra)
+
+fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
+             hcut, hc_method="complete",
+             hc_metric="manhattan",
+             method = "silhouette", 
+             k.max = 25, verbose = FALSE)
+library(cluster)
+
+mountain.pam <- pam(Mountain_data_cleaned[,-c(1:9)], k=5)
+mountain.pam
+plot(silhouette(mountain.pam))
+```
 
 
