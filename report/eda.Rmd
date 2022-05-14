@@ -162,66 +162,71 @@ Mountain_data_cleaned %>%
   select(Phos_P, Phos_B, Phos_T, SOC_P, SOC_B, SOC_T) %>%
   ggpairs()
 ```
+With this plot, we see indeed that the families of **Soil organic carbon** and **Phosphatase enzyme** are significantly positively correlated. The correlation coefficient going from 0.739 (SOC_B - Phos_P) to 0.947 (SOC_T - SOC_P).
 
 
-Make a regression Mountain_range ~ ... to see the relevant variables 
-+
-Make a PCA
+## Principal Component Analysis (PCA) exploration:
 
+- This analysis helps us to understand the link between the explanatory variables. 
 
-## Principal Component Analysis (PCA) exploration
-
-- Select only the numerical values:
+The first step is to analyse the data in the covarianve matrix as we did before, and where we found the positive correlation between the **Soil organic carbon** and **Phosphatase enzyme**. 
+The second step is to group the data into Principal Components.
+The third step is to produce a variable factor map to better understand the role of each factor.
 
 ```{r}
+#- New Dataframe: Select only the numerical values:
 Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
 to.delet <- c('Day', 'Month', 'Year')
 Mountain_data.num <- select(Mountain_data.num, -to.delet)
-
 ```
 
-
+# Second step - Principal Component Result:
 ```{r}
+# Principal component analysis, scaling the data
 Mountain_data.pca <- prcomp(na.omit(Mountain_data.num), center = TRUE, scale = TRUE)
 summary(Mountain_data.pca)
 ```
-
+- We see that the first component explain 43.77%% of the overall variation.
+-The second component explain a further 19.52%.
+- With a reduction of 4 principal components, we obtain a cumulative variance of 80.5%, superior to the threshold of 75%. 
+- The rest of the components (Components 4 to 25) explain 19.5% overall.
 
 Here, as the command _prcomp_ do not allow NAs in the data. We use the command _na.omit_ on our reduced data containing the numerical values to omit all NAs cases from the data frame.
-
 
 ```{r}
 resultats_pca <- PCA(Mountain_data.num, scale.unit = TRUE, ncp = 5, graph = FALSE)
 resultats_pca
 ```
+For the further analysis, we can study as well the eigenvalues in order to select a good number of components.
 
+# Eigenvalue analysis:
 ```{r}
 eig.val <- get_eigenvalue(resultats_pca)
 eig.val
 ```
+We obtain the cumulative variance, as before, and also the eigenvalues.
+- A first rule of thumb is to stop adding components whent the total variance explained exceeds a high value, like 80% for example.
+- Another rule is the Kaiser-Guttman rule. The Kaiser-Guttman rule states that components with an eigenvalue greater than 1 should be retained.The reason for this is we have p variables so the sum of the eigenvalues is p. A value above 1 is above average.
 
+Therefore, we can consider the dimension from 1 to 5: 
+Cumulative variance: 84.57%
+Eigenvalue > 1 
+
+# Screeplot of eigenvalue.
 ```{r}
 fviz_eig(resultats_pca, addlabels = TRUE)
 ```
+- A screeplot represents the values of each eigenvalue.
+- According to the Kaiser-Guttman rule, we shold stop at Component 5.
 
+# Third step - Variable Factor Map:
+
+The variable factor map show the variables and organized them along dimensions. Here the first two dimensions are represented.
 ```{r}
 fviz_pca_var(resultats_pca)
 ```
 
-```{r}
-var <- get_pca_var(resultats_pca)
-var
-```
-
-```{r}
-corrplot(var$cos2, is.corr = FALSE)
-```
-
-```{r}
-fviz_pca_ind(resultats_pca)
-```
-
-
+# Other representation:
 ```{r}
 fviz_pca_biplot(resultats_pca, repel = TRUE,
                 col.var = "blue", # Couleur des variables
@@ -229,4 +234,35 @@ fviz_pca_biplot(resultats_pca, repel = TRUE,
                 )
 ```
 
+Dimension 1 (x-axis): highly correlated to Phos_T, Phos_B, Phos_P and Glu_T
+Dimension 1 is moderately correlated to PT_B
+Dimension 1 is poorly correlated to Cond_T and Cond_B.
+Dimension 2 is well correlated to Cond_T and Cond_B.
+Dimension 2 is also moderatly negatively correlated to Radiation.
+It seems that we have 4 groups of variables playing a different role.
+
+```{r}
+var <- get_pca_var(resultats_pca)
+var
+```
+
+# Study of each variable according to the 5 dimensions:
+```{r}
+corrplot(var$cos2, is.corr = FALSE)
+```
+
+Dim 1: Highly correlated to the **PHOS**, **SOC**and **GLU** 
+Dim 2: Correlated with **Cond_P** and **Cond_T**
+Dim 3: Correlated with **PT_P**, **PT_B** and **PT_T**
+Dim 4: Moderately correlated to **K_B** and **K_T** 
+DIM 5: Correlated to **Radiation**
+
+# Put into representation the 5 dimensions:
+```{r}
+library(gridExtra)
+p1 <- fviz_pca_biplot(Mountain_data.pca, axes = 1:2, col.var = "blue",col.ind = "red") 
+p2 <- fviz_pca_biplot(Mountain_data.pca, axes = 3:4, col.var = "blue",col.ind = "red") 
+p3 <- fviz_pca_biplot(Mountain_data.pca, axes = 5:6, col.var = "blue",col.ind = "red") 
+grid.arrange(p1, p2, p3, nrow = 2, ncol=2)
+```
 
