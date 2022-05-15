@@ -161,7 +161,10 @@ geom_text(stat='count', aes(label=..count..), vjust=-0.2)
 
 ```
 <br />
-We notice immediately the poverty of the data concerning the samples of **Sierra de Guadarrama**, this function leaves us with a data set of only 274 observations. We will therefore try a first time to implement our models by keeping the duplicates, knowing that identical values in the train set and the test set will influence the measured accuracy of the model. Then we will test again our models with the reduced data set to observe if there is a loss of accuracy. 
+We notice immediately the poverty of the data concerning the samples of **Sierra de Guadarrama**, this function leaves us with a data set of only **274** observations. We will therefore try a first time to implement our models by keeping the duplicates, knowing that identical values in the train set and the test set will influence the measured accuracy of the model. Then we will test again our models with the reduced data set to observe if there is a loss of accuracy. 
+<br />
+<br />
+For the rest of the EDA we will continue the analysis on the complete data set.
 <br />
 <br />
 
