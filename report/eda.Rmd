@@ -230,8 +230,7 @@ fviz_pca_var(resultats_pca)
 ```{r}
 fviz_pca_biplot(resultats_pca, repel = TRUE,
                 col.var = "blue", # Couleur des variables
-                col.ind = "red"  # Couleur des individues
-                )
+                habillage= Mountain_data_cleaned$Mountain_range)
 ```
 
 Dimension 1 (x-axis): highly correlated to Phos_T, Phos_B, Phos_P and Glu_T
@@ -265,4 +264,6 @@ p2 <- fviz_pca_biplot(Mountain_data.pca, axes = 3:4, col.var = "blue",col.ind = 
 p3 <- fviz_pca_biplot(Mountain_data.pca, axes = 5:6, col.var = "blue",col.ind = "red") 
 grid.arrange(p1, p2, p3, nrow = 2, ncol=2)
 ```
+
+
 
