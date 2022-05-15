@@ -12,7 +12,6 @@ Mountain_data <- read_excel("../data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet 
 Mountain_data$Date <- as.Date(Mountain_data$Date, "%d/%m/%Y")
 
 head(Mountain_data)
-str(Mountain_data)
 ```
 
 We are deleting the variables that are not useful for use. The variables such as the **UTM grid zone**, **UTM_X** and **UTM_Y** are related to the samples and we are not wanting to make predictions based on those characteristics but rather on the actual soil composition. 
@@ -61,7 +60,6 @@ After these changes, he database *Mountain_data* is composed of 430 observation 
 
 Mountain_data <- Mountain_data[, c(2:5, 7:11, 18:42)]
 colnames(Mountain_data)[2] <- "Mountain_range"
-str(Mountain_data)
 ```
 
 Now that we have the variables we want to work with, we see that they are all considered as numeric. However, we know that some of them should be categorical as they have different levels. We are going to transform **Country**, **Mountain_Range**, **Locality**, **Plot** and **Subplot** as factors. 
