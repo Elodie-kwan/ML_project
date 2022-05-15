@@ -36,7 +36,6 @@ We first look at the general aspect of the data set and try to discover if there
 <br />
 ```{r echo=F,results='asis',error=F,warning=F}
 
-library('knitr')######3
 
 kable(introduce(Mountain_data_cleaned)[,-c(3:4,9 )], format = "markdown")
 ```
