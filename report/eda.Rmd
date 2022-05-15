@@ -90,10 +90,12 @@ plot_density(Mountain_data_cleaned)
 Many variables appear with a distribution that looks like the log-normal distribution.
 
 + The variables **pH_B** and **pH_T** are not normally distributed. 
-+ Most of the variables are right-tailed. 
++ Most of the variables are right-tailed.
+
 <br />
 <br />
 We will then use box-plots to detect outliers on numerical variable and compare the distributions to each mountain class.
+<br />
 <br />
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
 plot_boxplot(Mountain_data_cleaned, by = 'Mountain_range',  ncol = 2, title = "Side-by-side boxplots", geom_boxplot_args = list("outlier.color" = "red"))
@@ -101,16 +103,18 @@ plot_boxplot(Mountain_data_cleaned, by = 'Mountain_range',  ncol = 2, title = "S
 
 ```
 <br />
+
 We can see the real differences between the mountains. 
 
 + Generally speaking, it seems that the mountain "Sierra de Guadarrama" has a higher value of **Glu_P**, **Phos_P**, **SOC_P**, **Glu_B**, **Phos_B**, **SOC_B**, **Glu_T**, **Phos_T** and **SOC_T**.
-+ There are a lot of outliers in almost all the features. 
++ There are a lot of outliers in almost all the features.
+
 <br />
 <br />
-We plot the categorical variables: 
+We then plot the categorical variables: 
 <br />
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=10, out.width = "70%"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=10, out.width = "70%", fig.align="center"}
 a <- ggplot(Mountain_data_cleaned) +
   geom_bar(mapping = aes(x = Country, fill= Mountain_range)) +
   coord_flip() + theme(legend.position = "none")
@@ -118,70 +122,91 @@ b <- ggplot(Mountain_data_cleaned) +
   geom_bar(aes(x = Locality, fill= Mountain_range)) +
   coord_flip()
 
-a+b
+a+b+ plot_annotation(title = 'Proportion of mountain classes by country and region',
+                  theme = theme(plot.title = element_text(size = 18)))
 ```
 
 <br />
 We see that more observations come from Spain, which is normal since two out of three mountains are located in Spain. The localities where the samples were taken are almost all composed of a sample of 5 subsamples. Some localities, perhaps more interesting for the study, were sampled several times, but always by a multiple of 5 subsamples. 
 <br />
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
-ggplot(Mountain_data_cleaned) +
-  geom_bar(aes(x = Mountain_range, fill= Mountain_range))
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%", fig.align="center"}
+ggplot(Mountain_data_cleaned, aes(x = Mountain_range,)) +
+  geom_bar( aes(fill= Mountain_range))+ 
+  labs(title ="Proportion of observations by mountain class", subtitle = "Full data set")+ theme(plot.title = element_text(size=20))+
+geom_text(stat='count', aes(label=..count..), vjust=-0.2)
 ```
 <br />
 We have more observations about the mountain "Sierra de Guadarrama" (195) compared to "Central Andes" (100) and "Central Pyrenees" (135). As the differences between the number of observation is big enough for us to be careful on the results and consider to balance the data if it is needed. 
 <br />
+<br />
 Can comment on the number of different observations and the effect on accuracy. **Can focus more on sensibility and sensitivy** if needed because indeed there is twice more informations on Sierra de Guadarrama.
+<br />
 <br />
 As described above with the summary output of the data, we see that we have more information on the mountain "Sierra de Guadarrama". There is twice more information compared to the mountain "Central Andes". Our final result might be affected on a bad way because the model will tend to produce a good accuracy (so having a tendency to predict "Sierra de Guadarrama" more often) but it will not be good enough to predict a new instance. 
 <br />
+<br />
 We will have to see if we will need to balance our data to get a better model. 
+<br />
 <br />
 We will also inspect the possible duplicate observations, indeed as previously found, some variables do not have the whole of their observations which are distinct.
 <br />
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%", fig.align="center"}
 Mountain_data_cleaned_uni <- Mountain_data_cleaned[, -5] %>% unique()
-ggplot(Mountain_data_cleaned_uni) +
-  geom_bar(aes(x = Mountain_range, fill= Mountain_range))
+ggplot(Mountain_data_cleaned_uni, aes(x = Mountain_range,)) +
+  geom_bar(aes( fill= Mountain_range))+ 
+  labs(title ="Proportion of observations by mountain class", subtitle = "Without duplicate data")+ theme(plot.title = element_text(size=20))  +
+geom_text(stat='count', aes(label=..count..), vjust=-0.2)
 
 ```
 <br />
 We notice immediately the poverty of the data concerning the samples of **Sierra de Guadarrama**, this function leaves us with a data set of only 274 observations. We will therefore try a first time to implement our models by keeping the duplicates, knowing that identical values in the train set and the test set will influence the measured accuracy of the model. Then we will test again our models with the reduced data set to observe if there is a loss of accuracy. 
 <br />
+<br />
 
-Correlation plot between continuous variables : 
-```{r}
-plot_correlation(Mountain_data_cleaned, type= 'c', cor_args = list( 'use' = 'complete.obs'))
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center"}
+plot_correlation(Mountain_data_cleaned, type= 'c', cor_args = list( 'use' = 'complete.obs'), title = "Correlation plot between continuous variables")
 ```
-
+<br />
 From the correlation plot it seems that some pattern can be observed. The variables concerning the **Phosphatase enzyme** seems to be positively correlated with the variable about **Soil organic carbon**. 
-
-```{r}
+<br />
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 Mountain_data_cleaned %>%
   select(Phos_P, Phos_B, Phos_T, SOC_P, SOC_B, SOC_T) %>%
-  ggpairs()
+  ggpairs()+ 
+  labs(title ="Significance of correlation between SOC and Phos")
 ```
+<br />
 With this plot, we see indeed that the families of **Soil organic carbon** and **Phosphatase enzyme** are significantly positively correlated. The correlation coefficient going from 0.739 (SOC_B - Phos_P) to 0.947 (SOC_T - SOC_P).
-
+<br />
+<br />
 
 ## Principal Component Analysis (PCA) exploration:
 
+<br />
+
 - This analysis helps us to understand the link between the explanatory variables. 
 
+<br />
 The first step is to analyse the data in the covarianve matrix as we did before, and where we found the positive correlation between the **Soil organic carbon** and **Phosphatase enzyme**. 
+<br />
 The second step is to group the data into Principal Components.
+<br />
 The third step is to produce a variable factor map to better understand the role of each factor.
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # New Dataframe: Select only the numerical values:
 Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
 to.delet <- c('Day', 'Month', 'Year')
 Mountain_data.num <- select(Mountain_data.num, -to.delet)
 ```
+<br />
 
-# Second step - Principal Component Result:
-```{r}
+### Second step - Principal Component Result:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Principal component analysis, scaling the data
 Mountain_data.pca <- prcomp(na.omit(Mountain_data.num), center = TRUE, scale = TRUE)
 summary(Mountain_data.pca)
@@ -193,77 +218,150 @@ summary(Mountain_data.pca)
 
 Here, as the command _prcomp_ do not allow NAs in the data. We use the command _na.omit_ on our reduced data containing the numerical values to omit all NAs cases from the data frame.
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 resultats_pca <- PCA(Mountain_data.num, scale.unit = TRUE, ncp = 5, graph = FALSE)
 resultats_pca
 ```
 For the further analysis, we can study as well the eigenvalues in order to select a good number of components.
+<br />
 
-# Eigenvalue analysis:
-```{r}
+#### Eigenvalue analysis:
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 eig.val <- get_eigenvalue(resultats_pca)
 eig.val
 ```
 We obtain the cumulative variance, as before, and also the eigenvalues.
+
 - A first rule of thumb is to stop adding components whent the total variance explained exceeds a high value, like 80% for example.
-- Another rule is the Kaiser-Guttman rule. The Kaiser-Guttman rule states that components with an eigenvalue greater than 1 should be retained.The reason for this is we have p variables so the sum of the eigenvalues is p. A value above 1 is above average.
+- Another rule is the Kaiser-Guttman rule. The Kaiser-Guttman rule states that components with an eigenvalue greater than 1 should be retained.The reason for this is we have p
+variables so the sum of the eigenvalues is p. A value above 1 is above average.
 
-Therefore, we can consider the dimension from 1 to 5: 
+<br />
+Therefore, we can consider the dimension from 1 to 5:
+<br />
 Cumulative variance: 84.57%
+<br />
 Eigenvalue > 1 
+<br />
+<br />
 
-# Screeplot of eigenvalue.
-```{r}
+#### Screeplot of eigenvalue.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 fviz_eig(resultats_pca, addlabels = TRUE)
 ```
+<br />
+
 - A screeplot represents the values of each eigenvalue.
 - According to the Kaiser-Guttman rule, we shold stop at Component 5.
 
-# Third step - Variable Factor Map:
+<br />
+<br />
+
+### Third step - Variable Factor Map:
 
 The variable factor map show the variables and organized them along dimensions. Here the first two dimensions are represented.
-```{r}
+<br />
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 fviz_pca_var(resultats_pca)
 ```
+<br />
+<br />
 
-# Other representation:
-```{r}
+### Other representation:
+
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=7, out.width = "120%", fig.align="center"}
 fviz_pca_biplot(resultats_pca, repel = TRUE,
                 col.var = "blue", # Couleur des variables
                 habillage= Mountain_data_cleaned$Mountain_range)
 ```
 
 Dimension 1 (x-axis): highly correlated to Phos_T, Phos_B, Phos_P and Glu_T
+<br />
 Dimension 1 is moderately correlated to PT_B
+<br />
 Dimension 1 is poorly correlated to Cond_T and Cond_B.
+<br />
 Dimension 2 is well correlated to Cond_T and Cond_B.
+<br />
 Dimension 2 is also moderatly negatively correlated to Radiation.
+<br />
 It seems that we have 4 groups of variables playing a different role.
+On these two dimensions we notice that the mountain classes already separate into 3 distinct clusters
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 var <- get_pca_var(resultats_pca)
-var
+#var
 ```
+<br />
 
-# Study of each variable according to the 5 dimensions:
-```{r}
+### Study of each variable according to the 5 dimensions:
+<br />
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 corrplot(var$cos2, is.corr = FALSE)
 ```
 
-Dim 1: Highly correlated to the **PHOS**, **SOC**and **GLU** 
+Dim 1: Highly correlated to the **PHOS**, **SOC**and **GLU**
+<br />
 Dim 2: Correlated with **Cond_P** and **Cond_T**
+<br />
 Dim 3: Correlated with **PT_P**, **PT_B** and **PT_T**
+<br />
 Dim 4: Moderately correlated to **K_B** and **K_T** 
-DIM 5: Correlated to **Radiation**
+<br />
+Dim 5: Correlated to **Radiation**
+<br />
+<br />
 
-# Put into representation the 5 dimensions:
-```{r}
+### Put into representation the 5 dimensions:
+
+<br />
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=10,fig.height=4, out.width = "100%", fig.align="center"}
 library(gridExtra)
-p1 <- fviz_pca_biplot(Mountain_data.pca, axes = 1:2, col.var = "blue",col.ind = "red") 
-p2 <- fviz_pca_biplot(Mountain_data.pca, axes = 3:4, col.var = "blue",col.ind = "red") 
-p3 <- fviz_pca_biplot(Mountain_data.pca, axes = 5:6, col.var = "blue",col.ind = "red") 
-grid.arrange(p1, p2, p3, nrow = 2, ncol=2)
+p1 <- fviz_pca_biplot(Mountain_data.pca, axes = 1:2, col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 1 vs Dim 2)")
+p2 <- fviz_pca_biplot(Mountain_data.pca, axes = c(1, 3), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 1 vs Dim 3)")
+p3 <- fviz_pca_biplot(Mountain_data.pca, axes = c(1, 4), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab") +
+  labs(title ="PCA - Biplot (Dim 1 vs Dim 4)")
+p4 <- fviz_pca_biplot(Mountain_data.pca, axes = c(1, 5), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 1 vs Dim 5)")
+p5 <- fviz_pca_biplot(Mountain_data.pca, axes = c(2, 3), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab") +
+  labs(title ="PCA - Biplot (Dim 2 vs Dim 3)")
+p6 <- fviz_pca_biplot(Mountain_data.pca, axes = c(2, 4), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 2 vs Dim 4)")
+p7 <- fviz_pca_biplot(Mountain_data.pca, axes = c(2, 5), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 2 vs Dim 5)")
+p8 <- fviz_pca_biplot(Mountain_data.pca, axes = c(3, 4), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 3 vs Dim 4)")
+
+p9 <- fviz_pca_biplot(Mountain_data.pca, axes = c(3, 5), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 3 vs Dim 5)")
+
+p10 <- fviz_pca_biplot(Mountain_data.pca, axes = c(4, 5), col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
+      scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
+  labs(title ="PCA - Biplot (Dim 4 vs Dim 5)")
+
+p1 +p2
+p3 +p4
+p5 +p6
+p7 +p8
+p9 +p10
 ```
 
+The square cosine shows the importance of a component for a given observation. It is therefore normal that observations close to the origin are less significant than those far from it. Here we decided to represent only one variable of each type since the same chemical elements tend to have the same behavior independently of their sampling method. A variable that has an interesting behavior is **Radiation**, indeed the more we select high dimensions the more this variable becomes important (except for dimension 4), while the variables related to chemical elements tend to decrease. Thus, we find radiation strongly correlated with dimension 5. 
 
 
