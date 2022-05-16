@@ -365,7 +365,8 @@ p9 +p10
 ```
 
 The square cosine shows the importance of a component for a given observation. It is therefore normal that observations close to the origin are less significant than those far from it. Here we decided to represent only one variable of each type since the same chemical elements tend to have the same behavior independently of their sampling method. A variable that has an interesting behavior is **Radiation**, indeed the more we select high dimensions the more this variable becomes important (except for dimension 4), while the variables related to chemical elements tend to decrease. Thus, we find radiation strongly correlated with dimension 5. 
-
+<br />
+<br />
 
 ### Analysis in 3D 
 
@@ -379,7 +380,10 @@ total <- total%>% na.omit()
 
 As seen in the EDA, we can consider 5 dimensions. In the following graph we reduce in 3 dimensions the 3 mountains. Clusters may be apparent.
 
-```{r}
+<br />
+<br />
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%"}
 X <- Mountain_data.num%>% na.omit()
 
 prin_comp <- prcomp(X, rank. = 3)
