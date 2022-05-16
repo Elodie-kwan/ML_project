@@ -190,9 +190,9 @@ We use a 2-NN to predict the test set using the training set
 ```{r}
 set.seed(123)
 KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
-MR.te.pred <- predict(KNN, newdata = Mountain_data.tr,type ="class") 
+MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class") 
 
-TAB <- table(Obs=Mountain_data.tr$Mountain_range, Pred=MR.te.pred) # confusion matrix 
+TAB <- table(Obs=Mountain_data.te$Mountain_range, Pred=MR.te.pred) # confusion matrix 
 TAB
 (ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
 ```
