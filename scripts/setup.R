@@ -10,6 +10,6 @@ packages <- c(
 "factoextra", "corrplot", "GGally", #for plotting
 "caret", "neuralnet", "nnet", # for Neural Network 
 "randomForest","naivebayes","plotly",
-"reshape2","cluster", "knitr")
+"reshape2","cluster", "knitr", "terra", "leaflet")
 
 purrr::walk(packages, library, character.only = TRUE)

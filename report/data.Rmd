@@ -14,7 +14,6 @@ Mountain_data$Date <- as.Date(Mountain_data$Date, "%d/%m/%Y")
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-library(terra)
 
 Mountain_data_loc <- Mountain_data%>% select("Country":"Locality","Plot_ID", "Grid zone":"UTM_Y")
 Mountain_data_loc <- Mountain_data_loc[!duplicated(Mountain_data_loc[,c("UTM_X","UTM_Y")]),]
@@ -129,7 +128,6 @@ write.csv(Mountain_data,"../data/Mountain_data_cleaned.csv", row.names = FALSE)
 ## Sierra de Guadarrama (Spain)
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
-library(leaflet)
 
 m <- leaflet() %>%
   addTiles() %>%  
