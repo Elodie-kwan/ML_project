@@ -316,6 +316,13 @@ Now, the accuracy is of 95.89%, lower than before, but might be more realistic w
 
 ### Cluster Analysis 
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# New Dataframe: Select only the numerical values:
+Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
+to.delet <- c('Day', 'Month', 'Year')
+Mountain_data.num <- select(Mountain_data.num, -to.delet)
+```
+
 ```{r}
 row.names(Mountain_data_cleaned) <- paste("M", c(1:nrow(Mountain_data_cleaned)), sep="") # row names are used after
 
