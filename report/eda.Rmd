@@ -7,7 +7,7 @@ output:
 source(here::here("scripts/setup.R"))
 ```
 
-### part 2 : Exploratory Data Analysis 
+## part 2 : Exploratory Data Analysis 
 <br />
 <br />
 This section is dedicated to understanding the data. We will provide an analysis of the data set using a visual approach in order to summarize their main characteristics.
@@ -75,7 +75,7 @@ We can observe that there is a big difference between the total number of observ
 <br />
 <br />
 
-## Data visualization : Plotting the data
+### Data visualization : Plotting the data
 
 <br />
 <br />
@@ -185,7 +185,7 @@ With this plot, we see indeed that the families of **Soil organic carbon** and *
 <br />
 <br />
 
-## Principal Component Analysis (PCA) exploration:
+### Principal Component Analysis (PCA) exploration:
 
 <br />
 
@@ -367,7 +367,7 @@ p9 +p10
 The square cosine shows the importance of a component for a given observation. It is therefore normal that observations close to the origin are less significant than those far from it. Here we decided to represent only one variable of each type since the same chemical elements tend to have the same behavior independently of their sampling method. A variable that has an interesting behavior is **Radiation**, indeed the more we select high dimensions the more this variable becomes important (except for dimension 4), while the variables related to chemical elements tend to decrease. Thus, we find radiation strongly correlated with dimension 5. 
 
 
-## Analysis in 3D 
+### Analysis in 3D 
 
 ```{r echo=FALSE, message=FALSE}
 Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
