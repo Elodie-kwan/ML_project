@@ -250,23 +250,6 @@ fig <- fig %>%
 
 fig
 ```
-------------------------------------------
-
-### CLuster analysis 
-
-
-```{r message=FALSE, warning=FALSE}
-mountain.hc <- hclust(dist(total, method = "manhattan"))
-mountain.hc
-
-mountain.clust <- cutree(mountain.hc, k = 4)
-mountain.clust
-
-Mountain_data.pca <- prcomp(na.omit(Mountain_data.num), center = TRUE, scale = TRUE)
-
-fviz_pca_biplot(Mountain_data.pca,
-             col.ind = factor(mountain.clust))
-```
 
 
 ------------------------------------------
