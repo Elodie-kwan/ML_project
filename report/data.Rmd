@@ -125,6 +125,7 @@ write.csv(Mountain_data,"../data/Mountain_data_cleaned.csv", row.names = FALSE)
 <br />
 <br />
 <br />
+
 ## Sierra de Guadarrama (Spain)
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
@@ -137,6 +138,7 @@ m
 ```
 <br />
 <br />
+
 ## Central Pyrenees (Spain)
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
@@ -149,6 +151,7 @@ m
 ```
 <br />
 <br />
+
 ## Central Andes (Chile)
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
