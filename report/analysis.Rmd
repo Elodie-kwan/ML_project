@@ -374,15 +374,16 @@ Mountain_data_cleaned[,-c(1:9)] <- scale(Mountain_data_cleaned[,-c(1:9)])
 ```
 
 
-#### agglomerative hierarchical clustering (AGNES)with Manhattan distance
+#### Agglomerative Hierarchical Clustering (AGNES) with Manhattan distance
 
 ```{r message = FALSE}
+set.seed(123)
+
 # matrix of Manhattan distances 
 mountain.d <- dist(Mountain_data_cleaned[,-c(1:9)], method = "manhattan") 
 
 # create a data frame of the distances in long format
 mountain.melt <- melt(as.matrix(mountain.d))
-head(mountain.melt)
 
 ggplot(data = mountain.melt, aes(x=Var1, y=Var2, fill=value)) + 
   geom_tile() 
@@ -395,7 +396,7 @@ plot(mountain.hc, hang=-1)
 plot(mountain.hc, hang=-1)
 rect.hclust(mountain.hc, k=4)
 mountain.clust <- cutree(mountain.hc, k=5)
-mountain.clust
+
 
 #Interpretation of the clusters
 mountain.comp <- data.frame(Mountain_data.num, 
@@ -406,8 +407,8 @@ mountain.df <- melt(mountain.comp, id=c("Id", "Clust"))
 head(mountain.df)
 
 ggplot(mountain.df, aes(y=value, group=Clust, fill=Clust)) +
-  geom_boxplot()
-  facet_wrap(~variable, ncol=4, nrow=3)
+  geom_boxplot() +
+  facet_wrap(~variable, scale="free")
 
 #number of clusters
 fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
