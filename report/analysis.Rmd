@@ -349,6 +349,19 @@ confusionMatrix(data=as.factor(nn4_pred_boot),
                 reference = df.boot.val$Mountain_range)
 ```
 
+## KNN model (with Unique bootstraped data)
+
+```{r}
+set.seed(123)
+KNN2 <- knn3(data=df.boot.tr,df.boot.tr$Mountain_range ~ ., k=2)
+MR2.te.pred <- predict(KNN, newdata = df.boot.val,type ="class") 
+
+TAB <- table(Obs=df.boot.val$Mountain_range, Pred=MR2.te.pred) # confusion matrix 
+TAB
+(ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
+```
+Now, the accuracy is of 95.89%, lower than before, but might be more realistic with the unique method and the bootstrap. 
+
 
 ## Unsupervised learning method
 ### Cluster Analysis 
