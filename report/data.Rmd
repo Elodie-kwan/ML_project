@@ -23,8 +23,8 @@ After these changes, he database *Mountain_data* is composed of 430 observation 
 - **Country** : *chr* Spain, Chile
 - **Mountain_range** : *chr* Sierra de Guadarrama, Central Pyrenees
 - **Locality** : *chr* Locality of the sample (there is different location on the same mountain)
-- **Plot** : *num* ?
-- **Subplot** : *num* ?
+- **Plot** : *num* In each site a sampling plot of 20 × 20 m was etablished in a relatively homogeneous vegetation area.
+- **Subplot** : *num* There is 5 subplots in each plot 
 - **Date** : *Date* Date of the sample
 - **Day** : *num* Day of the sample
 - **Month** : *num* Month of the sample
