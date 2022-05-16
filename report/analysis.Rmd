@@ -300,7 +300,7 @@ confusionMatrix(data=as.factor(nn4_pred_boot),
 ```{r}
 set.seed(123)
 KNN2 <- knn3(data=df.boot.tr,df.boot.tr$Mountain_range ~ ., k=2)
-MR2.te.pred <- predict(KNN, newdata = df.boot.val,type ="class") 
+MR2.te.pred <- predict(KNN2, newdata = df.boot.val,type ="class") 
 
 TAB2 <- table(Obs=df.boot.val$Mountain_range, Pred=MR2.te.pred) # confusion matrix 
 TAB2
