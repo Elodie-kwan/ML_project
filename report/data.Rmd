@@ -1,5 +1,5 @@
 ```{r, echo = FALSE, message = FALSE,warning=F}
-source(here::here("scripts/setup.R"))
+source("../scripts/setup.R")
 ```
 
 ## Part 1 : Data Preparation
@@ -56,7 +56,7 @@ colnames(Mountain_data_loc_Andes)[6:7]<- c("lon", "lat")
 
 ```
 
-```{r}
+```{r, echo = FALSE}
 kable(head(Mountain_data), format = "markdown")
 ```
 
