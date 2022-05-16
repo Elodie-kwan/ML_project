@@ -63,7 +63,7 @@ All the variables that we will train for our models come from columns composed o
 <br />
 We take our search for anomalies further by exploring the characteristics of each variable.For the readability of the report, we show only a few variables.
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%"}
-x<- describe(Mountain_data_cleaned)
+x<- Hmisc::describe(Mountain_data_cleaned)
 x$Country
 x$Mountain_range
 x$Phos_P
@@ -323,7 +323,7 @@ Dim 5: Correlated to **Radiation**
 
 <br />
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=10,fig.height=4, out.width = "100%", fig.align="center"}
-library(gridExtra)
+
 p1 <- fviz_pca_biplot(Mountain_data.pca, axes = 1:2, col.var = "steelblue",col.ind="cos2", geom="point",select.var= list(name = c("Radiation", "Phos_P", "Glu_P", "SOC_P", "NT_P", "PT_P" ,"K_P"  ,"pH_P" ,"Cond_P")))+
       scale_color_gradient2(low="red", mid="yellow", high="green", midpoint=0.5, space = "Lab")+
   labs(title ="PCA - Biplot (Dim 1 vs Dim 2)")
