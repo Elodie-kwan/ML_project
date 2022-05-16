@@ -1,17 +1,20 @@
-```{r, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE,warning=F}
 source(here::here("scripts/setup.R"))
 ```
 
-### Part 1 : Data Preparation
+## Part 1 : Data Preparation
 
 In this first part, we will first download the data into R. Then, we will apply the necessary transformations on these data so that they can be correctly exploited for the following analysis. 
 
-## Import dataset 
-```{r}
+#### Import dataset 
+
+```{r echo=F,results='asis',error=F,warning=F}
 Mountain_data <- read_excel("../data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = "FieldDATA")
 Mountain_data$Date <- as.Date(Mountain_data$Date, "%d/%m/%Y")
+```
 
-head(Mountain_data)
+```{r}
+kable(head(Mountain_data), format = "markdown")
 ```
 
 We are deleting the variables that are not useful for use. The variables such as the **UTM grid zone**, **UTM_X** and **UTM_Y** are related to the samples and we are not wanting to make predictions based on those characteristics but rather on the actual soil composition. 
@@ -56,15 +59,14 @@ After these changes, he database *Mountain_data* is composed of 430 observation 
 - **Cond_T** : *num* electrical conductivity. Values averaged and weighted by the respective cover of bare ground and vegetated area in each site (µS/cm)
 
 
-```{r}
-
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_data <- Mountain_data[, c(2:5, 7:11, 18:42)]
 colnames(Mountain_data)[2] <- "Mountain_range"
 ```
 
 Now that we have the variables we want to work with, we see that they are all considered as numeric. However, we know that some of them should be categorical as they have different levels. We are going to transform **Country**, **Mountain_Range**, **Locality**, **Plot** and **Subplot** as factors. 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_data$Country <- as.factor(Mountain_data$Country)
 Mountain_data$Mountain_range <- as.factor(Mountain_data$Mountain_range)
 Mountain_data$Locality <- as.factor(Mountain_data$Locality)
