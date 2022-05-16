@@ -8,9 +8,9 @@ output:
 source("../scripts/setup.R")
 ```
 
-# Analysis part of the project 
+## Part 3 : Ananlysis 
 
-## Import dataset
+### Import dataset
 Let's import the cleaned dataset that we created. 
 
 ```{r}
@@ -27,7 +27,7 @@ Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
 Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ```
 
-## Replace the NAs by the mean of the closest observations
+### Replace the NAs by the mean of the closest observations
 Some of the models we use do not work with NAs. To deal with them, we decided to replace the 2 NAs we have by the mean of their closest observations. 
 
 ```{r}
@@ -39,7 +39,7 @@ Mountain_data_cleaned[is.na(Mountain_data_cleaned)] <- mean_for_fill
 rm(mean_for_fill)
 ```
 
-## Splitting the data into Traning set and Test set 
+### Splitting the data into Traning set and Test set 
 
 ```{r}
 set.seed(123) ## for replication purpose
@@ -52,7 +52,7 @@ Mountain_data.tr_notsubs <- Mountain_data_cleaned[index.tr,] ## the training set
 Mountain_data.te <- Mountain_data_cleaned[-index.tr,] ## the test set
 ```
 
-## Balancing the Training set 
+### Balancing the Training set 
 As discussed in the EDA part, we should balance our data because we do not have the same amount of information on each mountains. We have more observations on **Sierra de Guadarrama** and half less on **Central Andes**. 
 
 ```{r}
@@ -87,7 +87,7 @@ table(Mountain_data.tr$Mountain_range)
 ```
 
 
-## Neural Network Model 
+### Neural Network Model 
 Simple hyperparameter tuning, this code takes time to run.
 
 ```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
@@ -135,7 +135,7 @@ confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.te$Mountain_
 With this confusion matrix command we have more information on the model. As said before, we see that the accuracy is very high (99%) and we also see that we have a balanced accuracy of 1 which is the maximum we can get and which mean that our model do not suffer from unbalanced data. 
 
 
-## Random Forest 
+### Random Forest 
 ```{r}
 train_set_for_RF <- Mountain_data.tr %>%
   select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
@@ -169,7 +169,7 @@ Acc_te
 
 We see that the model has a accuracy of 99% when it comes to predict new observations. 
 
-## Naive Bayes 
+### Naive Bayes 
 
 The analysis of the "Naive Bayes" model comes back to the analysis of the density graphs of each variable by mountain range.
 From these density graphs we agree on what has been seen before, that the *pH* is a very good feature to classify the mountains. Indeed, *pH_T* *ph_B* and *ph_P* is medium in Central Andes, lower in Sierra de Guadarrama and higher in Central Pyrenees. 
@@ -183,7 +183,7 @@ The β-glucosidase enzyme is present at approximately the same level in Central 
 However, some variables do not allow us to determine the mountain at all. It is the case by observing the phosphorus (*PT_P, PT_B, PT_T*) or the potassium content (*K_P, K_B, K_T*).
 
 
-## K-NN Model
+### K-NN Model
 
 We use a 2-NN to predict the test set using the training set
 
@@ -200,7 +200,7 @@ TAB
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-## Analysis with unique dataset 
+### Analysis with unique dataset 
 
 We now want to replicate the above models with a another training set and test set that has been through a boostraping method. To do so, we first want to delete all the repeated observations from the original cleaned dataset. 
 
@@ -234,7 +234,7 @@ Mountain_df.tr_notsubs <- Mountain_df[index.tr,] ## the training set
 Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
 ```
 
-## Bootstrap
+### Bootstrap
 We can now proceed to the bootstraping with 100 replicates
 
 ```{r}
@@ -260,7 +260,7 @@ ggplot(df.boot.tr) +
 
 We can now replicate the models. 
 
-## Neural Network Model (with Unique bootstraped data)
+### Neural Network Model (with Unique bootstraped data)
 Simple hyperparameter tuning, this code takes time to run.
 
 ```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
@@ -295,7 +295,7 @@ confusionMatrix(data=as.factor(nn4_pred_boot),
                 reference = df.boot.val$Mountain_range)
 ```
 
-## KNN model (with Unique bootstraped data)
+### KNN model (with Unique bootstraped data)
 
 ```{r}
 set.seed(123)
