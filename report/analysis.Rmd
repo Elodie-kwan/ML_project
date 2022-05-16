@@ -197,62 +197,8 @@ TAB
 (ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
 ```
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Unsupervised learning method
-### Principal Component Analysis - PCA
-
-```{r echo=FALSE, message=FALSE}
-Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
-to.delet <- c('Day', 'Month', 'Year')
-Mountain_data.num <- select(Mountain_data.num, -to.delet)
-```
-
-
-```{r}
-total <- cbind(Mountain_data_cleaned$Mountain_range, Mountain_data.num)
-
-total <- total%>% na.omit()
-pc <- princomp(total[,2:26], cor=TRUE, scores=TRUE)
-
-summary(pc)
-```
-
-The first 2 components cover 63% of the total variance, with 5 dimensions 84.6%
-
-```{r}
-plot(pc, type="lines")
-```
-
-As seen in the EDA, we can consider 5 dimensions. In the following graph we reduce in 3 dimensions the 3 mountains. Clusters may be apparent.
-
-```{r}
-X <- Mountain_data.num%>% na.omit()
-
-prin_comp <- prcomp(X, rank. = 3)
-
-components <- prin_comp[["x"]]
-components <- data.frame(components)
-components$PC2 <- -components$PC2
-components$PC3 <- -components$PC3
-components = cbind(components, total$`Mountain_data_cleaned$Mountain_range`)
-
-tit = 'Total Explained Variance = 74,03%'
-
-fig <- plot_ly(components, x = ~PC1, y = ~PC2, z = ~PC3, color = ~total$`Mountain_data_cleaned$Mountain_range`, colors = c('#636EFA','#EF553B','#00CC96') ) %>%
-  add_markers(size = 12)
-
-
-fig <- fig %>%
-  layout(
-    title = tit,
-    scene = list(bgcolor = "#e5ecf6")
-)
-
-fig
-```
-
-
-------------------------------------------
 
 ## Analysis with unique dataset 
 
@@ -363,7 +309,11 @@ TAB
 Now, the accuracy is of 95.89%, lower than before, but might be more realistic with the unique method and the bootstrap. 
 
 
+--------------------------------
+
+
 ## Unsupervised learning method
+
 ### Cluster Analysis 
 
 ```{r}
