@@ -171,6 +171,104 @@ We see that the model has a accuracy of 99% when it comes to predict new observa
 
 ### Naive Bayes 
 
+#### PH
+```{r}
+
+d1 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+d2 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+d3 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+d1 / d2 / d3
+```
+#### Phosphatase enzyme
+```{r}
+x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+x2 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+x1 / x2 / x3
+```
+#### β-glucosidase enzyme
+```{r}
+y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+y2 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+y1 / y2 / y3
+```
+#### soil organic carbon
+```{r}
+z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+z2 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+z1 / z2 / z3
+```
+#### Phosphatase enzyme
+```{r}
+x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+x2 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+x1 / x2 / x3
+```
+#### β-glucosidase enzyme
+```{r}
+y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+y2 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+y1 / y2 / y3
+```
+#### soil organic carbon
+```{r}
+z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+z2 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+z1 / z2 / z3
+```
+#### soil total nitrogen
+```{r}
+a1 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+a2 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+a3 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+a1 / a2 / a3
+```
+#### electrical conductivity
+```{r}
+
+e1 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+e2 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+e3 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+e1 / e2 / e3
+```
+#### radiation
+```{r}
+f1 <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+f1
+```
+
 The analysis of the "Naive Bayes" model comes back to the analysis of the density graphs of each variable by mountain range.
 From these density graphs we agree on what has been seen before, that the *pH* is a very good feature to classify the mountains. Indeed, *pH_T* *ph_B* and *ph_P* is medium in Central Andes, lower in Sierra de Guadarrama and higher in Central Pyrenees. 
 
