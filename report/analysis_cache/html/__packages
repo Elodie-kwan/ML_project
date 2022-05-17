@@ -29,3 +29,7 @@ naivebayes
 plotly
 reshape2
 cluster
+knitr
+terra
+leaflet
+gridExtra
