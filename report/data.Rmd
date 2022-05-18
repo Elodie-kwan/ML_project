@@ -54,10 +54,23 @@ lonlat <- as.data.frame(geom(y1)[, c("x", "y")])
 Mountain_data_loc_Andes[,6:7] <- lonlat
 colnames(Mountain_data_loc_Andes)[6:7]<- c("lon", "lat")
 
+rm(v1, y1, lonlat, Mountain_data_loc_Pyrenees1, Mountain_data_loc_Pyrenees2, Mountain_data_loc)
 ```
 
 ```{r, echo = FALSE}
-kable(head(Mountain_data), format = "markdown")
+kable(head(Mountain_data[,1:11]), format = "markdown")
+```
+
+```{r, echo = FALSE}
+kable(head(Mountain_data[,12:22]), format = "markdown")
+```
+
+```{r, echo = FALSE}
+kable(head(Mountain_data[,23:32]), format = "markdown")
+```
+
+```{r, echo = FALSE}
+kable(head(Mountain_data[,33:42]), format = "markdown")
 ```
 
 We are deleting the variables that are not useful for use. The variables such as the **UTM grid zone**, **UTM_X** and **UTM_Y** are related to the samples and we are not wanting to make predictions based on those characteristics but rather on the actual soil composition. 
@@ -125,8 +138,12 @@ write.csv(Mountain_data,"../data/Mountain_data_cleaned.csv", row.names = FALSE)
 <br />
 <br />
 <br />
+For a better representation of the data we created 3 maps with each icon representing a subsample belonging to a larger sample. Each map represents a mountain region, two in Spain and one in Chile. 
+<br />
+<br />
 
-## Sierra de Guadarrama (Spain)
+### Sierra de Guadarrama (Spain)
+##### Mediterranean climate
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 
@@ -139,7 +156,8 @@ m
 <br />
 <br />
 
-## Central Pyrenees (Spain)
+### Central Pyrenees (Spain)
+##### temperate climate 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 
@@ -152,7 +170,8 @@ m
 <br />
 <br />
 
-## Central Andes (Chile)
+### Chilean Andes (Chile)
+##### Mediterranean climate 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 
