@@ -479,7 +479,7 @@ Mountain_data_cleaned[,-c(1:9)] <- scale(Mountain_data_cleaned[,-c(1:9)])
 
 #### Agglomerative Hierarchical Clustering (AGNES) with Manhattan distance
 
-```{r echo=FALSE, results='hide',message=FALSE, warning = FALSE}
+```{r echo=FALSE, results='hide',message=FALSE, warning = FALSE, fig.show='hide'}
 set.seed(123)
 
 # matrix of Manhattan distances 
