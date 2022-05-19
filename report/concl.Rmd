@@ -5,6 +5,9 @@ source(here::here("scripts/setup.R"))
 
 ##
 - Choose a model and say why 
+
+For modeling part : 
+Concerning the ROC metric and more precisely the AUC : 
 ###
 
 #### Limitations of our model:
