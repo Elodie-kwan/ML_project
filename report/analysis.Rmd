@@ -301,11 +301,9 @@ With this KNN supervised method, the prediction made on the test set gives us an
 
 ### Analysis with unique dataset 
 
+
 We now want to replicate the above models with a another training set and test set that has been through a boostraping method. To do so, we first want to delete all the repeated observations from the original cleaned dataset. 
 
-#### Unique
-
-We remove every replicated data with the "unique" function. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_df <- Mountain_data_cleaned[-c(4:9)]
@@ -314,16 +312,11 @@ Mountain_df <- unique(Mountain_df)
 
 #### Count
 
-```{r}
-ggplot(Mountain_df) +
-  geom_bar(aes(x = Mountain_range))
-```
-Here we see the new Unique dataset and notice that it is largely unbalanced. The mountain that has the most information is now the one with the less observations, so information.
 
-```{r}
-table(Mountain_df$Mountain_range)
-```
-Sierre de Gaudarrame now only have 39 observations. It is unbalanced indeed, and insufficient to make accurate classification methods. 
+We have seen that the new Unique data set is largely unbalanced. The mountain that has the most information is now the one with the less observations, so information.
+
+
+Sierra de Gaudarrama, after removing every replicated data with the "unique" function, only have 39 observations. It is unbalanced indeed, and insufficient to make accurate classification methods. 
 
 #### Split in a new training set and test set
 
@@ -341,14 +334,14 @@ Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
 ### Bootstrap
 We can now proceed to the bootstraping with 100 replicates
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE,}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 set.seed(897)
 index.boot <- createResample(y=Mountain_df.tr_notsubs$Mountain_range, times=100)
 head(index.boot[[1]])
 tail(index.boot[[1]])
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE,}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 df.boot.tr <- Mountain_df.tr_notsubs[index.boot[[1]],]
 dim(df.boot.tr)
 
@@ -356,13 +349,23 @@ df.boot.val <- Mountain_df.tr_notsubs[-index.boot[[1]],]
 dim(df.boot.val)
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE,}
-# The count of the bootstraped df
-ggplot(df.boot.tr) +
-  geom_bar(aes(x = Mountain_range))
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width=450}
+ggplot(Mountain_df, aes(x = Mountain_range,)) +
+  geom_bar(aes( fill = Mountain_range))+ 
+  labs(title ="Proportion of observations before bootstrap", subtitle = "Without duplicate data")+ theme(plot.title = element_text(size=20))+
+  geom_text(stat='count', aes(label=..count..), vjust=-0.2)
+
+
+ggplot(df.boot.tr, aes(x = Mountain_range,)) +
+  geom_bar(aes( fill= Mountain_range))+ 
+  labs(title ="Proportion of observations after bootstrap", subtitle = "Without duplicate data")+ theme(plot.title = element_text(size=20))  +
+  geom_text(stat='count', aes(label=..count..), vjust=-0.2)
+
+  
 ```
 
-We can now replicate the models. 
+
+We can now replicate the models.  
 
 ### Neural Network Model (with Unique bootstraped data)
 Simple hyperparameter tuning, this code takes time to run.
