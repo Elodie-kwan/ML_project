@@ -3,8 +3,6 @@ title: "Introduction"
 output: html_document
 ---
 
-#### Project : "Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity"
-
 Armance Larfeuille, Katia Voltz, Manoël Pidoux, Elodie Shoeiline Kwan and Nina Bidet
 
 Teacher : O. Boldi
