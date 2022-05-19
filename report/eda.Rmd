@@ -294,6 +294,10 @@ Dimension 2 is also moderatly negatively correlated to Radiation.
 It seems that we have 4 groups of variables playing a different role.
 On these two dimensions we notice that the mountain classes already separate into 3 distinct clusters
 
+- Indeed, Sierra de Guadarrama is more positively correlated to the Dim1 
+- Central Andes is porely negatively correlated to the Dim 1, bur more negatively correlated to Dim 2: Negatively with Cond_T
+- Central Pyrenees is negatively correlated to Dim 1, and positively correlated to Dim 2.
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 var <- get_pca_var(resultats_pca)
 #var
