@@ -25,12 +25,9 @@ The database provided with the article was detailed, interesting and included en
 - Data : *1-s2.0-S2352340919311710-mmc1.xlsx*
 
 ## Previous analysis explaination:
-in the referenced article, different analysis have been made on the facets of alpine plant diversity; functional (FD), phylogenetic (PD) and taxonomic diversity (TD), in the three different mountains and with contrasting evolutionary histories and climate conditions. It means that the used databese containes the plant species and the mountain characteristics
+In the referenced article, different analysis have been made on the facets of alpine plant diversity; functional (FD), phylogenetic (PD) and taxonomic diversity (TD), in the three different mountains and with contrasting evolutionary histories and climate conditions. It means that the used database contains the plant species and the mountain characteristics. Their goal is predict the different diversity facet (response variables Y) thanks to the mountain features; Elevation,  Potential solar radiation, Solar total nitrogen. The method used are Cluster analysis and SEM model.
 
-
-
-
-
+Our project does not take into account the plants. THe goal is to study the mountains only based on the soil characteristics. 
 
 ## Project objectives
 Our goal is to use the relevant machine learning tools, with supervised and unsupervised learning methods to characterize our data frame. 
