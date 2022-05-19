@@ -40,6 +40,7 @@ rm(mean_for_fill)
 ```
 
 ### Splitting the data into Traning set and Test set 
+The next step is to split our data set into a training set (**Mountain_data.tr_notsubs**) and a test set (**Mountain_data.te**). The training set has 75% of the observations and the test set has the 25% remainder.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 set.seed(123) ## for replication purpose
@@ -54,6 +55,8 @@ Mountain_data.te <- Mountain_data_cleaned[-index.tr,] ## the test set
 
 ### Balancing the Training set 
 As discussed in the EDA part, we should balance our data because we do not have the same amount of information on each mountains. We have more observations on **Sierra de Guadarrama** and half less on **Central Andes**. 
+
+We balanced the data on the training set **Mountain_data.tr_notsubs**.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 no.mountain_1 <- min(table(Mountain_data.tr_notsubs$Mountain_range)) ## 79
@@ -86,11 +89,16 @@ Mountain_data.tr <- data.frame(rbind(data.tr.mountain_1,
 table(Mountain_data.tr$Mountain_range)
 ```
 
+Now we see that all three mountains has the same amount of observations. We decided to sub-samples the observations because we think that duplicating them will create more biases as we do not have that many observations. 
+
+Our new training set is **Mountain_data.tr**. 
 
 ### Neural Network Model 
-Simple hyperparameter tuning, this code takes time to run.
+
+We start by fitting a Neural Network model on our balaned training set (**Mountain_data.tr**). In order to choose the parameters of this neural network, we applied a simple hyperparameter tuning. 
 
 ```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+# this code takes time to run
 set.seed(1)
 fitControl <- trainControl(method = "cv", 
                            number = 10)
@@ -167,6 +175,9 @@ cmte
 Acc_te
 ```
 
+The first table is the confusion matrix of the Random Forest model on the training set. Therefore it is normal to have an accuracy of 1 since the model already knows the observations. 
+
+The second table is the confusion matrix of the Random Forest model on the test set. 
 We see that the model has a accuracy of 99% when it comes to predict new observations. 
 
 ### Naive Bayes 
@@ -182,7 +193,9 @@ d3 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_T, fill= `Mountain_range`))+geo
 
 d1 / d2 / d3
 ```
+
 #### Phosphatase enzyme
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -192,7 +205,9 @@ x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+g
 
 x1 / x2 / x3
 ```
+
 #### β-glucosidase enzyme
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -202,7 +217,9 @@ y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+ge
 
 y1 / y2 / y3
 ```
+
 #### soil organic carbon
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -212,7 +229,9 @@ z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+ge
 
 z1 / z2 / z3
 ```
+
 #### Phosphatase enzyme
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -222,7 +241,9 @@ x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+g
 
 x1 / x2 / x3
 ```
+
 #### β-glucosidase enzyme
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -232,7 +253,9 @@ y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+ge
 
 y1 / y2 / y3
 ```
+
 #### soil organic carbon
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -242,7 +265,9 @@ z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+ge
 
 z1 / z2 / z3
 ```
+
 #### soil total nitrogen
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 a1 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -252,7 +277,9 @@ a3 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_T, fill= `Mountain_range`))+geo
 
 a1 / a2 / a3
 ```
+
 #### electrical conductivity
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
 e1 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
@@ -263,7 +290,9 @@ e3 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_T, fill= `Mountain_range`))+g
 
 e1 / e2 / e3
 ```
+
 #### radiation
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 f1 <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 f1
@@ -294,6 +323,7 @@ TAB <- table(Obs=Mountain_data.te$Mountain_range, Pred=MR.te.pred) # confusion m
 TAB
 (ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
 ```
+
 With this KNN supervised method, the prediction made on the test set gives us an accuracy of 1. It looks indeed perfect and attractive, but it is complytely biased by the fact that subplot can be identical to plot. Therefore, there is an overlay in the pbservations and the distance computed is 0. What we need to do is to make a unite dataset with no observations overlayed.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -305,7 +335,7 @@ We now want to replicate the above models with a another training set and test s
 
 #### Unique
 
-We remove every replicated data with the "unique" function. 
+We remove every replicated data with the "unique" function. We decided to do so to see if we will have better results. As we see above, the accuracy of our models are very high and this is normally unlikely. So we are testing if the high accuracy is due to the fact that we have duplicated observations in our dataset. (The scientists did sample different observations, but it comes out that the samples are exactly the same, they are maybe different at a very very small digits.)
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_df <- Mountain_data_cleaned[-c(4:9)]
@@ -314,18 +344,24 @@ Mountain_df <- unique(Mountain_df)
 
 #### Count
 
+We recount the number of observations after having removed all the duplicated observations.
+
 ```{r}
 ggplot(Mountain_df) +
   geom_bar(aes(x = Mountain_range))
 ```
+
 Here we see the new Unique dataset and notice that it is largely unbalanced. The mountain that has the most information is now the one with the less observations, so information.
 
 ```{r}
 table(Mountain_df$Mountain_range)
 ```
+
 Sierre de Gaudarrame now only have 39 observations. It is unbalanced indeed, and insufficient to make accurate classification methods. 
 
 #### Split in a new training set and test set
+
+Now that we have a new dataset, we have to split it again into a training set (**Mountain_df.tr_notsubs**) and a test set (**Mountain_df.te **). 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 set.seed(123) ## for replication purpose
@@ -356,11 +392,15 @@ df.boot.val <- Mountain_df.tr_notsubs[-index.boot[[1]],]
 dim(df.boot.val)
 ```
 
+We see that the training set **df.boot.tr** has 205 observations and 28 features and that the validation test **df.boot.val** has 73 observations and 28 features. 
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 # The count of the bootstraped df
 ggplot(df.boot.tr) +
   geom_bar(aes(x = Mountain_range))
 ```
+
+The above plot shows the distribution of the **df.boot.tr**'s instances through the 3 mountains after the bootstraping. 
 
 We can now replicate the models. 
 
@@ -393,6 +433,8 @@ nn4_boot <- nnet(Mountain_range ~ ., data=df.boot.tr, size=4, decay = 0.3)
 ```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 nn4_pred_boot <- predict(nn4_boot, df.boot.val, type="class")
 ```
+
+Now that we fitted the model and made the prediction, we can use the confusion matrix to see is the model performed well or not. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 confusionMatrix(data=as.factor(nn4_pred_boot), 
