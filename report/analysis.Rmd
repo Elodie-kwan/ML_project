@@ -346,7 +346,7 @@ Mountain_df <- unique(Mountain_df)
 
 We recount the number of observations after having removed all the duplicated observations.
 
-```{r}
+```{r, results='hide'}
 ggplot(Mountain_df) +
   geom_bar(aes(x = Mountain_range))
 ```
