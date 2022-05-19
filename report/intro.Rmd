@@ -2,7 +2,7 @@
 title: "Introduction"
 output: html_document
 ---
-#### Machine Learning
+
 #### Project : "Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity"
 
 Armance Larfeuille, Katia Voltz, Manoël Pidoux, Elodie Shoeiline Kwan and Nina Bidet
@@ -10,7 +10,7 @@ Armance Larfeuille, Katia Voltz, Manoël Pidoux, Elodie Shoeiline Kwan and Nina 
 Teacher : O. Boldi
 Spring Semester 20222
 
-### Introduction
+# Introduction
 
 We are doing this report as part of our "Machine Learning" course in which we have to produce a detailed report based on an original database. To do this, we will re-analyze an existing data set by adding new elements (new models, features, outcome labels, approaches, interpretations, etc.).
 
