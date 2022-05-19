@@ -320,6 +320,11 @@ ggplot(Mountain_df) +
 ```
 Here we see the new Unique dataset and notice that it is largely unbalanced. The mountain that has the most information is now the one with the less observations, so information.
 
+```{r}
+table(Mountain_df$Mountain_range)
+```
+Sierre de Gaudarrame now only have 39 observations. It is unbalanced indeed, and insufficient to make accurate classification methods. 
+
 #### Split in a new training set and test set
 
 ```{r}
