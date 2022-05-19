@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning"
-author: "Armance Larfeuille, Katia Voltz, Elodie Kwan, Manonel Pidoux, Nina Bidet "
+author: "Project : "Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
