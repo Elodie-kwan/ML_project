@@ -182,8 +182,9 @@ We see that the model has a accuracy of 99% when it comes to predict new observa
 
 ### Naive Bayes 
 
-#### PH
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side1, fig.show="hold" ,out.width="50%"}
 
 d1 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -191,94 +192,77 @@ d2 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_B, fill= `Mountain_range`))+geo
 
 d3 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
-d1 / d2 / d3
-```
 
-#### Phosphatase enzyme
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
 x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 x2 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
 x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
-x1 / x2 / x3
+(x1 / x2 / x3+ plot_annotation(title = 'Phosphatase enzyme'))
+
+(d1 / d2 / d3 + plot_annotation(title = 'PH'))
 ```
 
-#### β-glucosidase enzyme
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
 y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 y2 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
 y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
-y1 / y2 / y3
+
 ```
 
-#### soil organic carbon
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side2, fig.show="hold", out.width="50%"}
+
 z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 z2 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
 z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
-z1 / z2 / z3
+(y1 / y2 / y3+ plot_annotation( title = 'β-glucosidase enzyme'))
+(z1 / z2 / z3+ plot_annotation(title = 'soil organic carbon'))
+
+
+
 ```
 
-#### Phosphatase enzyme
+
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-x2 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+b1 <- Mountain_data_cleaned %>% ggplot(aes(x =PT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+b2 <- Mountain_data_cleaned %>% ggplot(aes(x =PT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-x1 / x2 / x3
+b3 <- Mountain_data_cleaned %>% ggplot(aes(x =PT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+
+
 ```
 
-#### β-glucosidase enzyme
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-y2 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side3, fig.show="hold", out.width="50%"}
+c1 <- Mountain_data_cleaned %>% ggplot(aes(x =K_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+c2 <- Mountain_data_cleaned %>% ggplot(aes(x =K_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-y1 / y2 / y3
+c3 <- Mountain_data_cleaned %>% ggplot(aes(x =K_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+
+b1 / b2 / b3 + plot_annotation(
+  title = 'available phosphorus')
+
+c1 / c2 / c3 + plot_annotation(
+  title = 'potassium content')
 ```
-
-#### soil organic carbon
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
-
-z2 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
-
-z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
-
-z1 / z2 / z3
-```
-
-#### soil total nitrogen
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-a1 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
-
-a2 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
-
-a3 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
-
-a1 / a2 / a3
-```
-
-#### electrical conductivity
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
@@ -288,13 +272,39 @@ e2 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_B, fill= `Mountain_range`))+g
 
 e3 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
-e1 / e2 / e3
+
 ```
 
-#### radiation
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-f1 <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side4, fig.show="hold", out.width="50%"}
+a1 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+
+a2 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+
+a3 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+
+
+e1 / e2 / e3+ plot_annotation(
+  title = 'electrical conductivity')
+
+a1 / a2 / a3+ plot_annotation(
+  title = 'soil total nitrogen')
+```
+
+
+
+
+
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align='center', out.width="90%"}
+f1 <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)+labs(title = "Radiation")
+
+
+
 f1
 ```
 
