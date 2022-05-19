@@ -28,7 +28,7 @@ Mountain_data_cleaned$Plot <- as.factor(Mountain_data_cleaned$Plot)
 Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
 ```
 We will analyze some basic statistical elements for each variable. To do this we need to transform the variable **Date** to date format.  
-```{r}
+```{r echo=FALSE}
 Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ```
 <br />
@@ -222,7 +222,6 @@ Here, as the command _prcomp_ do not allow NAs in the data. We use the command _
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 resultats_pca <- PCA(Mountain_data.num, scale.unit = TRUE, ncp = 5, graph = FALSE)
-resultats_pca
 ```
 For the further analysis, we can study as well the eigenvalues in order to select a good number of components.
 <br />
