@@ -1,6 +1,6 @@
 
 ```{r, echo = FALSE, message = FALSE}
-source(here::here("scripts/setup.R"))
+source("../scripts/setup.R")
 ```
 
 ##
