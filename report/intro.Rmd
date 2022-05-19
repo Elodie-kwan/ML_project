@@ -10,7 +10,7 @@ Spring Semester 20222
 
 # Introduction
 
-We are doing this report as part of our "Machine Learning" course in which we have to produce a detailed report based on an original database. To do this, we will re-analyze an existing data set by adding new elements (new models, features, outcome labels, approaches, interpretations, etc.).
+We are doing this report as part of our "Machine Learning" course in which we have to produce a detailed report based on an original database. To do this, we will re-analyze an existing data set by adding new elements (new models, features, outcome labels, approaches, interpretations, etc). Our goal is to classify mountains according to different features. To do this, we will go though supervised and unsupervised learning methods.
 
 ## Overview and motivation 
 After several searches, we found a very interesting article explaining the interactions between the impacts of climate, soil and biotic on the interplay of the different facets of Alpine plant diversity. The scientists collected these data on three mountains in different locations and with opposite characteristics.
@@ -19,7 +19,7 @@ After several searches, we found a very interesting article explaining the inter
 2. 'Ordesa ~ Monte Perdido - Central Pyrenees' in Spain with a Temperate climate
 3. 'Central Andes' in Chile with a Mediterranean climate
 
-The database provided with the article was detailed, interesting and included enough observations to conduct our project. An analysis has already been carried out on this data set and we will complete it by using the skills acquired during our semester of course. Indeed, we will add ???
+The database provided with the article was detailed, interesting and included enough observations to conduct our project. An analysis has already been carried out on this data set and we will complete it by using the skills acquired during our semester of course. Indeed, we will add machine learning methods of classification and regression. 
 
 - Article:  https://www.sciencedirect.com/science/article/pii/S2352340919311710
 - Data : *1-s2.0-S2352340919311710-mmc1.xlsx*
