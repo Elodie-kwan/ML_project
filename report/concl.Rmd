@@ -1,6 +1,6 @@
 
 ```{r, echo = FALSE, message = FALSE}
-source(here::here("scripts/setup.R"))
+source("../scripts/setup.R")
 ```
 
 ##
@@ -13,3 +13,11 @@ Concerning the ROC metric and more precisely the AUC :
 #### Limitations of our model:
 
 The main limitations come from our data set used to train the model and test it. Indeed, as we noticed during the EDA we have a lot of duplicate data for the **Sierra de Guadarrama** region, these data when not removed from the data set influence the accuracy of both the test set and the train set. It is obvious that the prediction of identical data leads to a good result. Moreover, even if we remove these duplicates, the fact that the sub samples were taken close to each other prevents us from having results that are representative of a real study that would be conducted with samples taken from more widely spaced areas. We therefore have a false good precision, since the values to predict are close to those used to train the model. Ideally we should use only one sub sample per sample for our model, but in this case we would be sorely lacking in data to train our model. 
+
+### Future work:
+
+in the analysis, we discovered a strong positive correlation between **Soil organic carbon** and **Phosphatase enzyme**. For the future analysis, it would be interesting to see the features and characteristics that influence these two variables. 
+
+We found an interesting articles describing the effects of phosphate rock and organic inputs on soil organic carbon and acid phosphatase activity.
+
+Title: **Soil Organic Carbon and Acid Phosphatase Enzyme Activity Response to Phosphate Rock and Organic Inputs in Acidic Soils of Central Highlands of Kenya in Maize**: <https://ir-library.ku.ac.ke/bitstream/handle/123456789/22271/Soil%20Organic%20Carbon%20and%20Acid%20Phosphatase%20Enzyme....pdf?sequence=1>

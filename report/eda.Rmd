@@ -28,7 +28,7 @@ Mountain_data_cleaned$Plot <- as.factor(Mountain_data_cleaned$Plot)
 Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
 ```
 We will analyze some basic statistical elements for each variable. To do this we need to transform the variable **Date** to date format.  
-```{r}
+```{r echo=FALSE}
 Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ```
 <br />
@@ -222,7 +222,6 @@ Here, as the command _prcomp_ do not allow NAs in the data. We use the command _
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 resultats_pca <- PCA(Mountain_data.num, scale.unit = TRUE, ncp = 5, graph = FALSE)
-resultats_pca
 ```
 For the further analysis, we can study as well the eigenvalues in order to select a good number of components.
 <br />
@@ -400,7 +399,7 @@ components = cbind(components, total$`Mountain_data_cleaned$Mountain_range`)
 
 tit = 'Total Explained Variance = 74,03%'
 
-fig <- plot_ly(components, x = ~PC1, y = ~PC2, z = ~PC3, color = ~total$`Mountain_data_cleaned$Mountain_range`, colors = c('#636EFA','#EF553B','#00CC96') ) %>%
+fig <- plot_ly(components, x = ~PC1, y = ~PC2, z = ~PC3, color = ~total$`Mountain_data_cleaned$Mountain_range`, colors = c('#EF553B','#00CC96','#636EFA') ) %>%
   add_markers(size = 12)
 
 
@@ -412,5 +411,6 @@ fig <- fig %>%
 
 fig
 ```
-Through this 3D, we can observe the repartition of the 3 mountain in the PCA. 'Sierre de Guaderrama' shows a high correlation to Dim 1.
-Further in the analysis we will do a cluster analysis, to better understand the apparent classification between the mountains. 
+<br />
+
+Through this 3D, we can observe the distribution of the 3 mountains in the PCA.Further in the analysis we will do a cluster analysis, to better understand the apparent classification between the mountains. 
