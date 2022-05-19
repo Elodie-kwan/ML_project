@@ -97,7 +97,7 @@ Our new training set is **Mountain_data.tr**.
 
 We start by fitting a Neural Network model on our balaned training set (**Mountain_data.tr**). In order to choose the parameters of this neural network, we applied a simple hyperparameter tuning. 
 
-```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide', echo=FALSE}
 # this code takes time to run
 set.seed(1)
 fitControl <- trainControl(method = "cv", 
@@ -408,7 +408,7 @@ We can now replicate the models.
 ### Neural Network Model (with Unique bootstraped data)
 Simple hyperparameter tuning, this code takes time to run.
 
-```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+```{r cache = TRUE, message = FALSE, warning = FALSE, results = 'hide', echo=FALSE}
 set.seed(1)
 
 nnetFit_boot <- train(Mountain_range ~ ., 
@@ -426,7 +426,7 @@ plot(nnetFit_boot)
 
 The best neural network should have 4 hidden units and a decay of 0.1. It is the same as before.
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE,}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 set.seed(345)
 nn4_boot <- nnet(Mountain_range ~ ., data=df.boot.tr, size=4, decay = 0.3)
 ```
@@ -509,7 +509,6 @@ mountain.comp <- data.frame(Mountain_data.num,
                             ,Id=row.names(Mountain_data_cleaned))
 
 mountain.df <- melt(mountain.comp, id=c("Id", "Clust"))
-head(mountain.df)
 
 ggplot(mountain.df, aes(y=value, group=Clust, fill=Clust)) +
   geom_boxplot() +
@@ -525,7 +524,7 @@ fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
              k.max = 25, verbose = FALSE)
 
 mountain.pam <- pam(Mountain_data_cleaned[,-c(1:9)], k=5)
-mountain.pam
+
 plot(silhouette(mountain.pam),  col=1:5, border=NA)
 ```
 
