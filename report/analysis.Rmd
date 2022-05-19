@@ -522,7 +522,7 @@ fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
 
 mountain.pam <- pam(Mountain_data_cleaned[,-c(1:9)], k=5)
 mountain.pam
-plot(silhouette(mountain.pam))
+plot(silhouette(mountain.pam),  col=1:5, border=NA)
 ```
 
 Using the dendrogram with complete linkage on Manhattan distance with the silhouette method, we identified k=5 as the optimal number of clusters. 
