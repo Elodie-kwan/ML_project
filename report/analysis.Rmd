@@ -4,7 +4,7 @@ output:
   pdf_document: default
 ---
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 source("../scripts/setup.R")
 ```
 
@@ -157,7 +157,7 @@ cmtr <-   table(train_set_for_RF[,1], predtr)
 cmte <-  table(test_set_for_RF[,1], predte)
 
 varImpPlot(rf, cex = 0.65)
-importance(rf)
+#importance(rf)
 Acc_tr <- sum(diag(cmtr))/sum(cmtr)
 Acc_te <- sum(diag(cmte))/sum(cmte)
 
