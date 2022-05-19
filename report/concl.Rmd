@@ -21,3 +21,7 @@ in the analysis, we discovered a strong positive correlation between **Soil orga
 We found an interesting articles describing the effects of phosphate rock and organic inputs on soil organic carbon and acid phosphatase activity.
 
 Title: **Soil Organic Carbon and Acid Phosphatase Enzyme Activity Response to Phosphate Rock and Organic Inputs in Acidic Soils of Central Highlands of Kenya in Maize**: <https://ir-library.ku.ac.ke/bitstream/handle/123456789/22271/Soil%20Organic%20Carbon%20and%20Acid%20Phosphatase%20Enzyme....pdf?sequence=1>
+
+
+With more time an interesting study could be to look on the map if the samples were taken close to a watercourse by transforming this information into a binary variable. Then we can analyze if there is a correlation between the chemical elements of the soil and their proximity to a water point, independently of the region and the climate. Thus, depending on the result of this analysis, we will be able to specify the description of the quality of a sample in terms of its ability to predict a class. The operation could be repeated with the samples close to a forest, as well as with the altitude of sampling.  
+
