@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning - Project "
+title: "Machine Learning"
 author: "Armance Larfeuille, Katia Voltz, Elodie Kwan, Manonel Pidoux, Nina Bidet "
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
