@@ -4,7 +4,7 @@ output:
   pdf_document: default
 ---
 
-```{r, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 source("../scripts/setup.R")
 ```
 
@@ -17,7 +17,7 @@ Let's import the cleaned dataset that we created.
 Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
 ```
 
-```{r echo=FALSE}
+```{r , echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_data_cleaned$Country <- as.factor(Mountain_data_cleaned$Country)
 Mountain_data_cleaned$Mountain_range <- as.factor(Mountain_data_cleaned$Mountain_range)
 Mountain_data_cleaned$Locality <- as.factor(Mountain_data_cleaned$Locality)
@@ -30,7 +30,7 @@ Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ### Replace the NAs by the mean of the closest observations
 Some of the models we use do not work with NAs. To deal with them, we decided to replace the 2 NAs we have by the mean of their closest observations. 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 mean_for_fill <-colMeans( Mountain_data_cleaned %>%
   select(Plot,Glu_P)%>%
   filter(Plot %in% c(76, 77))%>%na.omit()%>% select(Glu_P))
@@ -41,7 +41,7 @@ rm(mean_for_fill)
 
 ### Splitting the data into Traning set and Test set 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 set.seed(123) ## for replication purpose
 
 ## the index of the rows that will be in the training set
@@ -55,7 +55,7 @@ Mountain_data.te <- Mountain_data_cleaned[-index.tr,] ## the test set
 ### Balancing the Training set 
 As discussed in the EDA part, we should balance our data because we do not have the same amount of information on each mountains. We have more observations on **Sierra de Guadarrama** and half less on **Central Andes**. 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 no.mountain_1 <- min(table(Mountain_data.tr_notsubs$Mountain_range)) ## 79
 
 ## the "Central Andes" cases
@@ -107,14 +107,14 @@ nnetFit <- train(Mountain_range ~ .,
 
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 plot(nnetFit)
 ```
 
 The best Neural Networks parameters would be to choose 4 hidden layers, with a decay of 0.1. 
 
 The manually written Neural Network model 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 set.seed(345)
 nn4 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=4, decay = 0.1)
 
@@ -127,7 +127,7 @@ tab4
 
 Here it says that it has almost perfect accuracy (99%).
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix
 confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.te$Mountain_range)
 ```
@@ -136,7 +136,7 @@ With this confusion matrix command we have more information on the model. As sai
 
 
 ### Random Forest 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 train_set_for_RF <- Mountain_data.tr %>%
   select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
 test_set_for_RF <- Mountain_data.te%>%
@@ -157,7 +157,7 @@ Acc_te <- sum(diag(cmte))/sum(cmte)
 
 From the variable importance we see that the variable **pH_P**, **pH_T** and **pH_B** are very important. We can then say that the *pH* in general is important. 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix of the Random Forest model on training set 
 cmtr
 Acc_tr
@@ -172,7 +172,7 @@ We see that the model has a accuracy of 99% when it comes to predict new observa
 ### Naive Bayes 
 
 #### PH
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
 d1 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -183,7 +183,7 @@ d3 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_T, fill= `Mountain_range`))+geo
 d1 / d2 / d3
 ```
 #### Phosphatase enzyme
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 x2 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
@@ -193,7 +193,7 @@ x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+g
 x1 / x2 / x3
 ```
 #### β-glucosidase enzyme
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 y2 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
@@ -203,7 +203,7 @@ y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+ge
 y1 / y2 / y3
 ```
 #### soil organic carbon
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 z2 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
@@ -213,7 +213,7 @@ z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+ge
 z1 / z2 / z3
 ```
 #### Phosphatase enzyme
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 x2 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
@@ -223,7 +223,7 @@ x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+g
 x1 / x2 / x3
 ```
 #### β-glucosidase enzyme
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 y2 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
@@ -233,7 +233,7 @@ y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+ge
 y1 / y2 / y3
 ```
 #### soil organic carbon
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 z2 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
@@ -243,7 +243,7 @@ z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+ge
 z1 / z2 / z3
 ```
 #### soil total nitrogen
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 a1 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
 a2 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
@@ -253,7 +253,7 @@ a3 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_T, fill= `Mountain_range`))+geo
 a1 / a2 / a3
 ```
 #### electrical conductivity
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
 e1 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
@@ -264,7 +264,7 @@ e3 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_T, fill= `Mountain_range`))+g
 e1 / e2 / e3
 ```
 #### radiation
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 f1 <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 f1
 ```
@@ -285,7 +285,7 @@ However, some variables do not allow us to determine the mountain at all. It is 
 
 We use a 2-NN to predict the test set using the training set
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 set.seed(123)
 KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
 MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class") 
@@ -307,7 +307,7 @@ We now want to replicate the above models with a another training set and test s
 
 We remove every replicated data with the "unique" function. 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_df <- Mountain_data_cleaned[-c(4:9)]
 Mountain_df <- unique(Mountain_df)
 ```
@@ -327,7 +327,7 @@ Sierre de Gaudarrame now only have 39 observations. It is unbalanced indeed, and
 
 #### Split in a new training set and test set
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 set.seed(123) ## for replication purpose
 
 # the index of the rows that will be in the training set
@@ -341,14 +341,14 @@ Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
 ### Bootstrap
 We can now proceed to the bootstraping with 100 replicates
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 set.seed(897)
 index.boot <- createResample(y=Mountain_df.tr_notsubs$Mountain_range, times=100)
 head(index.boot[[1]])
 tail(index.boot[[1]])
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 df.boot.tr <- Mountain_df.tr_notsubs[index.boot[[1]],]
 dim(df.boot.tr)
 
@@ -356,7 +356,7 @@ df.boot.val <- Mountain_df.tr_notsubs[-index.boot[[1]],]
 dim(df.boot.val)
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 # The count of the bootstraped df
 ggplot(df.boot.tr) +
   geom_bar(aes(x = Mountain_range))
@@ -379,29 +379,29 @@ nnetFit_boot <- train(Mountain_range ~ .,
 
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 plot(nnetFit_boot)
 ```
 
 The best neural network should have 4 hidden units and a decay of 0.1. It is the same as before.
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 set.seed(345)
 nn4_boot <- nnet(Mountain_range ~ ., data=df.boot.tr, size=4, decay = 0.3)
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 nn4_pred_boot <- predict(nn4_boot, df.boot.val, type="class")
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 confusionMatrix(data=as.factor(nn4_pred_boot), 
                 reference = df.boot.val$Mountain_range)
 ```
 
 ### KNN model (with Unique bootstraped data)
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE,}
 set.seed(123)
 KNN2 <- knn3(data=df.boot.tr,df.boot.tr$Mountain_range ~ ., k=2)
 MR2.te.pred <- predict(KNN2, newdata = df.boot.val,type ="class") 
@@ -427,7 +427,7 @@ to.delet <- c('Day', 'Month', 'Year')
 Mountain_data.num <- select(Mountain_data.num, -to.delet)
 ```
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 row.names(Mountain_data_cleaned) <- paste("M", c(1:nrow(Mountain_data_cleaned)), sep="") # row names are used after
 
 # scaling the data 
@@ -437,7 +437,7 @@ Mountain_data_cleaned[,-c(1:9)] <- scale(Mountain_data_cleaned[,-c(1:9)])
 
 #### Agglomerative Hierarchical Clustering (AGNES) with Manhattan distance
 
-```{r message = FALSE}
+```{r , echo = FALSE, message = FALSE, warning = FALSE,}
 set.seed(123)
 
 # matrix of Manhattan distances 
