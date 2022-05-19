@@ -294,6 +294,7 @@ TAB <- table(Obs=Mountain_data.te$Mountain_range, Pred=MR.te.pred) # confusion m
 TAB
 (ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
 ```
+With this KNN supervised method, the prediction made on the test set gives us an accuracy of 1. It looks indeed perfect and attractive, but it is complytely biased by the fact that subplot can be identical to plot. Therefore, there is an overlay in the pbservations and the distance computed is 0. What we need to do is to make a unite dataset with no observations overlayed.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
