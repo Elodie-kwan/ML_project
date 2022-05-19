@@ -326,7 +326,6 @@ TAB
 
 With this KNN supervised method, the prediction made on the test set gives us an accuracy of 1. It looks indeed perfect and attractive, but it is complytely biased by the fact that subplot can be identical to plot. Therefore, there is an overlay in the pbservations and the distance computed is 0. What we need to do is to make a unite dataset with no observations overlayed.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ### Analysis with unique dataset 
@@ -334,12 +333,10 @@ With this KNN supervised method, the prediction made on the test set gives us an
 
 We now want to replicate the above models with a another training set and test set that has been through a boostraping method. To do so, we first want to delete all the repeated observations from the original cleaned dataset. 
 
-<<<<<<< HEAD
-=======
 #### Unique
 
 We remove every replicated data with the "unique" function. We decided to do so to see if we will have better results. As we see above, the accuracy of our models are very high and this is normally unlikely. So we are testing if the high accuracy is due to the fact that we have duplicated observations in our dataset. (The scientists did sample different observations, but it comes out that the samples are exactly the same, they are maybe different at a very very small digits.)
->>>>>>> ae24e0c62892947f3a59c5290635401a9f5ad6cb
+
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_df <- Mountain_data_cleaned[-c(4:9)]
@@ -348,28 +345,13 @@ Mountain_df <- unique(Mountain_df)
 
 #### Count
 
-<<<<<<< HEAD
 
 We have seen that the new Unique data set is largely unbalanced. The mountain that has the most information is now the one with the less observations, so information.
 
 
 Sierra de Gaudarrama, after removing every replicated data with the "unique" function, only have 39 observations. It is unbalanced indeed, and insufficient to make accurate classification methods. 
-=======
-We recount the number of observations after having removed all the duplicated observations.
 
-```{r, results='hide'}
-ggplot(Mountain_df) +
-  geom_bar(aes(x = Mountain_range))
-```
 
-Here we see the new Unique dataset and notice that it is largely unbalanced. The mountain that has the most information is now the one with the less observations, so information.
-
-```{r}
-table(Mountain_df$Mountain_range)
-```
-
-Sierre de Gaudarrame now only have 39 observations. It is unbalanced indeed, and insufficient to make accurate classification methods. 
->>>>>>> ae24e0c62892947f3a59c5290635401a9f5ad6cb
 
 #### Split in a new training set and test set
 
@@ -404,7 +386,7 @@ df.boot.val <- Mountain_df.tr_notsubs[-index.boot[[1]],]
 dim(df.boot.val)
 ```
 
-<<<<<<< HEAD
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width=450}
 ggplot(Mountain_df, aes(x = Mountain_range,)) +
   geom_bar(aes( fill = Mountain_range))+ 
@@ -422,19 +404,6 @@ ggplot(df.boot.tr, aes(x = Mountain_range,)) +
 
 
 We can now replicate the models.  
-=======
-We see that the training set **df.boot.tr** has 205 observations and 28 features and that the validation test **df.boot.val** has 73 observations and 28 features. 
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE,}
-# The count of the bootstraped df
-ggplot(df.boot.tr) +
-  geom_bar(aes(x = Mountain_range))
-```
-
-The above plot shows the distribution of the **df.boot.tr**'s instances through the 3 mountains after the bootstraping. 
-
-We can now replicate the models. 
->>>>>>> ae24e0c62892947f3a59c5290635401a9f5ad6cb
 
 ### Neural Network Model (with Unique bootstraped data)
 Simple hyperparameter tuning, this code takes time to run.
