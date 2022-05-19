@@ -412,5 +412,5 @@ fig <- fig %>%
 
 fig
 ```
-Through this 3D, we can observe the repartition of the 3 mountain in the PCA. 'Central Pyrenees' (red points) shows a high correaltion to Dim 1.
+Through this 3D, we can observe the repartition of the 3 mountain in the PCA. 'Sierre de Guaderrama' shows a high correlation to Dim 1.
 Further in the analysis we will do a cluster analysis, to better understand the apparent classification between the mountains. 
