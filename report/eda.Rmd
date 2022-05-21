@@ -7,18 +7,16 @@ output:
 source("../scripts/setup.R")
 ```
 
-## part 2 : Exploratory Data Analysis 
-<br />
+## Part 2 : Exploratory Data Analysis 
 <br />
 This section is dedicated to understanding the data. We will provide an analysis of the data set using a visual approach in order to summarize their main characteristics.
 <br />
 <br />
-Let's import the cleaned dataset that we created. 
 
-```{r}
+```{r include = FALSE}
 Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
 ```
-<br />
+
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 Mountain_data_cleaned$Country <- as.factor(Mountain_data_cleaned$Country)
@@ -27,21 +25,26 @@ Mountain_data_cleaned$Locality <- as.factor(Mountain_data_cleaned$Locality)
 Mountain_data_cleaned$Plot <- as.factor(Mountain_data_cleaned$Plot)
 Mountain_data_cleaned$Subplot <- as.factor(Mountain_data_cleaned$Subplot)
 ```
+
 We will analyze some basic statistical elements for each variable. To do this we need to transform the variable **Date** to date format.  
+
 ```{r echo=FALSE}
 Mountain_data_cleaned$Date <- as.Date(Mountain_data_cleaned$Date)
 ```
+
+Below, we look at the general aspect of the data set and try to discover if there are any missing values. 
 <br />
-We first look at the general aspect of the data set and try to discover if there are any missing values. 
-<br />
+
 ```{r echo=F,results='asis',error=F,warning=F}
 
 
 kable(introduce(Mountain_data_cleaned)[,-c(3:4,9 )], format = "markdown")
 ```
+
 <br />
 There are 2 missing values in the feature **Glu_P**. One is at the instance number 377 and the other one is at the instance 378. 
 <br />
+
 ```{r echo=F,results='asis',error=F,warning=F}
 
 kable(head(Mountain_data_cleaned[c(which(is.na(Mountain_data_cleaned$Glu_P))),c(1:6, 12)]), format = "markdown")
@@ -58,7 +61,7 @@ To understand the distribution of our data in the data set we use the following 
 plot_intro(Mountain_data_cleaned)
 ```
 <br />
-All the variables that we will train for our models come from columns composed of continuous values, which explains their predominance. We can also notice that the share of missing observations represents only 0.014% of the total number of observations. Which at first sight makes it a good data set.
+There is a predominance of the continous columns compared to the discrete columns. Most of our variables will use both discrete and continours features. We can also notice that the share of missing observations represents only 0.014% of the total number of observations. Which at first sight makes it a good data set.
 <br />
 <br />
 We take our search for anomalies further by exploring the characteristics of each variable.For the readability of the report, we show only a few variables.
@@ -72,12 +75,9 @@ x$NT_P
 ```
 We can observe that there is a big difference between the total number of observations and the number of distinct observations for the variables related to the chemical elements. We will try to understand where this difference comes from in the visual analysis part. 
 <br />
-<br />
-<br />
 
 ### Data visualization : Plotting the data
 
-<br />
 <br />
 We plot the numerical variables. 
 
@@ -91,7 +91,6 @@ Many variables appear with a distribution that looks like the log-normal distrib
 + The variables **pH_B** and **pH_T** are not normally distributed. 
 + Most of the variables are right-tailed.
 
-<br />
 <br />
 We will then use box-plots to detect outliers on numerical variable and compare the distributions to each mountain class.
 <br />
@@ -108,7 +107,6 @@ We can see the real differences between the mountains.
 + Generally speaking, it seems that the mountain "Sierra de Guadarrama" has a higher value of **Glu_P**, **Phos_P**, **SOC_P**, **Glu_B**, **Phos_B**, **SOC_B**, **Glu_T**, **Phos_T** and **SOC_T**.
 + There are a lot of outliers in almost all the features.
 
-<br />
 <br />
 We then plot the categorical variables: 
 <br />
@@ -139,7 +137,7 @@ geom_text(stat='count', aes(label=..count..), vjust=-0.2)
 We have more observations about the mountain "Sierra de Guadarrama" (195) compared to "Central Andes" (100) and "Central Pyrenees" (135). As the differences between the number of observation is big enough for us to be careful on the results and consider to balance the data if it is needed. 
 <br />
 <br />
-Can comment on the number of different observations and the effect on accuracy. **Can focus more on sensibility and sensitivy** if needed because indeed there is twice more informations on Sierra de Guadarrama.
+We can comment on the number of different observations and the effect on accuracy. **We can also focus more on sensibility and sensitivy** if needed since there is twice more informations on Sierra de Guadarrama.
 <br />
 <br />
 As described above with the summary output of the data, we see that we have more information on the mountain "Sierra de Guadarrama". There is twice more information compared to the mountain "Central Andes". Our final result might be affected on a bad way because the model will tend to produce a good accuracy (so having a tendency to predict "Sierra de Guadarrama" more often) but it will not be good enough to predict a new instance. 
@@ -187,9 +185,7 @@ With this plot, we see indeed that the families of **Soil organic carbon** and *
 
 ### Principal Component Analysis (PCA) exploration:
 
-<br />
-
-- This analysis helps us to understand the link between the explanatory variables. 
+This analysis helps us to understand the link between the explanatory variables. 
 
 <br />
 The first step is to analyse the data in the covarianve matrix as we did before, and where we found the positive correlation between the **Soil organic carbon** and **Phosphatase enzyme**. 
@@ -206,7 +202,7 @@ Mountain_data.num <- select(Mountain_data.num, -to.delet)
 ```
 <br />
 
-### Second step - Principal Component Result:
+#### Second step - Principal Component Result:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Principal component analysis, scaling the data
@@ -226,7 +222,7 @@ resultats_pca <- PCA(Mountain_data.num, scale.unit = TRUE, ncp = 5, graph = FALS
 For the further analysis, we can study as well the eigenvalues in order to select a good number of components.
 <br />
 
-#### Eigenvalue analysis:
+##### Eigenvalue analysis:
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 eig.val <- get_eigenvalue(resultats_pca)
@@ -235,19 +231,18 @@ eig.val
 We obtain the cumulative variance, as before, and also the eigenvalues.
 
 - A first rule of thumb is to stop adding components whent the total variance explained exceeds a high value, like 80% for example.
-- Another rule is the Kaiser-Guttman rule. The Kaiser-Guttman rule states that components with an eigenvalue greater than 1 should be retained.The reason for this is we have p
-variables so the sum of the eigenvalues is p. A value above 1 is above average.
+- Another rule is the Kaiser-Guttman rule which states that components with an eigenvalue greater than 1 should be retained. The reason for this is we have 'p'
+variables so the sum of the eigenvalues is 'p'. A value above 1 is above average.
 
 <br />
 Therefore, we can consider the dimension from 1 to 5:
-<br />
-Cumulative variance: 84.57%
-<br />
-Eigenvalue > 1 
-<br />
+
++ Cumulative variance: 84.57%
++ Eigenvalue > 1 
+
 <br />
 
-#### Screeplot of eigenvalue.
+##### Screeplot of eigenvalue.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 fviz_eig(resultats_pca, addlabels = TRUE)
@@ -258,9 +253,8 @@ fviz_eig(resultats_pca, addlabels = TRUE)
 - According to the Kaiser-Guttman rule, we shold stop at Component 5.
 
 <br />
-<br />
 
-### Third step - Variable Factor Map:
+#### Third step - Variable Factor Map:
 
 The variable factor map show the variables and organized them along dimensions. Here the first two dimensions are represented.
 <br />
@@ -271,7 +265,7 @@ fviz_pca_var(resultats_pca)
 <br />
 <br />
 
-### Other representation:
+##### Other representation:
 
 <br />
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=7, out.width = "120%", fig.align="center"}
@@ -303,7 +297,7 @@ var <- get_pca_var(resultats_pca)
 ```
 <br />
 
-### Study of each variable according to the 5 dimensions:
+##### Study of each variable according to the 5 dimensions:
 <br />
 <br />
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
@@ -322,7 +316,7 @@ Dim 5: Correlated to **Radiation**
 <br />
 <br />
 
-### Put into representation the 5 dimensions:
+##### Put into representation the 5 dimensions:
 
 <br />
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=10,fig.height=4, out.width = "100%", fig.align="center"}
@@ -371,7 +365,7 @@ The square cosine shows the importance of a component for a given observation. I
 <br />
 <br />
 
-### Analysis in 3D 
+##### Analysis in 3D 
 
 ```{r echo=FALSE, message=FALSE}
 Mountain_data.num <- select_if(Mountain_data_cleaned, is.numeric)
@@ -411,6 +405,5 @@ fig <- fig %>%
 
 fig
 ```
-<br />
 
 Through this 3D, we can observe the distribution of the 3 mountains in the PCA.Further in the analysis we will do a cluster analysis, to better understand the apparent classification between the mountains. 
