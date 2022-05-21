@@ -10,7 +10,7 @@ source("../scripts/setup.R")
 
 ## Part 3 : Analysis 
 
-```{r}
+```{r include = FALSE}
 Mountain_data_cleaned <- read.csv("../data/Mountain_data_cleaned.csv")
 ```
 
@@ -56,6 +56,7 @@ As discussed in the EDA part, we should balance our data because we do not have 
 We balanced the data on the training set **Mountain_data.tr_notsubs**.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
+set.seed(123)
 no.mountain_1 <- min(table(Mountain_data.tr_notsubs$Mountain_range)) ## 79
 
 ## the "Central Andes" cases
