@@ -127,7 +127,7 @@ nn4 <- nnet(Mountain_range ~ ., data=Mountain_data.tr, size=4, decay = 0.1)
 nn4_pred <- predict(nn4, Mountain_data.te, type="class")
 ```
 
-
+### Accuracy of Neural Network
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix
 confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.te$Mountain_range)
@@ -265,6 +265,15 @@ The β-glucosidase enzyme is present at approximately the same level in Central 
 
 However, some variables do not allow us to determine the mountain at all. It is the case by observing the phosphorus (*PT_P, PT_B, PT_T*) or the potassium content (*K_P, K_B, K_T*).
 
+### Accuracy of Naive bayes
+```{r}
+mountain.nb <- naive_bayes(Mountain_range ~. ,data =Mountain_data.tr[,c(2,10:24)])
+nb_train_predict <- predict(mountain.nb, Mountain_data.te[ , names(Mountain_data.te) != "Mountain_range"])
+cfm <- confusionMatrix(nb_train_predict, Mountain_data.te$Mountain_range)
+cfm                           
+```
+Through this confusion matrix, we can see that the Naive Bayes accuracy is of 96.3% and the balancced accuracy of 90.48%. Indeed it lower than the Neural Network, but it remain good. 3 Central Pyrenees have been mispredicted, and 1 Sierra de Guadarrama. 
+
 
 ### K-NN Model
 
@@ -275,9 +284,9 @@ set.seed(123)
 KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
 MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class") 
 
-TAB <- table(Obs=Mountain_data.te$Mountain_range, Pred=MR.te.pred) # confusion matrix 
-TAB
-(ACC <- sum(diag(TAB))/sum(TAB)) # accuracy 
+# confusion matrix accuracy 
+
+confusionMatrix(MR.te.pred, Mountain_data.te$Mountain_range)
 ```
 
 With this KNN supervised method, the prediction made on the test set gives us an accuracy of 1. It looks indeed perfect and attractive, but it is complytely biased by the fact that subplot can be identical to plot. Therefore, there is an overlay in the pbservations and the distance computed is 0. What we need to do is to make a unite dataset with no observations overlayed.
