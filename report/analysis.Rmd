@@ -136,42 +136,7 @@ confusionMatrix(data=as.factor(nn4_pred), reference = Mountain_data.te$Mountain_
 With this confusion matrix command (*confusionMatrix*), we have more information on the model. As said before, we see that the accuracy is very high (99%) and we also see that we have a balanced accuracy of 1 which is the maximum we can get and which mean that our model do not suffer from unbalanced data. 
 
 
-### Random Forest 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-train_set_for_RF <- Mountain_data.tr %>%
-  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
-test_set_for_RF <- Mountain_data.te%>%
-  select(!c(Plot, Subplot, Date, Day, Month, Year, Locality, Country))
 
-rf <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
-predtr <- predict(rf, newdata = train_set_for_RF[-1])
-predte <-  predict(rf, newdata=test_set_for_RF[-1])
-cmtr <-   table(train_set_for_RF[,1], predtr)      
-cmte <-  table(test_set_for_RF[,1], predte)
-
-varImpPlot(rf, cex = 0.65)
-#importance(rf)
-Acc_tr <- sum(diag(cmtr))/sum(cmtr)
-Acc_te <- sum(diag(cmte))/sum(cmte)
-
-```
-
-From the variable importance we see that the variable **pH_P**, **pH_T** and **pH_B** are very important. We can then say that the *pH* in general is important. 
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-# Confusion Matrix of the Random Forest model on training set 
-cmtr
-Acc_tr
-
-# Confusion Matrix of the Random Forest model on training set 
-cmte
-Acc_te
-```
-
-The first table is the confusion matrix of the Random Forest model on the training set. Therefore it is normal to have an accuracy of 1 since the model already knows the observations. 
-
-The second table is the confusion matrix of the Random Forest model on the test set. 
-We see that the model has a accuracy of 99% when it comes to predict new observations. 
 
 ### Naive Bayes 
 
@@ -353,6 +318,83 @@ index.tr <- sample(1:nrow(Mountain_df), replace=FALSE,
 
 Mountain_df.tr_notsubs <- Mountain_df[index.tr,] ## the training set
 Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
+```
+
+### Random Forest 
+
+Once the duplicates are removed, we are left with a data set that is low in data, especially in the observations for the **Sierra de Guadarrama** class.  With the poverty of our data we want to test an implementation of a random forest model. Indeed, the bagging should allow us to overcome the lack of data and give the best possible model. Another advantage of the random forest model is that it allows us to easily identify the importance of variables.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+train_set_for_RF <- Mountain_df.tr_notsubs %>%
+  select(!c( Locality, Country))
+test_set_for_RF <- Mountain_df.te%>%
+  select(!c( Locality, Country))
+
+Random_Forest_full_variable <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
+predtr <- predict(Random_Forest_full_variable, newdata = train_set_for_RF[-1])
+predte <-  predict(Random_Forest_full_variable, newdata=test_set_for_RF[-1])
+cmtr <-   table(train_set_for_RF[,1], predtr)      
+cmte <-  table(test_set_for_RF[,1], predte)
+
+varImpPlot(Random_Forest_full_variable, cex = 0.65)
+
+#importance(rf)
+Acc_tr <- sum(diag(cmtr))/sum(cmtr)
+Acc_te <- sum(diag(cmte))/sum(cmte)
+
+```
+
+From the variable importance we see that the variable **pH_P**, **pH_T** and **pH_B** are very important. We can then say that the *pH* in general is important. 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Confusion Matrix of the Random Forest model on training set 
+cmtr
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+cat("Accuracy of the train set",Acc_tr)
+```
+The first table is the confusion matrix of the Random Forest model on the training set. Therefore it is normal to have an accuracy of 1 since the model already knows the observations. 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Confusion Matrix of the Random Forest model on test set
+cmte
+```
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+cat("Accuracy of the test set", Acc_te)
+```
+Then the second table is the confusion matrix of the random forest model on the test set.  We still have a precision of 1, which makes it a good model. We have to keep in mind that the data set is very small and not necessarily representative of a larger sample.  
+
+Currently the model has many variables and we notice that many of them are not important for mountain classification. We are therefore thinking of testing a model with the 6 main variables to avoid overloading the model. Having less variables would allow us to predict a larger set of data with less computational power and resources. Moreover, the time saving could also be done during sampling, since less chemical elements would be needed to predict the class. 
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+train_set_for_RF <- Mountain_df.tr_notsubs %>%
+  select(c( Mountain_range, pH_P, pH_B,pH_T, NT_B, Cond_B, Cond_T))
+test_set_for_RF <- Mountain_df.te%>%
+  select(c(Mountain_range, pH_P, pH_B,pH_T, NT_B, Cond_B, Cond_T))
+
+rf <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
+predtr <- predict(rf, newdata = train_set_for_RF[-1])
+predte <-  predict(rf, newdata=test_set_for_RF[-1])
+cmtr <-   table(train_set_for_RF[,1], predtr)      
+cmte <-  table(test_set_for_RF[,1], predte)
+
+varImpPlot(rf, cex = 0.65)
+#importance(rf)
+Acc_tr <- sum(diag(cmtr))/sum(cmtr)
+Acc_te <- sum(diag(cmte))/sum(cmte)
+
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Confusion Matrix of the Random Forest model on training set 
+cmtr
+Acc_tr
+
+# Confusion Matrix of the Random Forest model on training set 
+cmte
+Acc_te
 ```
 
 
