@@ -584,7 +584,7 @@ To recap, we studied the following models with a balanced dataset:
 
 1) Neural network, with an accuracy and balanced accuracy  of 1 
 2) Naive Bayes, with an accuracy of 96.3% and balanced of 90,48%
-3) Key Nearest Neighbor (K=2), with an accuracy and balanced accuracy of 1. We explained why this accuracy might be affect by the ovelayed observations. 
+3) Key Nearest Neighbor (K=2), with an accuracy and balanced accuracy of 1. We explained why this accuracy might be affect by the overlayed observations. 
 
 Then we fitted the models on an unique dataset, to avoid the overlayed observations. 
 
