@@ -354,6 +354,8 @@ Acc_te <- sum(diag(cmte))/sum(cmte)
 
 ```
 
+Here we can see the difference between the descending average of the precision that each variable adds to the model and the descending average of Gini which is a coefficient that shows the contribution of each variable to the homogeneity of nodes and leaves. We notice that some variables have a higher precision importance than their importance based on their Gini score, for our selection of future candidate variables for a simpler model we will make a compromise between these two measures. 
+
 From the variable importance we see that the variable **pH_P**, **pH_T** and **pH_B** are very important. We can then say that the *pH* in general is important. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -362,7 +364,7 @@ cmtr
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-cat("Accuracy of the train set",Acc_tr)
+cat("Accuracy of the train set =",Acc_tr)
 ```
 The first table is the confusion matrix of the Random Forest model on the training set. Therefore it is normal to have an accuracy of 1 since the model already knows the observations. 
 
@@ -371,26 +373,26 @@ The first table is the confusion matrix of the Random Forest model on the traini
 cmte
 ```
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-cat("Accuracy of the test set", Acc_te)
+cat("Accuracy of the test set =", Acc_te)
 ```
 Then the second table is the confusion matrix of the random forest model on the test set.  We still have a precision of 1, which makes it a good model. We have to keep in mind that the data set is very small and not necessarily representative of a larger sample.  
 
-Currently the model has many variables and we notice that many of them are not important for mountain classification. We are therefore thinking of testing a model with the 6 main variables to avoid overloading the model. Having less variables would allow us to predict a larger set of data with less computational power and resources. Moreover, the time saving could also be done during sampling, since less chemical elements would be needed to predict the class. 
+Currently the model has many variables and we notice that many of them are not important for mountain classification. We are therefore thinking of testing a model with the 5 main variables to avoid overloading the model. Having less variables would allow us to predict a larger set of data with less computational power and resources. Moreover, the time saving could also be done during sampling, since less chemical elements would be needed to predict the class. 
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 train_set_for_RF <- Mountain_df.tr_notsubs %>%
-  select(c( Mountain_range, pH_P, pH_B,pH_T, NT_B, Cond_B, Cond_T))
+  select(c( Mountain_range, pH_P, pH_B,pH_T, NT_B, Cond_B))
 test_set_for_RF <- Mountain_df.te%>%
-  select(c(Mountain_range, pH_P, pH_B,pH_T, NT_B, Cond_B, Cond_T))
+  select(c(Mountain_range, pH_P, pH_B,pH_T, NT_B, Cond_B))
 
-rf <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
-predtr <- predict(rf, newdata = train_set_for_RF[-1])
-predte <-  predict(rf, newdata=test_set_for_RF[-1])
+Random_Forest_selected_variable <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
+predtr <- predict(Random_Forest_selected_variable, newdata = train_set_for_RF[-1])
+predte <-  predict(Random_Forest_selected_variable, newdata=test_set_for_RF[-1])
 cmtr <-   table(train_set_for_RF[,1], predtr)      
 cmte <-  table(test_set_for_RF[,1], predte)
 
-varImpPlot(rf, cex = 0.65)
+varImpPlot(Random_Forest_selected_variable, cex = 0.65)
 #importance(rf)
 Acc_tr <- sum(diag(cmtr))/sum(cmtr)
 Acc_te <- sum(diag(cmte))/sum(cmte)
@@ -400,13 +402,27 @@ Acc_te <- sum(diag(cmte))/sum(cmte)
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix of the Random Forest model on training set 
 cmtr
-Acc_tr
-
-# Confusion Matrix of the Random Forest model on training set 
-cmte
-Acc_te
 ```
 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+cat("Accuracy of the train set =",Acc_tr)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Confusion Matrix of the Random Forest model on training set 
+cmte
+```
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+cat("Accuracy of the test set =", Acc_te)
+```
+Even with this model composed of fewer variables we still see a good accuracy of the test set compared to the train set. Here the error comes from the fact that we will have more tendency to predict **Central Andes** since we cannot balance the data between the classes otherwise we will reduce too much the size of the data set. 
+
+Overall the random forest model seems to be a good model that can be used with fewer variables while keeping a high accuracy. 
+
+But we now bootstrap to re-test some of our models and check if the accuracy changes once the duplicate data is removed. 
 
 #### Bootstrap
 We can now proceed to the bootstraping with 100 replicates
