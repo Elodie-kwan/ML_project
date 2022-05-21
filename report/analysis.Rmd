@@ -524,3 +524,5 @@ Cluster 3 is characterized by a high *pH_B*, *pH_P* and *pH_T* and a low β-gluc
 By looking at the distribution of cluster 4 we see that it contains few observations but that it is well distinguished from the others. Indeed, only one line appears where the median merges with the width of its distribution. This cluster has the lowest *radiation*, the highest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*) and highest soil total nitrogen (*NT_T*, *NT_B* and *NT_P*). 
 Finally, the last cluster has a pH (*pH_B*, *pH_P* and *pH_T*) close to zero and a high *radiation*. It has oservations with the lowest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*)
 
+
+Final analysis 
