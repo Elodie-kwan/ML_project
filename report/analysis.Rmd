@@ -590,6 +590,7 @@ Cluster 2 is distinguished by its high *PT_P*, *PT_T* and *PT_B*.
 Cluster 3 is characterized by a high *pH_B*, *pH_P* and *pH_T* and a low β-glucosidase enzyme (*Glu_B*, *Glu_P* and *Glu_T*) content (like cluster 5). 
 By looking at the distribution of cluster 4 we see that it contains few observations but that it is well distinguished from the others. Indeed, only one line appears where the median merges with the width of its distribution. This cluster has the lowest *radiation*, the highest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*) and highest soil total nitrogen (*NT_T*, *NT_B* and *NT_P*). 
 Finally, the last cluster has a pH (*pH_B*, *pH_P* and *pH_T*) close to zero and a high *radiation*. It has oservations with the lowest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*)
+On the silhouette plot, we see that the average silhouette considering the all five clusters is 0.45. Cluster 1 and 4 are the most homogeneous clusters and with the highest silhouette, respectively, 0,56 and 0,70. Cluster 5 has some mountains badly clustered as it has negative silhouettes, and the lowest silhouette (0,15).
 
 
 ### Final analysis of score: 
