@@ -7,6 +7,7 @@ source("../scripts/setup.R")
 In this first part, we will first download the data into R. Then, we will apply the necessary transformations on these data so that they can be correctly exploited for the following analysis. 
 
 #### Import dataset 
+Below is the first 4 observations of the datasets. 
 
 ```{r echo=F,results='asis',error=F,warning=F}
 Mountain_data <- read_excel("../data/1-s2.0-S2352340919311710-mmc1.xlsx", sheet = "FieldDATA")
@@ -132,11 +133,10 @@ Mountain_data$Subplot <- as.factor(Mountain_data$Subplot)
 
 We can export this cleaned dataset on the _data_ folder of our project. 
 
-```{r}
+```{r inchlude = FALSE}
 write.csv(Mountain_data,"../data/Mountain_data_cleaned.csv", row.names = FALSE)
 ```
-<br />
-<br />
+
 <br />
 For a better representation of the data we created 3 maps with each icon representing a subsample belonging to a larger sample. Each map represents a mountain region, two in Spain and one in Chile. 
 <br />
