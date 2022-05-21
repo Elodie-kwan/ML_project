@@ -272,6 +272,7 @@ nb_train_predict <- predict(mountain.nb, Mountain_data.te[ , names(Mountain_data
 cfm <- confusionMatrix(nb_train_predict, Mountain_data.te$Mountain_range)
 cfm                           
 ```
+
 Through this confusion matrix, we can see that the Naive Bayes accuracy is of 96.3% and the balancced accuracy of 90.48%. Indeed it lower than the Neural Network, but it remain good. 3 Central Pyrenees have been mispredicted, and 1 Sierra de Guadarrama. 
 
 
@@ -487,11 +488,10 @@ set.seed(123)
 KNN2 <- knn3(data=df.boot.tr,df.boot.tr$Mountain_range ~ ., k=2)
 MR2.te.pred <- predict(KNN2, newdata = df.boot.val,type ="class") 
 
-TAB2 <- table(Obs=df.boot.val$Mountain_range, Pred=MR2.te.pred) # confusion matrix 
-TAB2
-(ACC <- sum(diag(TAB2))/sum(TAB2)) # accuracy 
+# confusion matrix / accuracy 
+confusionMatrix(MR2.te.pred,df.boot.val$Mountain_range)
 ```
-Now, the accuracy is of 95.89%, lower than before, but might be more realistic with the unique method and the bootstrap. 
+Now, the accuracy is of 95.89%, lower than before, but might be more realistic with the unique method and the bootstrap. The balanced accuracy remains equal to 1.
 
 
 --------------------------------
@@ -578,7 +578,27 @@ Finally, the last cluster has a pH (*pH_B*, *pH_P* and *pH_T*) close to zero and
 
 ### Final analysis of score: 
 
-# Compare the model scores to select the most accurate one 
+#### Compare the model scores to select the most accurate one 
+
+To recap, we studied the following modelswith a balanced dataset:
+
+1) Neural network, with an accuracy and balanced accuracy  of 1 
+2) Naive Bayes, with an accuracy of 96.3% and balanced of 90,48%
+3) Key Nearest Neighbor (K=2), with an accuracy and balanced accuracy of 1. We explained why this accuracy might be affect by the ovelayed observations. 
+
+Then we fitted the models on an unique dataset, to avoid the overlayed observations. 
+
+4) Random Forest: The accuracy appeared to be equal to 1 as well
+5) Neural Network with unoque bootstraped dataset: Accuracy of 1
+5) KNN (K=2): Accuracy of 95.89% and Balanced accuracy of 1
+
+To sum up, all the models have an accuracy above 90%. Neural Network seems to perfom very well, before and after the unique data set. We have to bear in mind the size of the data set, the overlayed observations and the overfitting problem. 
+
+
+
+
+
+
 
 
 
