@@ -35,13 +35,13 @@ In our case, it would be a question of being able to determine which mountain it
 
 ## Structure of the report
 
-Introduction
-Part 1 : Data preparation
-Part 2 : Exploratory Data Analysis (EDA)
-Part 3 : Analysis
-- Supervised learning analysis
-- Unsupervised learning analysis
-Conclusion 
++ Introduction
++ Part 1 : Data preparation
++ Part 2 : Exploratory Data Analysis (EDA)
++ Part 3 : Analysis
+  + Supervised learning analysis
+  + Unsupervised learning analysis
++ Conclusion 
 
 ## Related work
 - Machine Learning course and exercises 
