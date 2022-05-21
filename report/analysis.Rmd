@@ -525,4 +525,9 @@ By looking at the distribution of cluster 4 we see that it contains few observat
 Finally, the last cluster has a pH (*pH_B*, *pH_P* and *pH_T*) close to zero and a high *radiation*. It has oservations with the lowest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*)
 
 
-Final analysis 
+### Final analysis of score: 
+
+# Compare the model scores to select the most accurate one 
+
+
+
