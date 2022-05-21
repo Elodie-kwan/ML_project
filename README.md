@@ -1,6 +1,7 @@
 Machine Learning project for the "Machine Learning" course given by Prof. O. Boldi during the Spring Semester 2022.
 
-Project’s title : Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity
+Project’s title : 
+# Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity
 
 This project consists of using machine learning tools and different soil features to predict the type of mountain among 3 different mountains – Sierra de Guaderrama, Central Pyrenees and Central Andes – the firsts two are located in Spain while the last one is located in Chile. 
 
@@ -21,4 +22,5 @@ It is divided in 6 files:
 In order to run the whole report, one has to knit the file named 'report.Rmd'. It can be knitted into html without any problem. 
 However, the pdf version might not work because of a 3D visualization in the file 'eda.Rmd'. 
 
+The file 'setup.R' contains all the packages and libraries used during the project. 
 
