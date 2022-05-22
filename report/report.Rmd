@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning"
-author: "Project : Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity"
+author: "soil analysis on 3 different mountain ranges"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
