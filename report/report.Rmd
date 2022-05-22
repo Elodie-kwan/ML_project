@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning"
-author: "soil analysis on 3 different mountain ranges"
+author: "Soil analysis on 3 different mountain ranges"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
