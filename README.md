@@ -1,7 +1,7 @@
 Machine Learning project for the "Machine Learning" course given by Prof. O. Boldi during the Spring Semester 2022.
 
 Project’s title : 
-# Climate, soil and biotic interactions on the interplay of the different facets of Alpine plant diversity
+# Soil analysis on 3 different mountain ranges
 
 This project consists of using machine learning tools and different soil features to predict the type of mountain among 3 different mountains – Sierra de Guaderrama, Central Pyrenees and Central Andes – the firsts two are located in Spain while the last one is located in Chile. 
 
