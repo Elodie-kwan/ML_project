@@ -147,10 +147,10 @@ For a better representation of the data we created 3 maps with each icon represe
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 
-m <- leaflet() %>%
+map1 <- leaflet() %>%
   addTiles() %>%  
   addMarkers(lng=Mountain_data_loc_Guadarrama$lon, lat=Mountain_data_loc_Guadarrama$lat, popup=paste("Locality: ",Mountain_data_loc_Guadarrama$Locality,"<br/>", "Sample n° ", Mountain_data_loc_Guadarrama$Plot_ID))
-m 
+map1 
 
 ```
 <br />
@@ -161,10 +161,10 @@ m
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 
-m <- leaflet() %>%
+map2 <- leaflet() %>%
   addTiles() %>%  
   addMarkers(lng=Mountain_data_loc_Pyrenees$lon, lat=Mountain_data_loc_Pyrenees$lat, popup=paste("Locality: ",Mountain_data_loc_Pyrenees$Locality,"<br/>", "Sample n° ", Mountain_data_loc_Pyrenees$Plot_ID))
-m 
+map2
 
 ```
 <br />
@@ -175,10 +175,10 @@ m
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
 
-m <- leaflet() %>%
+map3 <- leaflet() %>%
   addTiles() %>%  
   addMarkers(lng=Mountain_data_loc_Andes$lon, lat=Mountain_data_loc_Andes$lat, popup=paste("Locality: ",Mountain_data_loc_Andes$Locality,"<br/>", "Sample n° ", Mountain_data_loc_Andes$Plot_ID))
-m 
+map3
 
 ```
 

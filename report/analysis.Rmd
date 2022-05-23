@@ -142,32 +142,32 @@ With this confusion matrix command (*confusionMatrix*), we have more information
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side1, fig.show="hold" ,out.width="50%"}
 
-d1 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_ph <- Mountain_data_cleaned %>% ggplot(aes(x =pH_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-d2 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_ph <- Mountain_data_cleaned %>% ggplot(aes(x =pH_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-d3 <- Mountain_data_cleaned %>% ggplot(aes(x =pH_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_ph <- Mountain_data_cleaned %>% ggplot(aes(x =pH_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
 
-x1 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_phos <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-x2 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_phos <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-x3 <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_phos <- Mountain_data_cleaned %>% ggplot(aes(x =Phos_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
-(x1 / x2 / x3+ plot_annotation(title = 'Phosphatase enzyme'))
+(d1_phos / d2_phos / d3_phos+ plot_annotation(title = 'Phosphatase enzyme'))
 
-(d1 / d2 / d3 + plot_annotation(title = 'PH'))
+(d1_ph / d2_ph / d3_ph + plot_annotation(title = 'PH'))
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
-y1 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_glu <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-y2 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_glu <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_glu <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
 
 ```
@@ -175,14 +175,14 @@ y3 <- Mountain_data_cleaned %>% ggplot(aes(x =Glu_T, fill= `Mountain_range`))+ge
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side2, fig.show="hold", out.width="50%"}
 
-z1 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_soc <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-z2 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_soc <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_soc <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
-(y1 / y2 / y3+ plot_annotation( title = 'β-glucosidase enzyme'))
-(z1 / z2 / z3+ plot_annotation(title = 'soil organic carbon'))
+(d1_glu / d2_glu / d3_glu+ plot_annotation( title = 'β-glucosidase enzyme'))
+(d1_soc / d2_soc / d3_soc+ plot_annotation(title = 'soil organic carbon'))
 
 
 
@@ -191,11 +191,11 @@ z3 <- Mountain_data_cleaned %>% ggplot(aes(x =SOC_T, fill= `Mountain_range`))+ge
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
-b1 <- Mountain_data_cleaned %>% ggplot(aes(x =PT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_pt <- Mountain_data_cleaned %>% ggplot(aes(x =PT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-b2 <- Mountain_data_cleaned %>% ggplot(aes(x =PT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_pt <- Mountain_data_cleaned %>% ggplot(aes(x =PT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-b3 <- Mountain_data_cleaned %>% ggplot(aes(x =PT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_pt <- Mountain_data_cleaned %>% ggplot(aes(x =PT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
 
 
@@ -203,55 +203,55 @@ b3 <- Mountain_data_cleaned %>% ggplot(aes(x =PT_T, fill= `Mountain_range`))+geo
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side3, fig.show="hold", out.width="50%"}
-c1 <- Mountain_data_cleaned %>% ggplot(aes(x =K_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_k <- Mountain_data_cleaned %>% ggplot(aes(x =K_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-c2 <- Mountain_data_cleaned %>% ggplot(aes(x =K_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_k <- Mountain_data_cleaned %>% ggplot(aes(x =K_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-c3 <- Mountain_data_cleaned %>% ggplot(aes(x =K_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_k <- Mountain_data_cleaned %>% ggplot(aes(x =K_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
 
-b1 / b2 / b3 + plot_annotation(
+d1_pt / d2_pt / d3_pt + plot_annotation(
   title = 'available phosphorus')
 
-c1 / c2 / c3 + plot_annotation(
+d1_k / d2_k / d3_k + plot_annotation(
   title = 'potassium content')
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
-e1 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_cond <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-e2 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_cond <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-e3 <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_cond <- Mountain_data_cleaned %>% ggplot(aes(x =Cond_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
 
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, figures-side4, fig.show="hold", out.width="50%"}
-a1 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
+d1_nt <- Mountain_data_cleaned %>% ggplot(aes(x =NT_P, fill= `Mountain_range`))+geom_density(alpha = 0.3) + theme(legend.position="none")
 
-a2 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
+d2_nt <- Mountain_data_cleaned %>% ggplot(aes(x =NT_B, fill= `Mountain_range`))+geom_density(alpha = 0.3)+ theme(legend.position="none")
 
-a3 <- Mountain_data_cleaned %>% ggplot(aes(x =NT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
+d3_nt <- Mountain_data_cleaned %>% ggplot(aes(x =NT_T, fill= `Mountain_range`))+geom_density(alpha = 0.3)
 
 
-e1 / e2 / e3+ plot_annotation(
+d1_cond / d2_cond / d3_cond+ plot_annotation(
   title = 'electrical conductivity')
 
-a1 / a2 / a3+ plot_annotation(
+d1_nt / d2_nt / d3_nt+ plot_annotation(
   title = 'soil total nitrogen')
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align='center', out.width="90%"}
-f1 <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)+labs(title = "Radiation")
+d1_radiation <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)+labs(title = "Radiation")
 
 
 
-f1
+d1_radiation
 ```
 
 The analysis of the "Naive Bayes" model comes back to the analysis of the density graphs of each variable by mountain range.
@@ -266,11 +266,14 @@ The β-glucosidase enzyme is present at approximately the same level in Central 
 However, some variables do not allow us to determine the mountain at all. It is the case by observing the phosphorus (*PT_P, PT_B, PT_T*) or the potassium content (*K_P, K_B, K_T*).
 
 ### Accuracy of Naive bayes
-```{r}
+```{r echo = FALSE, warning=FALSE, message=FALSE}
 mountain.nb <- naive_bayes(Mountain_range ~. ,data =Mountain_data.tr[,c(2,10:24)])
-nb_train_predict <- predict(mountain.nb, Mountain_data.te[ , names(Mountain_data.te) != "Mountain_range"])
-cfm <- confusionMatrix(nb_train_predict, Mountain_data.te$Mountain_range)
-cfm                           
+nb_train_predict <- predict(mountain.nb, 
+                            Mountain_data.te[ , 
+                                              names(Mountain_data.te)
+                                              !="Mountain_range"])
+cfm_nb <- confusionMatrix(nb_train_predict, Mountain_data.te$Mountain_range)
+cfm_nb                          
 ```
 
 Through this confusion matrix, we can see that the Naive Bayes accuracy is of 96.3% and the balancced accuracy of 90.48%. Indeed it lower than the Neural Network, but it remain good. 3 Central Pyrenees have been mispredicted, and 1 Sierra de Guadarrama. 
@@ -343,14 +346,14 @@ test_set_for_RF <- Mountain_df.te%>%
 Random_Forest_full_variable <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
 predtr <- predict(Random_Forest_full_variable, newdata = train_set_for_RF[-1])
 predte <-  predict(Random_Forest_full_variable, newdata=test_set_for_RF[-1])
-cmtr <-   table(train_set_for_RF[,1], predtr)      
-cmte <-  table(test_set_for_RF[,1], predte)
+cmtr_rf <-   table(train_set_for_RF[,1], predtr)      
+cmte_rf <-  table(test_set_for_RF[,1], predte)
 
 varImpPlot(Random_Forest_full_variable, cex = 0.65)
 
 #importance(rf)
-Acc_tr <- sum(diag(cmtr))/sum(cmtr)
-Acc_te <- sum(diag(cmte))/sum(cmte)
+Acc_tr_rf <- sum(diag(cmtr_rf))/sum(cmtr_rf)
+Acc_te_rf <- sum(diag(cmte_rf))/sum(cmte_rf)
 
 ```
 
@@ -360,20 +363,21 @@ From the variable importance we see that the variable **pH_P**, **pH_T** and **p
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix of the Random Forest model on training set 
-cmtr
+cmtr_rf
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-cat("Accuracy of the train set =",Acc_tr)
+cat("Accuracy of the train set =",Acc_tr_rf)
 ```
 The first table is the confusion matrix of the Random Forest model on the training set. Therefore it is normal to have an accuracy of 1 since the model already knows the observations. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix of the Random Forest model on test set
-cmte
+cmte_rf
 ```
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-cat("Accuracy of the test set =", Acc_te)
+cat("Accuracy of the test set =", Acc_te_rf)
 ```
 Then the second table is the confusion matrix of the random forest model on the test set.  We still have a precision of 1, which makes it a good model. We have to keep in mind that the data set is very small and not necessarily representative of a larger sample.  
 
@@ -389,34 +393,34 @@ test_set_for_RF <- Mountain_df.te%>%
 Random_Forest_selected_variable <- randomForest( Mountain_range ~ .,data=train_set_for_RF, importance = TRUE)
 predtr <- predict(Random_Forest_selected_variable, newdata = train_set_for_RF[-1])
 predte <-  predict(Random_Forest_selected_variable, newdata=test_set_for_RF[-1])
-cmtr <-   table(train_set_for_RF[,1], predtr)      
-cmte <-  table(test_set_for_RF[,1], predte)
+cmtr_rf2 <-   table(train_set_for_RF[,1], predtr)      
+cmte_rf2 <-  table(test_set_for_RF[,1], predte)
 
 varImpPlot(Random_Forest_selected_variable, cex = 0.65)
 #importance(rf)
-Acc_tr <- sum(diag(cmtr))/sum(cmtr)
-Acc_te <- sum(diag(cmte))/sum(cmte)
+Acc_tr_rf2 <- sum(diag(cmtr_rf2))/sum(cmtr_rf2)
+Acc_te_rf2 <- sum(diag(cmte_rf2))/sum(cmte_rf2)
 
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix of the Random Forest model on training set 
-cmtr
+cmtr_rf2
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-cat("Accuracy of the train set =",Acc_tr)
+cat("Accuracy of the train set =",Acc_tr_rf2)
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Confusion Matrix of the Random Forest model on training set 
-cmte
+cmte_rf2
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-cat("Accuracy of the test set =", Acc_te)
+cat("Accuracy of the test set =", Acc_te_rf2)
 ```
 Even with this model composed of fewer variables we still see a good accuracy of the test set compared to the train set. Here the error comes from the fact that we will have more tendency to predict **Central Andes** since we cannot balance the data between the classes otherwise we will reduce too much the size of the data set. 
 
@@ -579,7 +583,7 @@ fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
 
 mountain.pam <- pam(Mountain_data_cleaned[,-c(1:9)], k=5)
 
-plot(silhouette(mountain.pam),  col=1:5, border=NA)
+plot(silhouette(mountain.pam),  col=1:5, border=NA, main="Silhouette plot of pam")
 ```
 
 Using the dendrogram with complete linkage on Manhattan distance with the silhouette method, we identified k=5 as the optimal number of clusters. 

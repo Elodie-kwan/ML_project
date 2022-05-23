@@ -37,7 +37,6 @@ Below, we look at the general aspect of the data set and try to discover if ther
 
 ```{r echo=F,results='asis',error=F,warning=F}
 
-
 kable(introduce(Mountain_data_cleaned)[,-c(3:4,9 )], format = "markdown")
 ```
 
@@ -47,7 +46,8 @@ There are 2 missing values in the feature **Glu_P**. One is at the instance numb
 
 ```{r echo=F,results='asis',error=F,warning=F}
 
-kable(head(Mountain_data_cleaned[c(which(is.na(Mountain_data_cleaned$Glu_P))),c(1:6, 12)]), format = "markdown")
+kable(head(Mountain_data_cleaned[c(which(is.na(Mountain_data_cleaned$Glu_P)))
+                                 , c(1:6, 12)]), format = "markdown")
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -66,12 +66,12 @@ There is a predominance of the continous columns compared to the discrete column
 <br />
 We take our search for anomalies further by exploring the characteristics of each variable.For the readability of the report, we show only a few variables.
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%"}
-x<- Hmisc::describe(Mountain_data_cleaned)
-x$Country
-x$Mountain_range
-x$Phos_P
-x$Glu_P
-x$NT_P
+description <- Hmisc::describe(Mountain_data_cleaned)
+description$Country
+description$Mountain_range
+description$Phos_P
+description$Glu_P
+description$NT_P
 ```
 We can observe that there is a big difference between the total number of observations and the number of distinct observations for the variables related to the chemical elements. We will try to understand where this difference comes from in the visual analysis part. 
 <br />
@@ -96,8 +96,8 @@ We will then use box-plots to detect outliers on numerical variable and compare 
 <br />
 <br />
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "50%"}
-plot_boxplot(Mountain_data_cleaned, by = 'Mountain_range',  ncol = 2, title = "Side-by-side boxplots", geom_boxplot_args = list("outlier.color" = "red"))
 
+plot_boxplot(Mountain_data_cleaned, by = 'Mountain_range',  ncol = 2, title = "Side-by-side boxplots", geom_boxplot_args = list("outlier.color" = "red"))
 
 ```
 <br />
@@ -112,15 +112,16 @@ We then plot the categorical variables:
 <br />
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=10, out.width = "70%", fig.align="center"}
-a <- ggplot(Mountain_data_cleaned) +
+barplot1 <- ggplot(Mountain_data_cleaned) +
   geom_bar(mapping = aes(x = Country, fill= Mountain_range)) +
   coord_flip() + theme(legend.position = "none")
-b <- ggplot(Mountain_data_cleaned) +
+barplot2 <- ggplot(Mountain_data_cleaned) +
   geom_bar(aes(x = Locality, fill= Mountain_range)) +
   coord_flip()
 
-a+b+ plot_annotation(title = 'Proportion of mountain classes by country and region',
-                  theme = theme(plot.title = element_text(size = 18)))
+barplot1+barplot2+ plot_annotation(
+  title = 'Proportion of mountain classes by country and region',
+  theme = theme(plot.title = element_text(size = 18)))
 ```
 
 <br />
@@ -381,9 +382,9 @@ As seen in the EDA, we can consider 5 dimensions. In the following graph we redu
 <br />
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%"}
-X <- Mountain_data.num%>% na.omit()
+Mountain_num_complete <- Mountain_data.num%>% na.omit()
 
-prin_comp <- prcomp(X, rank. = 3)
+prin_comp <- prcomp(Mountain_num_complete, rank. = 3)
 
 components <- prin_comp[["x"]]
 components <- data.frame(components)
