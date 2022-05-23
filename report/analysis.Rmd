@@ -596,25 +596,7 @@ By looking at the distribution of cluster 4 we see that it contains few observat
 Finally, the last cluster has a pH (*pH_B*, *pH_P* and *pH_T*) close to zero and a high *radiation*. It has oservations with the lowest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*)
 On the silhouette plot, we see that the average silhouette considering the all five clusters is 0.45. Cluster 1 and 4 are the most homogeneous clusters and with the highest silhouette, respectively, 0,56 and 0,70. Cluster 5 has some mountains badly clustered as it has negative silhouettes, and the lowest silhouette (0,15).
 
-
-### Final analysis of score: 
-
-#### Compare the model scores to select the most accurate one 
-
-To recap, we studied the following models with a balanced dataset:
-
-1) Neural network, with an accuracy and balanced accuracy  of 1 
-2) Naive Bayes, with an accuracy of 96.3% and balanced of 90,48%
-3) Key Nearest Neighbor (K=2), with an accuracy and balanced accuracy of 1. We explained why this accuracy might be affect by the overlayed observations. 
-
-Then we fitted the models on an unique dataset, to avoid the overlayed observations. 
-
-4) Random Forest: The accuracy appeared to be equal to 1 as well
-5) Neural Network with unoque bootstraped dataset: Accuracy of 1
-5) KNN (K=2): Accuracy of 95.89% and Balanced accuracy of 1
-
-To sum up, all the models have an accuracy above 90%. Neural Network seems to perfom very well, before and after the unique data set. We have to bear in mind the size of the data set, the overlayed observations and the overfitting problem. 
-
+To conclude, we will do a final score analysis of each models, so we can select the best one. 
 
 
 
