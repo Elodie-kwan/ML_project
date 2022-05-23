@@ -3,12 +3,28 @@
 source("../scripts/setup.R")
 ```
 
-##
-- Choose a model and say why 
 
-For modeling part : 
-Concerning the ROC metric and more precisely the AUC : 
-###
+### Conclusion: Final analysis of scores
+
+#### Compare the model scores to select the most accurate one 
+
+To recap, we studied the following models with a balanced dataset and using data splitting to avoid over-fitting:
+
+1) Neural network, with an accuracy and balanced accuracy  of 1 
+2) Naive Bayes, with an accuracy of 96.3% and balanced of 90,48%
+3) Key Nearest Neighbor (K=2), with an accuracy and balanced accuracy of 1. We explained why this accuracy might be affect by the overlayed observations. 
+
+Then we fitted the models on an unique dataset, to avoid the overlayed observations. 
+
+4) Random Forest: The accuracy appeared to be equal to 1 as well
+5) Random Forest with the 5 most important variables. As a result we obtain an accuracy of 98.55% with only 5 variable. 
+6) Neural Network with unique bootstrapped dataset: Accuracy of 1
+7) KNN (K=2): Accuracy of 95.89% and Balanced accuracy of 1
+
+To conclude about the variable importance, the most recurrent one, the one that really impact and makes a difference in the classification is the pH: pH_B, pH_T, pH_P. Without this soil characteristic, the accuracy would not be that good. 
+
+To sum up, all the models have an accuracy above 90%. Neural Network seems to perform very well, before and after the unique data set. Moreover we could use this model to deal with all the variables. However, we have to bear in mind the size of the data set and the overlayed observations. Overall the random forest model seems to also be a good model that can be used with fewer variables while keeping a high accuracy. 
+
 
 #### Limitations of our model:
 
