@@ -293,7 +293,7 @@ MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class")
 confusionMatrix(MR.te.pred, Mountain_data.te$Mountain_range)
 ```
 
-With this KNN supervised method, the prediction made on the test set gives us an accuracy of 1. It looks indeed perfect and attractive, but it is complytely biased by the fact that subplot can be identical to plot. Therefore, there is an overlay in the pbservations and the distance computed is 0. What we need to do is to make a unite dataset with no observations overlayed.
+With this KNN supervised method, the prediction made on the test set gives us an accuracy of 1. It looks indeed perfect and attractive, but it is completely biased by the fact that subplot can be identical to plot. Therefore, there is an overlay in the observations and the distance computed is 0. What we need to do is to make a unite dataset with no observations overlaid.
 
 
 ### Analysis with unique dataset 
@@ -575,20 +575,12 @@ ggplot(mountain.df, aes(y=value, group=Clust, fill=Clust)) +
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center", fig.width=10,fig.height=4}
 #number of clusters
-fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
+fviz_nbclust(Mountain_data.num,
              hcut, hc_method="complete",
              hc_metric="manhattan",
              method = "silhouette", 
              k.max = 25, verbose = FALSE)
 
-```
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center", fig.width=10,fig.height=6,}
-#number of clusters
-
-mountain.pam <- pam(Mountain_data_cleaned[,-c(1:9)], k=5)
-
-plot(silhouette(mountain.pam),  col=1:5, border=NA, main="Silhouette plot of pam")
 ```
 
 Using the dendrogram with complete linkage on Manhattan distance with the silhouette method, we identified k=5 as the optimal number of clusters. 
@@ -599,7 +591,8 @@ Cluster 2 is distinguished by its high *PT_P*, *PT_T* and *PT_B*.
 Cluster 3 is characterized by a high *pH_B*, *pH_P* and *pH_T* and a low β-glucosidase enzyme (*Glu_B*, *Glu_P* and *Glu_T*) content (like cluster 5). 
 By looking at the distribution of cluster 4 we see that it contains few observations but that it is well distinguished from the others. Indeed, only one line appears where the median merges with the width of its distribution. This cluster has the lowest *radiation*, the highest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*) and highest soil total nitrogen (*NT_T*, *NT_B* and *NT_P*). 
 Finally, the last cluster has a pH (*pH_B*, *pH_P* and *pH_T*) close to zero and a high *radiation*. It has oservations with the lowest soil organic carbon (*SOC_B*, *SOC_T* and *SOC_P*)
-On the silhouette plot, we see that the average silhouette considering the all five clusters is 0.45. Cluster 1 and 4 are the most homogeneous clusters and with the highest silhouette, respectively, 0,56 and 0,70. Cluster 5 has some mountains badly clustered as it has negative silhouettes, and the lowest silhouette (0,15).
+
+From this analysis, it would have been interesting to know the exact composition of these clusters in order to get the information related to the different mountains. 
 
 To conclude, we will do a final score analysis of each models, so we can select the best one. 
 
