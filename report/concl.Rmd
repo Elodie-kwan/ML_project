@@ -32,7 +32,7 @@ The main limitations come from our data set used to train the model and test it.
 
 ### Future work:
 
-in the analysis, we discovered a strong positive correlation between **Soil organic carbon** and **Phosphatase enzyme**. For the future analysis, it would be interesting to see the features and characteristics that influence these two variables. 
+In the analysis, we discovered a strong positive correlation between **Soil organic carbon** and **Phosphatase enzyme**. For the future analysis, it would be interesting to see the features and characteristics that influence these two variables. 
 
 We found an interesting articles describing the effects of phosphate rock and organic inputs on soil organic carbon and acid phosphatase activity.
 
