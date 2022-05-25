@@ -246,7 +246,7 @@ d1_nt / d2_nt / d3_nt+ plot_annotation(
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align='center', out.width="90%"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align='center', out.width="60%"}
 d1_radiation <- Mountain_data_cleaned %>% ggplot(aes(x =Radiation, fill= `Mountain_range`))+geom_density(alpha = 0.3)+labs(title = "Radiation")
 
 
@@ -337,7 +337,7 @@ Mountain_df.te <- Mountain_df[-index.tr,] ## the test set
 
 Once the duplicates are removed, we are left with a data set that is low in data, especially in the observations for the **Sierra de Guadarrama** class.  With the poverty of our data we want to test an implementation of a random forest model. Indeed, the bagging should allow us to overcome the lack of data and give the best possible model. Another advantage of the random forest model is that it allows us to easily identify the importance of variables.
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align='center', out.width= "70%"}
 train_set_for_RF <- Mountain_df.tr_notsubs %>%
   select(!c( Locality, Country))
 test_set_for_RF <- Mountain_df.te%>%
@@ -384,7 +384,7 @@ Then the second table is the confusion matrix of the random forest model on the 
 Currently the model has many variables and we notice that many of them are not important for mountain classification. We are therefore thinking of testing a model with the 5 main variables to avoid overloading the model. Having less variables would allow us to predict a larger set of data with less computational power and resources. Moreover, the time saving could also be done during sampling, since less chemical elements would be needed to predict the class. 
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align='center', out.width= "70%"}
 train_set_for_RF <- Mountain_df.tr_notsubs %>%
   select(c( Mountain_range, pH_P, pH_B,pH_T, NT_B, Cond_B))
 test_set_for_RF <- Mountain_df.te%>%
@@ -446,7 +446,7 @@ df.boot.val <- Mountain_df.tr_notsubs[-index.boot[[1]],]
 dim(df.boot.val)
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width=450}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width="50%", figures-side_last, fig.show="hold", }
 ggplot(Mountain_df, aes(x = Mountain_range,)) +
   geom_bar(aes( fill = Mountain_range))+ 
   labs(title ="Proportion of observations before bootstrap", subtitle = "Without duplicate data")+ theme(plot.title = element_text(size=20))+
@@ -560,7 +560,7 @@ rect.hclust(mountain.hc, k=4)
 mountain.clust <- cutree(mountain.hc, k=5)
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9,fig.height=10, out.width = "70%", fig.align="center"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=13,fig.height=10, out.width = "70%", fig.align="center"}
 #Interpretation of the clusters
 mountain.comp <- data.frame(Mountain_data.num, 
                             Clust=factor(mountain.clust)
@@ -573,13 +573,18 @@ ggplot(mountain.df, aes(y=value, group=Clust, fill=Clust)) +
   facet_wrap(~variable, scale="free")
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center", fig.width=10,fig.height=4}
 #number of clusters
 fviz_nbclust(Mountain_data_cleaned[,-c(1:9)],
              hcut, hc_method="complete",
              hc_metric="manhattan",
              method = "silhouette", 
              k.max = 25, verbose = FALSE)
+
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center", fig.width=10,fig.height=6,}
+#number of clusters
 
 mountain.pam <- pam(Mountain_data_cleaned[,-c(1:9)], k=5)
 

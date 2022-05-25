@@ -61,10 +61,10 @@ To understand the distribution of our data in the data set we use the following 
 plot_intro(Mountain_data_cleaned)
 ```
 <br />
-There is a predominance of the continous columns compared to the discrete columns. Most of our variables will use both discrete and continours features. We can also notice that the share of missing observations represents only 0.014% of the total number of observations. Which at first sight makes it a good data set.
+There is a predominance of the continous columns compared to the discrete columns. Most of our variables will use both discrete and continuous features. We can also notice that the share of missing observations represents only 0.014% of the total number of observations. Which at first sight makes it a good data set.
 <br />
 <br />
-We take our search for anomalies further by exploring the characteristics of each variable.For the readability of the report, we show only a few variables.
+We take our search for anomalies further by exploring the characteristics of each variable. For the readability of the report, we show only a few variables.
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%"}
 description <- Hmisc::describe(Mountain_data_cleaned)
 description$Country
@@ -173,7 +173,7 @@ plot_correlation(Mountain_data_cleaned, type= 'c', cor_args = list( 'use' = 'com
 From the correlation plot it seems that some pattern can be observed. The variables concerning the **Phosphatase enzyme** seems to be positively correlated with the variable about **Soil organic carbon**. 
 <br />
 <br />
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center"}
 Mountain_data_cleaned %>%
   select(Phos_P, Phos_B, Phos_T, SOC_P, SOC_B, SOC_T) %>%
   ggpairs()+ 
@@ -245,7 +245,7 @@ Therefore, we can consider the dimension from 1 to 5:
 
 ##### Screeplot of eigenvalue.
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center"}
 fviz_eig(resultats_pca, addlabels = TRUE)
 ```
 <br />
@@ -260,7 +260,7 @@ fviz_eig(resultats_pca, addlabels = TRUE)
 The variable factor map show the variables and organized them along dimensions. Here the first two dimensions are represented.
 <br />
 <br />
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center"}
 fviz_pca_var(resultats_pca)
 ```
 <br />
@@ -301,7 +301,7 @@ var <- get_pca_var(resultats_pca)
 ##### Study of each variable according to the 5 dimensions:
 <br />
 <br />
-```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", fig.align="center"}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%", fig.align="center"}
 corrplot(var$cos2, is.corr = FALSE)
 ```
 

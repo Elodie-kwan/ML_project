@@ -78,7 +78,7 @@ We are deleting the variables that are not useful for use. The variables such as
 The variable **Elevation**, **slope**, **plot_ID**, **Orientation** will not help us neither because it is related to the place where the sample has been taken. It is a certain amount above the some tree limits.
 We rename the variable **Muntain Range** as **Mountain_range** to facilitate future use. 
 
-After these changes, he database *Mountain_data* is composed of 430 observation and 34 variables.
+After these changes, the database *Mountain_data* is composed of 430 observation and 34 variables.
 
 - **Country** : *chr* Spain, Chile
 - **Mountain_range** : *chr* Sierra de Guadarrama, Central Pyrenees
