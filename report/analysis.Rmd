@@ -286,7 +286,7 @@ We use a 2-NN to predict the test set using the training set
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 set.seed(123)
 KNN <- knn3(data=Mountain_data.tr,Mountain_data.tr$Mountain_range ~ ., k=2)
-MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class") 
+MR.te.pred <- predict(KNN, newdata = Mountain_data.te,type ="class")
 
 # confusion matrix accuracy 
 
